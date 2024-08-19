@@ -16,5 +16,6 @@ public class RegisterUserDto {
 
     private RoleEnumeration role;
 
+    private int createdBy;
     // getters and setters here...
 }
