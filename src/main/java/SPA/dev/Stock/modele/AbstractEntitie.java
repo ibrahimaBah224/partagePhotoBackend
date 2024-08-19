@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
@@ -26,21 +28,13 @@ public class AbstractEntitie implements Serializable {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @Column(name = "created_by")
+    @CreatedBy
+    @Column(name = "created_by",updatable = false)
     private int createdBy;
 
+    @LastModifiedBy
     @Column(name = "updated_by")
     private int updatedBy;
-
-    @PrePersist
-    protected void onCreate() {
-        createdBy = userService.getCurrentUserId();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedBy = userService.getCurrentUserId();
-    }
 
     @Column(columnDefinition = "integer default 1", nullable = false)
     private int status = 1;

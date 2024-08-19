@@ -20,4 +20,6 @@ public class SousCategorie extends AbstractEntitie{
     @JoinColumn(name = "idCategorie",nullable = false)
     private Categorie categorie;
 
+
+
 }

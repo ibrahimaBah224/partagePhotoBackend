@@ -23,4 +23,6 @@ public class Fournisseur extends AbstractEntitie{
 
     @OneToMany(mappedBy = "fournisseur", cascade = CascadeType.ALL)
     private List<Approvisionnement> approvisionnements;
+
+
 }

@@ -20,4 +20,6 @@ public class Transfert extends AbstractEntitie{
     @ManyToOne
     @JoinColumn(name = "idMagasin", nullable = false)
     private Magasin magasin;
+
+
 }
