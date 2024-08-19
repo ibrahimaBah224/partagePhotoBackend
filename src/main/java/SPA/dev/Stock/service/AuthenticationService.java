@@ -33,9 +33,7 @@ public class AuthenticationService {
                 user.setFullName(input.getFullName());
                 user.setTelephone(input.getTelephone());
                 user.setEmail(input.getEmail());
-                user.setRole(input.getRole() == null? RoleEnumeration.SUPER_ADMIN : input.getRole() );
                 user.setPassword(passwordEncoder.encode(input.getPassword()));
-
         return userRepository.save(user);
     }
 

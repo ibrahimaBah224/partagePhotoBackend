@@ -2,6 +2,7 @@ package SPA.dev.Stock.service;
 
 import SPA.dev.Stock.dto.MagasinDto;
 import SPA.dev.Stock.dto.RegisterUserDto;
+import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.exception.UserNotFoundException;
 import SPA.dev.Stock.mapper.UserMapper;
 import SPA.dev.Stock.modele.User;
@@ -11,6 +12,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class UserService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public int getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -78,8 +81,13 @@ public class UserService {
     }
 
     public User registerUser(RegisterUserDto registerUserDto) {
-        User user = userMapper.toEntity(registerUserDto);
-        return userRepository.save(user);
+        if(!userRepository.findByTelephone(registerUserDto.getTelephone()).isPresent()) {
+            User user = userMapper.toEntity(registerUserDto);
+            user.setRole(RoleEnumeration.valueOf("ADMIN"));
+            user.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
+            return userRepository.save(user);
+        }
+        return null;
     }
 
     public void deleteUser(int id) {

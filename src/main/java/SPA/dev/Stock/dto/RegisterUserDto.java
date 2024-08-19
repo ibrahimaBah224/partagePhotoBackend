@@ -14,8 +14,6 @@ public class RegisterUserDto {
 
     private String password;
 
-    private RoleEnumeration role;
-
     private int createdBy;
     // getters and setters here...
 }
