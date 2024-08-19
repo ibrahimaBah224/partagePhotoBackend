@@ -8,27 +8,27 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/magasin")
 @AllArgsConstructor
 public class MagasinController {
     private MagasinService magasinService;
-    @PostMapping("/addMagasin")
+    @PostMapping("/add")
     public MagasinDto addMagasin(@RequestBody MagasinDto magasinDto){
         return magasinService.createMagasin(magasinDto);
     }
-     @GetMapping("/getMagasins")
+     @GetMapping("/list")
      public Iterable<MagasinDto> getMagasins(){
         return magasinService.getMagasinsForCurrentUser();
     }
-    @GetMapping("/getMagasinById/{id}")
+    @GetMapping("/getOne/{id}")
     public MagasinDto getMagasinById(@PathVariable int id){
         return magasinService.getMagasinById(id);
     }
-    @PutMapping("/updateMagasin/{id}")
+    @PutMapping("/update/{id}")
     public MagasinDto updateMagasin(@PathVariable int id,@RequestBody MagasinDto magasinDto){
         return magasinService.updateMagasin(id,magasinDto);
     }
-    @DeleteMapping("/deleteMagasin/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteMagasin(@PathVariable int id){
         magasinService.deleteMagasin(id);
         return "deleted";

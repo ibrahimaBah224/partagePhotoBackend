@@ -14,27 +14,27 @@ import java.util.Optional;
 public class ProduitController {
     private final ProduitService produitService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ProduitDto> ajouter(@RequestBody ProduitDto produitDto) {
         return ResponseEntity.ok(produitService.ajouter(produitDto));
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<ProduitDto>> liste() {
         return ResponseEntity.ok(produitService.liste());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("getOne/{id}")
     public ResponseEntity<Optional<ProduitDto>> getApprovisionnement(@PathVariable int id) {
         return ResponseEntity.ok(produitService.getProduit(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("update/{id}")
     public ResponseEntity<ProduitDto> modifier(@PathVariable int id, @RequestBody ProduitDto produitDto) {
         return ResponseEntity.ok(produitService.modifier(id, produitDto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) {
         return ResponseEntity.ok(produitService.delete(id));
     }

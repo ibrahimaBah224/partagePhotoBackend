@@ -12,27 +12,27 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/client")
 public class ClientController {
     private final ClientService clientService;
 
-    @GetMapping("/clients")
+    @GetMapping("/list")
     public ResponseEntity<List<ClientDto>> getClients(){
         return ResponseEntity.ok(clientService.getAll());
     }
 
-    @GetMapping("/clients/{id}")
+    @GetMapping("/getOne/{id}")
     public ResponseEntity<ClientDto> getClient(@PathVariable Long id){
         return ResponseEntity.ok(clientService.getClient(id));
     }
 
-    @PostMapping("/clients")
+    @PostMapping("/add")
     public ResponseEntity<ClientDto> addClient(@Valid @RequestBody ClientDto clientDto){
         ClientDto client = clientService.addClient(clientDto);
         return ResponseEntity.created(URI.create("/clients/"+client.getId())).body(client);
     }
 
-    @DeleteMapping("/clients/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<ClientDto> removeClient(@PathVariable Long id){
         return ResponseEntity.ok(clientService.removeClient(id));
     }

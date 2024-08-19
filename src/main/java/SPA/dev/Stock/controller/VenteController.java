@@ -11,7 +11,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/vente")
 public class VenteController {
     private final VenteService venteService;
 
@@ -19,32 +19,32 @@ public class VenteController {
         this.venteService = venteService;
     }
 
-    @GetMapping("/ventes")
+    @GetMapping("/list")
     public ResponseEntity<List<VenteDto>> getVentes(){
         return ResponseEntity.ok(venteService.getAll());
     }
-    @GetMapping("/ventes/{id}")
+    @GetMapping("/getOne/{id}")
     public ResponseEntity<VenteDto> getVente(@PathVariable Long id){
         return ResponseEntity.ok(venteService.getVente(id));
     }
 
-    @GetMapping("/ventes/produit/{produitId}")
+    @GetMapping("/{produitId}")
     public ResponseEntity<List<VenteDto>> getVentesByProduit(@PathVariable int produitId) {
         return ResponseEntity.ok(venteService.getVenteByProduit(produitId));
     }
 
-    @PostMapping("/ventes")
+    @PostMapping("/add")
     public ResponseEntity<VenteDto> addVente(@Valid @RequestBody VenteDto venteDto){
         VenteDto createdVente = venteService.addVente(venteDto);
         return ResponseEntity.created(URI.create("/ventes/"+createdVente.getId())).body(createdVente);
     }
 
-    @DeleteMapping("/ventes/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<VenteDto> removeVenteById(@PathVariable Long id){
         return ResponseEntity.ok(venteService.removeVente(id));
     }
 
-    @PutMapping("/ventes/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<VenteDto> updateVente(@PathVariable Long id, @Valid @RequestBody VenteDto venteDto){
         return ResponseEntity.ok(venteService.updateVente(id, venteDto));
     }

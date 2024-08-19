@@ -15,27 +15,27 @@ import java.util.Optional;
 public class TransfertController {
     private final TransfertService transfertService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<TransfertDto> ajouter(@RequestBody TransfertDto transfertDto) {
         return ResponseEntity.ok(transfertService.ajouter(transfertDto));
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<TransfertDto>> liste() {
         return ResponseEntity.ok(transfertService.liste());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("getOne/{id}")
     public ResponseEntity<Optional<TransfertDto>> getApprovisionnement(@PathVariable int id) {
         return ResponseEntity.ok(transfertService.getTransfert(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("update/{id}")
     public ResponseEntity<TransfertDto> modifier(@PathVariable int id, @RequestBody TransfertDto transfertDto) {
         return ResponseEntity.ok(transfertService.modifier(id, transfertDto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) {
         return ResponseEntity.ok(transfertService.delete(id));
     }

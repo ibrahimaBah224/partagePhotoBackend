@@ -14,27 +14,27 @@ import java.util.Optional;
 public class EntrepotController {
     private final EntrepotService entrepotService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<EntrepotDto> ajouter(@RequestBody EntrepotDto entrepotDto) {
         return ResponseEntity.ok(entrepotService.ajouter(entrepotDto));
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<EntrepotDto>> liste() {
         return ResponseEntity.ok(entrepotService.liste());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("getOne/{id}")
     public ResponseEntity<Optional<EntrepotDto>> getApprovisionnement(@PathVariable int id) {
         return ResponseEntity.ok(entrepotService.getEntrepot(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("update/{id}")
     public ResponseEntity<EntrepotDto> modifier(@PathVariable int id, @RequestBody EntrepotDto entrepotDto) {
         return ResponseEntity.ok(entrepotService.modifier(id, entrepotDto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) {
         return ResponseEntity.ok(entrepotService.delete(id));
     }

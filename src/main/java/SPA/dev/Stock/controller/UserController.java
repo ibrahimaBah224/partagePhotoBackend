@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -25,13 +25,13 @@ public class UserController {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
-    @GetMapping("/listUsers")
+    @GetMapping("/list")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.allUsers();
         return ResponseEntity.ok(users);
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/add")
     public ResponseEntity<User> registerUser(@RequestBody RegisterUserDto registerUserDto) {
         User newUser = userService.registerUser(registerUserDto);
         newUser.setCreatedBy(userService.getCurrentUserId());
@@ -39,19 +39,19 @@ public class UserController {
         return ResponseEntity.ok(newUser);
     }
 
-    @PutMapping("updateUser/{id}")
+    @PutMapping("update/{id}")
     public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody RegisterUserDto registerUserDto) {
         User updatedUser = userService.updateUser(id, registerUserDto);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @PutMapping("updatePassword/{id}/password")
+    @PutMapping("updatePassword/{id}")
     public ResponseEntity<User> updateUserPassword(@PathVariable int id, @RequestBody RegisterUserDto registerUserDto) {
         User updatedUser = userService.updateUserPassword(id, registerUserDto);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("deleteUser/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();

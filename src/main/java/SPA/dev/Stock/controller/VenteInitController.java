@@ -12,32 +12,32 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/vente_init")
 public class VenteInitController {
     private final VenteInitService venteInitService;
 
-    @GetMapping("/vente_init")
+    @GetMapping("/list")
     public ResponseEntity<List<VenteInitDto>> getVenteInits(){
         return ResponseEntity.ok(venteInitService.getAll());
     }
-    @GetMapping("/vente_init/{id}")
+    @GetMapping("/getOne/{id}")
     public ResponseEntity<VenteInitDto> getVenteInit(@PathVariable Long id){
         return ResponseEntity.ok(venteInitService.getVenteInit(id));
     }
 
-    @PostMapping("/vente_init")
+    @PostMapping("/add")
     public ResponseEntity<VenteInitDto> addVenteInit(@Valid @RequestBody VenteInitDto venteInitDto){
         VenteInitDto createdVenteInit = venteInitService.addVenteInit(venteInitDto);
 
         return ResponseEntity.created(URI.create("/vente_init/"+createdVenteInit.getId())).body(createdVenteInit);
     }
 
-    @DeleteMapping("/vente_init/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<VenteInitDto> removeVehicleById(@PathVariable Long id){
         return ResponseEntity.ok(venteInitService.removeVenteInit(id));
     }
 
-    @PutMapping("/vente_init/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<VenteInitDto> updateVenteInit(@PathVariable Long id, @Valid @RequestBody VenteInitDto venteInitDto){
         return ResponseEntity.ok(venteInitService.updateVenteInit(id, venteInitDto));
     }

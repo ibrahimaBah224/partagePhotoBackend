@@ -14,27 +14,27 @@ import java.util.Optional;
 public class SousCategorieController {
     private final SousCategorieService sousCategorieService;
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<SousCategorieDto> ajouter(@RequestBody SousCategorieDto sousCategorieDto) {
         return ResponseEntity.ok(sousCategorieService.ajouter(sousCategorieDto));
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<List<SousCategorieDto>> liste() {
         return ResponseEntity.ok(sousCategorieService.liste());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("getOne/{id}")
     public ResponseEntity<Optional<SousCategorieDto>> getApprovisionnement(@PathVariable int id) {
         return ResponseEntity.ok(sousCategorieService.getSousCategorie(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("update/{id}")
     public ResponseEntity<SousCategorieDto> modifier(@PathVariable int id, @RequestBody SousCategorieDto sousCategorieDto) {
         return ResponseEntity.ok(sousCategorieService.modifier(id, sousCategorieDto));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) {
         return ResponseEntity.ok(sousCategorieService.delete(id));
     }
