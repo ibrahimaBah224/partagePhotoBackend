@@ -19,7 +19,7 @@ public class TransfertService {
     private final MagasinService magasinService;
     private final TransfertMapper transfertMapper;
     public TransfertDto ajouter(TransfertDto transfertDto) {
-        magasinService.getMagasin(transfertDto.getIdMagasin());
+        magasinService.getMagasinById(transfertDto.getIdMagasin());
         produitService.getProduit(transfertDto.getIdProduit());
         Transfert transfert = transfertMapper.toEntity(transfertDto);
 
@@ -44,7 +44,7 @@ public class TransfertService {
     public TransfertDto modifier(int id, TransfertDto transfertDto) {
         Transfert transfert = transfertMapper.toEntity(transfertDto);
         getTransfert(id);
-        magasinService.getMagasin(transfertDto.getIdMagasin());
+        magasinService.getMagasinById(transfertDto.getIdMagasin());
         produitService.getProduit(transfertDto.getIdProduit());
         transfert.setIdTransfert(id);
         return transfertMapper.toDto(transfertRepository.save(transfert));

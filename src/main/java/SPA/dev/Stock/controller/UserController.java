@@ -6,7 +6,9 @@ import SPA.dev.Stock.modele.User;
 import SPA.dev.Stock.repository.UserRepository;
 import SPA.dev.Stock.service.UserService;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +18,13 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private  UserService userService;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
     @GetMapping("/listUsers")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -60,7 +64,7 @@ public class UserController {
         userDto.setRole(RoleEnumeration.valueOf("SUPER_ADMIN"));
         userDto.setFullName("admin");
         userDto.setTelephone("624085523");
-        userDto.setPassword("admin");
+        userDto.setPassword(bCryptPasswordEncoder.encode("admin"));
 
         User savedUser = userRepository.save(userDto);
         if (savedUser == null) {

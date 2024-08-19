@@ -1,5 +1,6 @@
 package SPA.dev.Stock.service;
 
+import SPA.dev.Stock.dto.MagasinDto;
 import SPA.dev.Stock.dto.RegisterUserDto;
 import SPA.dev.Stock.exception.UserNotFoundException;
 import SPA.dev.Stock.mapper.UserMapper;

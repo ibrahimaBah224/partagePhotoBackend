@@ -1,6 +1,8 @@
 package SPA.dev.Stock.mapper;
 
+import SPA.dev.Stock.dto.MagasinDto;
 import SPA.dev.Stock.dto.RegisterUserDto;
+import SPA.dev.Stock.modele.Magasin;
 import SPA.dev.Stock.modele.User;
 import org.mapstruct.Mapper;
 
