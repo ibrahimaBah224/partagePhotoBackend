@@ -1,5 +1,4 @@
 package SPA.dev.Stock.dto;
-
 import lombok.*;
 
 @AllArgsConstructor

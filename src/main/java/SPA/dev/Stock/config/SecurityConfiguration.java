@@ -35,7 +35,7 @@ public class SecurityConfiguration {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**","/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**","/api","/api/**")
+                .requestMatchers("/auth/**","/swagger-ui.html","/api/**","/users/**", "/swagger-ui/**", "/v3/api-docs/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -71,8 +71,8 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:8080"));
-        configuration.setAllowedMethods(List.of("GET","POST"));
+        configuration.setAllowedOrigins(List.of("http://localhost:8080","http://localhost:4200"));
+        configuration.setAllowedMethods(List.of("GET","POST","DELETE","PUT"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

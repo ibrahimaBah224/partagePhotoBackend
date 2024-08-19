@@ -7,6 +7,7 @@ import SPA.dev.Stock.repository.UserRepository;
 import SPA.dev.Stock.service.UserService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,11 +17,13 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private  UserService userService;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService, UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
     @GetMapping("/listUsers")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -55,19 +58,21 @@ public class UserController {
     }
     @PostConstruct
     public void addAdmin(){
-        User userDto = new User();
-        userDto.setEmail("admin@gmail.com");
-        userDto.setRole(RoleEnumeration.valueOf("SUPER_ADMIN"));
-        userDto.setFullName("admin");
-        userDto.setTelephone("624085523");
-        userDto.setPassword("admin");
+        if(!userRepository.findByTelephone("624085523").isPresent()) {
+            User userDto = new User();
+            userDto.setEmail("admin@gmail.com");
+            userDto.setRole(RoleEnumeration.valueOf("SUPER_ADMIN"));
+            userDto.setFullName("admin");
+            userDto.setTelephone("624085523");
+            userDto.setPassword(bCryptPasswordEncoder.encode("admin"));
 
-        User savedUser = userRepository.save(userDto);
-        if (savedUser == null) {
-            throw new IllegalArgumentException("L'utilisateur n'a pas pu être enregistré.");
+            User savedUser = userRepository.save(userDto);
+            if (savedUser == null) {
+                throw new IllegalArgumentException("L'utilisateur n'a pas pu être enregistré.");
+            }
+            savedUser.setCreatedBy(savedUser.getId());
+            userRepository.save(savedUser);
         }
-        savedUser.setCreatedBy(savedUser.getId());
-        userRepository.save(savedUser);
     }
 
 }

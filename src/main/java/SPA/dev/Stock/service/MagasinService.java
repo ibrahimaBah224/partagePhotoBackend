@@ -1,5 +1,6 @@
 package SPA.dev.Stock.service;
 
+
 import SPA.dev.Stock.dto.MagasinDto;
 import SPA.dev.Stock.exception.MagasinNotFoundException;
 import SPA.dev.Stock.exception.UserNotFoundException;
@@ -7,6 +8,7 @@ import SPA.dev.Stock.mapper.MagasinMapper;
 import SPA.dev.Stock.modele.Magasin;
 import SPA.dev.Stock.modele.User;
 import SPA.dev.Stock.repository.MagasinRepository;
+
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,5 +61,6 @@ public class MagasinService {
         Magasin magasin = magasinRepository.findByIdAndUserId(id, currentUserId)
                 .orElseThrow(() -> new MagasinNotFoundException("Magasin not found or access denied"));
         magasinRepository.delete(magasin);
+
     }
 }

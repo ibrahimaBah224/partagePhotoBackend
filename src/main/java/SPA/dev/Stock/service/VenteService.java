@@ -12,10 +12,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class VenteService {
     private final VenteRepository venteRepository;
     private final VenteMapper venteMapper;
+
+    public VenteService(VenteRepository venteRepository, VenteMapper venteMapper) {
+        this.venteRepository = venteRepository;
+        this.venteMapper = venteMapper;
+    }
 
     public List<VenteDto> getAll() {
         List<Vente> ventes = venteRepository.findAll();
@@ -28,8 +32,8 @@ public class VenteService {
         return venteMapper.toVenteDto(vente);
     }
 
-    public List<VenteDto> getVenteByProduit(Long id) {
-        List<Vente> ventes = venteRepository.findByProduitId(id);
+    public List<VenteDto> getVenteByProduit(int id) {
+        List<Vente> ventes = venteRepository.findByProduitIdProduit(id);
         if (ventes.isEmpty()) {
             throw new AppException("pas de vente lié à ce produit", HttpStatus.NOT_FOUND);
         }

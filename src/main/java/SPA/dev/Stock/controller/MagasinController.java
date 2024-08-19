@@ -1,6 +1,7 @@
 package SPA.dev.Stock.controller;
 
 import SPA.dev.Stock.dto.MagasinDto;
+
 import SPA.dev.Stock.service.MagasinService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,6 @@ public class MagasinController {
     public String deleteMagasin(@PathVariable int id){
         magasinService.deleteMagasin(id);
         return "deleted";
+
     }
 }

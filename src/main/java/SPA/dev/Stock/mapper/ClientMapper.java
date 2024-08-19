@@ -1,5 +1,4 @@
 package SPA.dev.Stock.mapper;
-
 import SPA.dev.Stock.dto.ClientDto;
 import SPA.dev.Stock.modele.Client;
 import org.mapstruct.Mapper;
@@ -12,3 +11,4 @@ public interface ClientMapper {
     ClientDto toClientDto(Client client);
     List<ClientDto> toClientDtoList(List<Client> clients);
 }
+

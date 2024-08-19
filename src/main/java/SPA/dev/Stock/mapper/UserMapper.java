@@ -14,7 +14,7 @@ public interface UserMapper {
 
     Magasin userDTOToUser(RegisterUserDto userDto);
 
-    List<RegisterUserDto> usersToUserDTOs(List<User> users);
+    //List<RegisterUserDto> usersToUserDTOs(List<User> users);
 
     User toEntity(RegisterUserDto registerUserDto);
 }

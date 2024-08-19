@@ -19,6 +19,7 @@ public class Vente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @JoinColumn(name = "produit_id")
     private Produit produit;
     @ManyToOne
     private VenteInit venteInit;

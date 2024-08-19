@@ -11,10 +11,13 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api")
 public class VenteController {
     private final VenteService venteService;
+
+    public VenteController(VenteService venteService) {
+        this.venteService = venteService;
+    }
 
     @GetMapping("/ventes")
     public ResponseEntity<List<VenteDto>> getVentes(){
@@ -26,7 +29,7 @@ public class VenteController {
     }
 
     @GetMapping("/ventes/produit/{produitId}")
-    public ResponseEntity<List<VenteDto>> getVentesByProduit(@PathVariable Long produitId) {
+    public ResponseEntity<List<VenteDto>> getVentesByProduit(@PathVariable int produitId) {
         return ResponseEntity.ok(venteService.getVenteByProduit(produitId));
     }
 

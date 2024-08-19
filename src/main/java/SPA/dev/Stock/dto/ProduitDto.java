@@ -1,17 +1,18 @@
 package SPA.dev.Stock.dto;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Getter
-@Setter
-public class ProduitDto {
-    private Long id;
-    @NotNull
+public class ProduitDto  extends AbstractEntitieDto{
+
+    private int idProduit;
+
     private String designation;
+    private String reference;
+    private int seuil;
     private String description;
+    private String image;
+    private int id_sousCategorie;
+
 }

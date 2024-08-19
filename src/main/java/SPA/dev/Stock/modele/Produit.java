@@ -1,31 +1,33 @@
 package SPA.dev.Stock.modele;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.Date;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Getter
-@Setter
+import java.util.List;
+@EqualsAndHashCode(callSuper = true)
 @Entity
-public class Produit {
+@Data
+public class Produit extends AbstractEntitie{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_produit")
-    private Long id;
-    private String designation;
-    private String description;
-    @CreationTimestamp
-    @Column(updatable = false, name = "created_at")
-    private Date createdAt;
+    @Column(name = "idProduit")
+    private int idProduit;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private Date updatedAt;
+    private String designation;
+    @Column(unique = true)
+    private String reference;
+    private int seuil;
+    private String description;
+    private String image;
+
+    @ManyToOne
+    @JoinColumn(name = "idSousCategorie", nullable = false)
+    private SousCategorie sousCategorie;
+
+    @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL)
+    private List<Approvisionnement> approvisionnements;
+
+    @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL)
+    private List<Transfert> transferts;
 }

@@ -9,9 +9,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MagasinMapper {
 
+
     MagasinDto magasinToMagasinDTO(Magasin magasin);
 
     Magasin magasinDTOToMagasin(MagasinDto magasinDTO);
 
     List<MagasinDto> magasinsToMagasinDTOs(List<Magasin> magasins);
+
 }

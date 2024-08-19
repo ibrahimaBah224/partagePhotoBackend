@@ -45,4 +45,5 @@ public class Magasin {
     protected void onUpdate() {
         updatedBy = userService.getCurrentUserId();
     }
+
 }
