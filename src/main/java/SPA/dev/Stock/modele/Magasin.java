@@ -1,18 +1,19 @@
 package SPA.dev.Stock.modele;
 
-import SPA.dev.Stock.service.UserService;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
 @Entity
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class Magasin {
-    @Transient
-    private UserService userService;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  int id;
@@ -30,20 +31,13 @@ public class Magasin {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @Column(name = "created_by")
+    @CreatedBy
+    @Column(name = "created_by",updatable = false)
     private int createdBy;
 
+    @LastModifiedBy
     @Column(name = "updated_by")
     private int updatedBy;
 
-    @PrePersist
-    protected void onCreate() {
-        createdBy = userService.getCurrentUserId();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedBy = userService.getCurrentUserId();
-    }
 
 }
