@@ -21,13 +21,13 @@ public class MagasinService {
     private final MagasinMapper magasinMapper;
 
     public List<MagasinDto> getMagasinsForCurrentUser() {
-        int currentUserId = userService.getCurrentUserId(); // Assurez-vous que le type est Long
+        int currentUserId = userService.getCurrentUserId();
         List<Magasin> magasins = magasinRepository.findByUserId(currentUserId);
         return magasinMapper.magasinsToMagasinDTOs(magasins);
     }
 
     public MagasinDto createMagasin(MagasinDto magasinDTO) {
-        int currentUserId = userService.getCurrentUserId(); // Assurez-vous que le type est Long
+        int currentUserId = userService.getCurrentUserId();
         User user = userService.findById(currentUserId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + currentUserId));
         Magasin magasin = magasinMapper.magasinDTOToMagasin(magasinDTO);
@@ -37,14 +37,14 @@ public class MagasinService {
     }
 
     public MagasinDto getMagasinById(int id) {
-        int currentUserId = userService.getCurrentUserId(); // Assurez-vous que le type est Long
+        int currentUserId = userService.getCurrentUserId();
         Magasin magasin = magasinRepository.findByIdAndUserId(id, currentUserId)
                 .orElseThrow(() -> new MagasinNotFoundException("Magasin not found or access denied"));
         return magasinMapper.magasinToMagasinDTO(magasin);
     }
 
     public MagasinDto updateMagasin(int id, MagasinDto magasinDTO) {
-        int currentUserId = userService.getCurrentUserId(); // Assurez-vous que le type est Long
+        int currentUserId = userService.getCurrentUserId();
         Magasin magasin = magasinRepository.findByIdAndUserId(id, currentUserId)
                 .orElseThrow(() -> new MagasinNotFoundException("Magasin not found or access denied"));
         magasin.setNom(magasinDTO.getNom());
@@ -55,7 +55,7 @@ public class MagasinService {
     }
 
     public void deleteMagasin(int id) {
-        int currentUserId = userService.getCurrentUserId(); // Assurez-vous que le type est Long
+        int currentUserId = userService.getCurrentUserId();
         Magasin magasin = magasinRepository.findByIdAndUserId(id, currentUserId)
                 .orElseThrow(() -> new MagasinNotFoundException("Magasin not found or access denied"));
         magasinRepository.delete(magasin);

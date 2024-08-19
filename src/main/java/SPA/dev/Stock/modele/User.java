@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,8 +19,6 @@ import java.util.List;
 @Entity
 @Data
 public class User implements UserDetails {
-    @Transient
-    private UserService userService;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
@@ -56,18 +56,10 @@ public class User implements UserDetails {
     @Column(name = "created_by")
     private int createdBy;
 
+    @LastModifiedBy
     @Column(name = "updated_by")
     private int updatedBy;
 
-    @PrePersist
-    protected void onCreate() {
-        createdBy = userService.getCurrentUserId();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedBy = userService.getCurrentUserId();
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

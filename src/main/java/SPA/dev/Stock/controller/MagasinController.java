@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("diallo")
+@RequestMapping("/api")
 @AllArgsConstructor
 public class MagasinController {
     private MagasinService magasinService;
