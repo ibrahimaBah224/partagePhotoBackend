@@ -23,14 +23,13 @@ public class Vente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "produit_id")
+    @JoinColumn(name = "idProduit", nullable = false)
     private Produit produit;
     @ManyToOne
     private VenteInit venteInit;
     private int quantite;
     private double prixVente;
     private EnumVente status;
-    private double discount;
     private EnumPayementMode payementMode;
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")

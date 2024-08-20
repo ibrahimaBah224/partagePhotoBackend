@@ -18,8 +18,8 @@ public interface VenteRepository extends JpaRepository<Vente, Long> {
     List<Vente> findByProduitIdProduit(int produitId);
 
     List<Vente> findByCreatedBy(Integer userId);
-    
-    Optional<Vente>findByIdAndCreatedBy(Long id, int currentUserId);
+
+    Optional<Vente> findByIdAndCreatedBy(Long id, int currentUserId);
 
     List<Vente> findByProduitIdProduitAndCreatedBy(int id, int currentUserId);
 
@@ -31,10 +31,4 @@ public interface VenteRepository extends JpaRepository<Vente, Long> {
 
     List<Vente> findByCreatedAtAndCreatedBy(Date date, Integer userId);
 
-    @Query("SELECT SUM(v.prixVente * v.quantite) FROM Vente v WHERE v.createdAt BETWEEN :startDate AND :endDate AND v.createdBy = :userId")
-    Double sumPrixVenteByDateVenteBetweenAndCreatedBy(@Param("startDate") Date startDate,
-                                                      @Param("endDate") Date endDate,
-                                                      @Param("userId") Integer userId);
-
-    List<Vente> findByCreatedAtBetweenAndCreatedBy(Date startDate, Date endDate, Integer userId);
 }

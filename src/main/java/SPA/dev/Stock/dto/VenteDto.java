@@ -14,13 +14,13 @@ public class VenteDto {
     private Long id;
 
     @NotNull
-    private Long produitId;  // Remplacer Produit par produitId
+    private int produitId;  // Remplacer Produit par produitId
 
     @NotNull
     private Long venteInitId;  // Remplacer VenteInit par venteInitId
 
     private int quantite;
     private double prixVente;
-    private double discount;
+
     private EnumPayementMode payementMode;
 }

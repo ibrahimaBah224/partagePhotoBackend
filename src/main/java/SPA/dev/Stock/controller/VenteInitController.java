@@ -27,9 +27,7 @@ public class VenteInitController {
 
     @PostMapping("/add")
     public ResponseEntity<VenteInitDto> addVenteInit(@Valid @RequestBody VenteInitDto venteInitDto){
-        VenteInitDto createdVenteInit = venteInitService.addVenteInit(venteInitDto);
-
-        return ResponseEntity.created(URI.create("/vente_init/"+createdVenteInit.getId())).body(createdVenteInit);
+        return ResponseEntity.ok( venteInitService.addVenteInit(venteInitDto));
     }
 
     @DeleteMapping("/delete/{id}")

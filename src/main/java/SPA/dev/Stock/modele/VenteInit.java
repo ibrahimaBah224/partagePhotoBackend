@@ -25,6 +25,7 @@ public class VenteInit {
     @Column(nullable = false)
     private String reference;
     @ManyToOne
+    @JoinColumn(name = "idClient")
     private Client client;
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
