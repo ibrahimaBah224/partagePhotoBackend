@@ -1,5 +1,7 @@
 package SPA.dev.Stock.modele;
 
+import SPA.dev.Stock.enumeration.EnumPayementMode;
+import SPA.dev.Stock.enumeration.EnumVente;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,7 +29,9 @@ public class Vente {
     private VenteInit venteInit;
     private int quantite;
     private double prixVente;
-
+    private EnumVente status;
+    private double discount;
+    private EnumPayementMode payementMode;
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;

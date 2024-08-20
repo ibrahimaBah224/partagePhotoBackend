@@ -4,6 +4,7 @@ package SPA.dev.Stock.service;
 import SPA.dev.Stock.dto.ApprovisionnementDto;
 import SPA.dev.Stock.mapper.ApprovisionnementMapper;
 import SPA.dev.Stock.modele.Approvisionnement;
+import SPA.dev.Stock.modele.Produit;
 import SPA.dev.Stock.repository.ApprovisionnementRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -51,5 +52,8 @@ public class ApprovisionnementService {
         Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto);
         approvisionnement.setIdApprovisionnement(id);
         return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
+    }
+    public int getStockDisponible(int produitId) {
+        return 0;
     }
 }

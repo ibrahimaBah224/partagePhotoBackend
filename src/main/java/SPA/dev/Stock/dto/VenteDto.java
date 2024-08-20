@@ -1,7 +1,6 @@
 package SPA.dev.Stock.dto;
 
-import SPA.dev.Stock.modele.Produit;
-import SPA.dev.Stock.modele.VenteInit;
+import SPA.dev.Stock.enumeration.EnumPayementMode;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -13,10 +12,15 @@ import lombok.*;
 @Setter
 public class VenteDto {
     private Long id;
+
     @NotNull
-    private Produit produit;
+    private Long produitId;  // Remplacer Produit par produitId
+
     @NotNull
-    private VenteInit venteInit;
+    private Long venteInitId;  // Remplacer VenteInit par venteInitId
+
     private int quantite;
     private double prixVente;
+    private double discount;
+    private EnumPayementMode payementMode;
 }
