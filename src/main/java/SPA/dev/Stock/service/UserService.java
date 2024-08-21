@@ -81,14 +81,27 @@ public class UserService {
     }
 
     public User registerUser(RegisterUserDto registerUserDto) {
-        if(!userRepository.findByTelephone(registerUserDto.getTelephone()).isPresent()) {
+        int currentUserId = getCurrentUserId(); // Fetch the ID of the currently authenticated user
+
+        if (currentUserId == -1) {
+            throw new AccessDeniedException("Please log in.");
+        }
+        User currentUser = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new AccessDeniedException("Current user not found."));
+        if (!currentUser.getRole().equals(RoleEnumeration.SUPER_ADMIN)) {
+            throw new AccessDeniedException("You do not have permission to perform this action.");
+        }
+
+        if (!userRepository.findByTelephone(registerUserDto.getTelephone()).isPresent()) {
             User user = userMapper.toEntity(registerUserDto);
-            user.setRole(RoleEnumeration.valueOf("ADMIN"));
+            user.setRole(RoleEnumeration.ADMIN); // Assign the ADMIN role to the new user
             user.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
             return userRepository.save(user);
         }
-        return null;
+
+        throw new RuntimeException("User already exists with this telephone number.");
     }
+
 
     public void deleteUser(int id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
