@@ -10,5 +10,5 @@ public interface MagasinRepository extends JpaRepository<Magasin, Integer>{
 
     List<Magasin> findByUserId(int userId);
     Optional<Magasin> findByIdAndUserId(int id, int currentUserId);
-    boolean existsByAdminId(int currentUserId);
+    boolean existsByCreatedBy(int currentUserId);
 }

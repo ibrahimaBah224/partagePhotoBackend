@@ -30,7 +30,7 @@ public class MagasinService {
 
     public MagasinDto createMagasin(MagasinDto magasinDTO) {
         int currentUserId = userService.getCurrentUserId();
-        boolean hasNoMagasin = !magasinRepository.existsByAdminId(currentUserId);
+        boolean hasNoMagasin = !magasinRepository.existsByCreatedBy(currentUserId);
         if (hasNoMagasin) {
             throw  new RuntimeException("cet utilisateur a déjà un magasin");
         }
