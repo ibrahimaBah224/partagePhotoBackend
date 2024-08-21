@@ -24,6 +24,7 @@ public class Transfert extends AbstractEntitie{
     @JoinColumn(name = "idMagasin", nullable = false)
     private Magasin magasin;
 
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusTransfertEnum status ;

@@ -14,10 +14,6 @@ public class Categorie extends AbstractEntitie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCategorie;
-
     private String libelle;
-
     private String description;
-
-
 }

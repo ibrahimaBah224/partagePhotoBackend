@@ -36,5 +36,6 @@ public class Approvisionnement extends AbstractEntitie {
     private float prixUniteVente;
     private Date datePeremption;
 
+
 }
 

@@ -1,34 +1,40 @@
 package SPA.dev.Stock.modele;
 
-import SPA.dev.Stock.service.UserService;
+import SPA.dev.Stock.enumeration.EnumOperation;
+import SPA.dev.Stock.enumeration.EnumPayementMode;
 import jakarta.persistence.*;
-import jdk.jfr.Registered;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.Serializable;
 import java.util.Date;
 
-@MappedSuperclass
 @Data
-@EntityListeners(AuditingEntityListener.class)
-@RequiredArgsConstructor
-public class AbstractEntitie implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
+@Entity
+public class Caisse {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "typePaiement", nullable = false)
+    private EnumPayementMode typePaiement;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "typeOperation", nullable = false)
+    private EnumOperation typeOperation;
+    private int montant;
+    private String motif;
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
-
-    @LastModifiedDate
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;

@@ -2,10 +2,16 @@ package SPA.dev.Stock.service;
 
 
 import SPA.dev.Stock.dto.ApprovisionnementDto;
+
 import SPA.dev.Stock.dto.TransfertDto;
 import SPA.dev.Stock.enumeration.StatusTransfertEnum;
 import SPA.dev.Stock.mapper.*;
 import SPA.dev.Stock.modele.*;
+
+import SPA.dev.Stock.mapper.ApprovisionnementMapper;
+import SPA.dev.Stock.modele.Approvisionnement;
+import SPA.dev.Stock.modele.Produit;
+
 import SPA.dev.Stock.repository.ApprovisionnementRepository;
 import SPA.dev.Stock.repository.MagasinRepository;
 import lombok.RequiredArgsConstructor;
@@ -105,5 +111,8 @@ public class ApprovisionnementService {
         Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto,produit,entrepot,fournisseur);
         approvisionnement.setIdApprovisionnement(id);
         return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
+    }
+    public int getStockDisponible(int produitId) {
+        return 0;
     }
 }
