@@ -30,6 +30,10 @@ public class MagasinService {
 
     public MagasinDto createMagasin(MagasinDto magasinDTO) {
         int currentUserId = userService.getCurrentUserId();
+        boolean hasNoMagasin = !magasinRepository.existsByAdminId(currentUserId);
+        if (hasNoMagasin) {
+            throw  new RuntimeException("cet utilisateur a déjà un magasin");
+        }
         User user = userService.findById(currentUserId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + currentUserId));
         Magasin magasin = magasinMapper.magasinDTOToMagasin(magasinDTO);
