@@ -28,11 +28,16 @@ public class UserService {
 
     public int getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return userRepository.findByTelephone(userDetails.getUsername()).get().getId();
+
+        // Check if the authentication object is present and valid
+        if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
+            throw new AccessDeniedException("User is not authenticated.");
         }
-        return -1;
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return userRepository.findByTelephone(userDetails.getUsername())
+                .orElseThrow(() -> new AccessDeniedException("User not found."))
+                .getId();
     }
 
     public Optional<User> findById(int currentUserId) {
