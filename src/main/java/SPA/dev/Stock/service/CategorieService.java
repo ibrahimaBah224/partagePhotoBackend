@@ -15,7 +15,9 @@ import java.util.Optional;
 public class CategorieService {
     private final CategorieRepository categorieRepository;
     private  final CategorieMapper categorieMapper;
+    private final UserService userService;
     public CategorieDto ajouter(CategorieDto categorieDto) {
+        categorieDto.setCreatedBy(userService.getCurrentUserId());
         Categorie categorie = categorieMapper.toEntity(categorieDto);
         return categorieMapper.toDto(categorieRepository.save(categorie));
     }
@@ -35,6 +37,7 @@ public class CategorieService {
     }
 
     public CategorieDto modifier(int id, CategorieDto categorieDto) {
+        categorieDto.setUpdatedBy(userService.getCurrentUserId());
         Categorie categorie = categorieMapper.toEntity(categorieDto);
         categorie.setIdCategorie(id);
         return categorieMapper.toDto(categorieRepository.save(categorie));

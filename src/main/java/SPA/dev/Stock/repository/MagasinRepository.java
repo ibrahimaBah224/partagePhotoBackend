@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface MagasinRepository extends JpaRepository<Magasin, Integer>{
 
-    List<Magasin> findByUserId(int userId);
+    Magasin findByUserId(int userId);
     Optional<Magasin> findByIdAndUserId(int id, int currentUserId);
 
 }

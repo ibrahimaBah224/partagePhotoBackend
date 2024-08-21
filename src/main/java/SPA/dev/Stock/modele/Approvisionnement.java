@@ -1,8 +1,7 @@
 package SPA.dev.Stock.modele;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.util.Date;
 
@@ -10,6 +9,9 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Approvisionnement extends AbstractEntitie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

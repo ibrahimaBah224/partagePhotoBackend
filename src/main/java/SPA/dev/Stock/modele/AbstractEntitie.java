@@ -2,12 +2,12 @@ package SPA.dev.Stock.modele;
 
 import SPA.dev.Stock.service.UserService;
 import jakarta.persistence.*;
+import jdk.jfr.Registered;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
+
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.Authentication;
@@ -20,15 +20,16 @@ import java.util.Date;
 @MappedSuperclass
 @Data
 @EntityListeners(AuditingEntityListener.class)
+@RequiredArgsConstructor
 public class AbstractEntitie implements Serializable {
 
-    @Transient
-    private UserService userService;
 
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
+
+    @LastModifiedDate
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
@@ -38,18 +39,5 @@ public class AbstractEntitie implements Serializable {
 
     @Column(name = "updated_by")
     private int updatedBy;
-
-    @PrePersist
-    protected void onCreate() {
-        createdBy = userService.getCurrentUserId();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedBy = userService.getCurrentUserId();
-    }
-
-    @Column(columnDefinition = "integer default 1", nullable = false)
-    private int status = 1;
 
 }

@@ -25,6 +25,11 @@ public class TransfertController {
         return ResponseEntity.ok(transfertService.liste());
     }
 
+    @GetMapping("/listByMagasin/{idMagasin}")
+    public ResponseEntity<List<TransfertDto>> getTransfertByMagasin(@PathVariable int idMagasin) {
+        return ResponseEntity.ok(transfertService.getTransfertByMagasin(idMagasin));
+    }
+
     @GetMapping("getOne/{id}")
     public ResponseEntity<Optional<TransfertDto>> getApprovisionnement(@PathVariable int id) {
         return ResponseEntity.ok(transfertService.getTransfert(id));

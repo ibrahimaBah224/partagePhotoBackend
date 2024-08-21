@@ -1,18 +1,21 @@
 package SPA.dev.Stock.modele;
 
 
+import SPA.dev.Stock.enumeration.StatusTransfertEnum;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Transfert extends AbstractEntitie{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idTransfert")
     private int idTransfert;
+
     @ManyToOne
     @JoinColumn(name = "idProduit", nullable = false)
     private Produit produit;
@@ -20,4 +23,9 @@ public class Transfert extends AbstractEntitie{
     @ManyToOne
     @JoinColumn(name = "idMagasin", nullable = false)
     private Magasin magasin;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusTransfertEnum status ;
+
 }

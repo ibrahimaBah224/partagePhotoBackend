@@ -30,6 +30,7 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            System.out.println(STR."=======================================\n========================\n \{userRepository.findByTelephone(userDetails.getUsername()).get().getId()}");
             return userRepository.findByTelephone(userDetails.getUsername()).get().getId();
         }
         return -1;

@@ -13,15 +13,22 @@ import java.util.Date;
 public class Magasin {
     @Transient
     private UserService userService;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  int id;
+
     private String nom;
+
     private String adresse;
+
     private String reference;
+
     @OneToOne
     @JoinColumn(name = "admin_id")
+
     private User user;
+
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
@@ -36,14 +43,6 @@ public class Magasin {
     @Column(name = "updated_by")
     private int updatedBy;
 
-    @PrePersist
-    protected void onCreate() {
-        createdBy = userService.getCurrentUserId();
-    }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedBy = userService.getCurrentUserId();
-    }
 
 }
