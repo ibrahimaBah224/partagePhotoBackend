@@ -12,5 +12,5 @@ public interface VenteInitRepository extends JpaRepository<VenteInit, Long> {
 
     List<VenteInit> findAllByCreatedBy(int currentUserId);
 
-    <T> ScopedValue<T> findByIdAndCreatedBy(Long id, int currentUserId);
+    <T>ScopedValue<T> findByIdAndCreatedBy(Long id, int currentUserId);
 }
