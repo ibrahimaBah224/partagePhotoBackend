@@ -23,16 +23,17 @@ public class VenteInitService {
     private final ClientRepository clientRepository; // Injection de ClientRepository
 
     private final Mapper venteInitMapper; // Injection de Mapper
+    private final UserService userService;
 
     public List<VenteInitDto> getAll() {
-        List<VenteInit> ventes = venteInitRepository.findAll();
+        List<VenteInit> ventes = venteInitRepository.findAllByCreatedBy(userService.getCurrentUserId());
         return ventes.stream()
                 .map(venteInitMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public VenteInitDto getVenteInit(Long id) {
-        VenteInit vente = venteInitRepository.findById(id)
+        VenteInit vente = (VenteInit) venteInitRepository.findByIdAndCreatedBy(id,userService.getCurrentUserId())
                 .orElseThrow(() -> new AppException("Vente initial not found", HttpStatus.NOT_FOUND));
         return venteInitMapper.toDto(vente);
     }
