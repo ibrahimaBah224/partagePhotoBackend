@@ -12,11 +12,8 @@ import java.util.Date;
 
 @Data
 public class AbstractEntitieDto  {
-
-    private String createdBy;
+    private int createdBy;
     private Date createdAt;
-    private String updatedBy;
+    private int updatedBy;
     private Date updatedAt;
-    private int status = 1;
-
 }

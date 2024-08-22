@@ -13,6 +13,4 @@ public class CategorieDto extends AbstractEntitieDto  {
     private String libelle;
 
     private String description;
-
-
 }

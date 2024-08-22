@@ -16,7 +16,9 @@ import java.util.Optional;
 public class FournisseurService {
     private final FournisseurMapper fournisseurMapper;
     private final FournisseurRepository fournisseurRepository;
+    private final UserService userService;
     public FournisseurDto ajouter(FournisseurDto fournisseurDto) {
+        fournisseurDto.setCreatedBy(userService.getCurrentUserId());
         Fournisseur fournisseur = fournisseurMapper.toEntity(fournisseurDto);
         return fournisseurMapper.toDto(fournisseurRepository.save(fournisseur));
     }
@@ -31,11 +33,14 @@ public class FournisseurService {
     }
 
     public String delete(int id) {
+        getFournisseur(id);
         fournisseurRepository.deleteById(id);
         return "suppression effectuer avec success";
     }
 
     public FournisseurDto modifier(int id, FournisseurDto fournisseurDto) {
+        getFournisseur(id);
+        fournisseurDto.setUpdatedBy(userService.getCurrentUserId());
         Fournisseur fournisseur = fournisseurMapper.toEntity(fournisseurDto);
         fournisseur.setIdFournissseur(id);
         return fournisseurMapper.toDto(fournisseurRepository.save(fournisseur));

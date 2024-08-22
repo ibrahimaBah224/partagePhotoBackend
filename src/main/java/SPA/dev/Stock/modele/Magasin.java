@@ -14,15 +14,22 @@ import java.util.Date;
 @Data
 @EntityListeners(AuditingEntityListener.class)
 public class Magasin {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  int id;
+
     private String nom;
+
     private String adresse;
+
     private String reference;
+
     @OneToOne
     @JoinColumn(name = "admin_id")
+
     private User user;
+
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;

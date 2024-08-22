@@ -22,10 +22,11 @@ public class MagasinService {
     private final UserService userService;
     private final MagasinMapper magasinMapper;
 
-    public List<MagasinDto> getMagasinsForCurrentUser() {
+
+    public MagasinDto getMagasinsForCurrentUser() {
         int currentUserId = userService.getCurrentUserId();
-        List<Magasin> magasins = magasinRepository.findByUserId(currentUserId);
-        return magasinMapper.magasinsToMagasinDTOs(magasins);
+        Magasin magasins = magasinRepository.findByUserId(currentUserId);
+        return magasinMapper.magasinToMagasinDTO(magasins);
     }
 
     public MagasinDto createMagasin(MagasinDto magasinDTO) {

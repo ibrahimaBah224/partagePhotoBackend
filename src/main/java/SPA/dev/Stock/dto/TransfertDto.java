@@ -1,13 +1,17 @@
 package SPA.dev.Stock.dto;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import SPA.dev.Stock.enumeration.StatusTransfertEnum;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransfertDto  extends AbstractEntitieDto{
 
     private int idTransfert;
     private int idProduit;
     private int idMagasin;
+    private StatusTransfertEnum status;
 }

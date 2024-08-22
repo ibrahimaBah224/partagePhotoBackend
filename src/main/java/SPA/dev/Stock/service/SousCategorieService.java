@@ -2,7 +2,9 @@ package SPA.dev.Stock.service;
 
 
 import SPA.dev.Stock.dto.SousCategorieDto;
+import SPA.dev.Stock.mapper.CategorieMapper;
 import SPA.dev.Stock.mapper.SousCategorieMapper;
+import SPA.dev.Stock.modele.Categorie;
 import SPA.dev.Stock.modele.SousCategorie;
 import SPA.dev.Stock.repository.CategorieRepository;
 import SPA.dev.Stock.repository.SousCategorieRepository;
@@ -16,11 +18,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SousCategorieService {
     private final SousCategorieRepository sousCategorieRepository;
-    private final CategorieRepository categorieRepository;
+    private final CategorieService categorieService;
     private final SousCategorieMapper sousCategorieMapper;
+    private final UserService userService;
+    private final CategorieMapper categorieMapper;
     public SousCategorieDto ajouter(SousCategorieDto sousCategorieDto) {
+      Categorie categorie =categorieMapper.toEntity(categorieService.getCategorie(sousCategorieDto.getIdCategorie()).orElseThrow(()->new RuntimeException("categorie introuvable")));
+        sousCategorieDto.setCreatedBy(userService.getCurrentUserId());
         SousCategorie sousCategorie = sousCategorieMapper.toEntity(sousCategorieDto);
-        categorieRepository.findById(sousCategorieDto.getIdCategorie()).orElseThrow(()->new RuntimeException("cette categorie n'existe ppas"));
+        sousCategorie.setCategorie(categorie);
         return sousCategorieMapper.toDto(sousCategorieRepository.save(sousCategorie));
     }
 
@@ -34,14 +40,16 @@ public class SousCategorieService {
     }
 
     public String delete(int id) {
-        sousCategorieRepository.findById(id).orElseThrow(()->new RuntimeException("id introuvable"));
+        getSousCategorie(id);
         sousCategorieRepository.deleteById(id);
         return "supprimer avec succes";
     }
 
     public SousCategorieDto modifier(int id, SousCategorieDto sousCategorieDto) {
-        SousCategorie sousCategorie = sousCategorieRepository.findById(id).orElseThrow(()->new RuntimeException("sous categorie introuvble"));
-        categorieRepository.findById(sousCategorieDto.getIdCategorie()).orElseThrow(()->new RuntimeException("cette categorie n'existe ppas"));
+       getSousCategorie(id);
+        categorieService.getCategorie(sousCategorieDto.getIdCategorie());
+        sousCategorieDto.setUpdatedBy(userService.getCurrentUserId());
+        SousCategorie sousCategorie = sousCategorieMapper.toEntity(sousCategorieDto);
         sousCategorie.setIdSousCategorie(id);
         return sousCategorieMapper.toDto(sousCategorieRepository.save(sousCategorie));
     }

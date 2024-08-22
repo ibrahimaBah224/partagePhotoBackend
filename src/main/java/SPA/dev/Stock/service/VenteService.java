@@ -90,7 +90,7 @@ public class VenteService {
 
         return venteMapper.toVenteDto(venteRepository.save(vente));
     }
-    public List<VenteDto> getVentesByDate(Date date) {
+  /*  public List<VenteDto> getVentesByDate(Date date) {
         Integer userId = userService.getCurrentUserId();
         List<Vente> ventes = venteRepository.findByCreatedAtAndCreatedBy(date, userId);
         if (ventes.isEmpty()) {
@@ -99,7 +99,7 @@ public class VenteService {
         return ventes.stream()
                 .map(venteMapper::toVenteDto)
                 .collect(Collectors.toList());
-    }
+    }*/
 
 
 

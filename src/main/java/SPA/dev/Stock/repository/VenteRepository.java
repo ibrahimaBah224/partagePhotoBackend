@@ -28,6 +28,5 @@ public interface VenteRepository extends JpaRepository<Vente, Long> {
 
     List<Vente> findByCreatedAtBefore(Date olderThanDate);
 
-    List<Vente> findByCreatedAtAndCreatedBy(Date date, Integer userId);
 
 }

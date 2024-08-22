@@ -17,7 +17,7 @@ public class MagasinController {
         return magasinService.createMagasin(magasinDto);
     }
      @GetMapping("/list")
-     public Iterable<MagasinDto> getMagasins(){
+     public MagasinDto getMagasins(){
         return magasinService.getMagasinsForCurrentUser();
     }
     @GetMapping("/getOne/{id}")
