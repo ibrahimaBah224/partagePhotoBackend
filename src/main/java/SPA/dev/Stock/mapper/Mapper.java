@@ -37,7 +37,7 @@ public class Mapper {
     public VenteDto toVenteDto(Vente vente) {
         return VenteDto.builder()
                 .id(vente.getId())
-                .produitId(vente.getProduit().getIdProduit())  // Extraire l'ID du produit
+                .idApprovisionnement(vente.getApprovisionnement().getIdApprovisionnement())  // Extraire l'ID du produit
                 .venteInitId(vente.getVenteInit().getId()) // Extraire l'ID de VenteInit
                 .quantite(vente.getQuantite())
                 .prixVente(vente.getPrixVente())
@@ -46,10 +46,10 @@ public class Mapper {
     }
 
     // Mapper VenteDto to Vente
-    public Vente toVenteEntity(VenteDto venteDto, Produit produit, VenteInit venteInit) {
+    public Vente toVenteEntity(VenteDto venteDto, Approvisionnement approvisionnement, VenteInit venteInit) {
         return Vente.builder()
                 .id(venteDto.getId())
-                .produit(produit) // Associer l'entité Produit
+                .approvisionnement(approvisionnement) // Associer l'entité Produit
                 .venteInit(venteInit) // Associer l'entité VenteInit
                 .quantite(venteDto.getQuantite())
                 .prixVente(venteDto.getPrixVente())

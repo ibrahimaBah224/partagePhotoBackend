@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -25,4 +27,8 @@ public class VenteInitDto {
     @NotNull
     private EnumEtatCommande etatCommande;
     private String remise;
+    private Date createdAt;
+    private Date updatedAt;
+    private int createdBy;
+    private int updatedBy;
 }

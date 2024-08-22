@@ -3,9 +3,11 @@ package SPA.dev.Stock.service;
 import SPA.dev.Stock.dto.VenteDto;
 import SPA.dev.Stock.exception.AppException;
 import SPA.dev.Stock.mapper.Mapper;
+import SPA.dev.Stock.modele.Approvisionnement;
 import SPA.dev.Stock.modele.Produit;
 import SPA.dev.Stock.modele.Vente;
 import SPA.dev.Stock.modele.VenteInit;
+import SPA.dev.Stock.repository.ApprovisionnementRepository;
 import SPA.dev.Stock.repository.ProduitRepository;
 import SPA.dev.Stock.repository.VenteInitRepository;
 import SPA.dev.Stock.repository.VenteRepository;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,10 +26,9 @@ public class VenteService {
     private final VenteRepository venteRepository;
     private final Mapper venteMapper;
     private final UserService userService;
-    private final ApprovisionnementService approvisionnementService;
-    private final ProduitRepository produitRepository;
     private final VenteInitRepository venteInitRepository;
-
+    private  final ApprovisionnementRepository approvisionnementRepository;
+    private final ApprovisionnementService approvisionnementService;
     public List<VenteDto> getAll() {
         Integer userId = userService.getCurrentUserId();
         List<Vente> ventes = venteRepository.findByCreatedBy(userId);
@@ -41,7 +43,8 @@ public class VenteService {
         return venteMapper.toVenteDto(vente);
     }
 
-    public List<VenteDto> getVenteByProduit(int produitId) {
+   /* public List<VenteDto> getVenteByProduit(int produitId) {
+        Produit produit = approvisionnementService.
         List<Vente> ventes = venteRepository.findByProduitIdProduitAndCreatedBy(produitId, userService.getCurrentUserId());
         if (ventes.isEmpty()) {
             throw new AppException("Pas de vente liée à ce produit", HttpStatus.NOT_FOUND);
@@ -50,14 +53,14 @@ public class VenteService {
                 .map(venteMapper::toVenteDto)
                 .collect(Collectors.toList());
     }
-
+*/
     public VenteDto addVente(VenteDto venteDto) {
-        Produit produit = produitRepository.findById(venteDto.getProduitId())
+        Approvisionnement approvisionnement = approvisionnementRepository.findById(venteDto.getIdApprovisionnement())
                 .orElseThrow(() -> new AppException("Produit not found", HttpStatus.NOT_FOUND));
         VenteInit venteInit = venteInitRepository.findById(venteDto.getVenteInitId())
                 .orElseThrow(() -> new AppException("VenteInit not found", HttpStatus.NOT_FOUND));
 
-        Vente vente = venteMapper.toVenteEntity(venteDto, produit, venteInit);
+        Vente vente = venteMapper.toVenteEntity(venteDto, approvisionnement, venteInit);
         vente.setCreatedBy(userService.getCurrentUserId());
         Vente newVente = venteRepository.save(vente);
         return venteMapper.toVenteDto(newVente);
@@ -74,12 +77,12 @@ public class VenteService {
         Vente vente = venteRepository.findByIdAndCreatedBy(id, userService.getCurrentUserId())
                 .orElseThrow(() -> new AppException("Vente not found", HttpStatus.NOT_FOUND));
 
-        Produit produit = produitRepository.findById(venteDto.getProduitId())
+        Approvisionnement approvisionnement = approvisionnementRepository.findById(venteDto.getIdApprovisionnement())
                 .orElseThrow(() -> new AppException("Produit not found", HttpStatus.NOT_FOUND));
         VenteInit venteInit = venteInitRepository.findById(venteDto.getVenteInitId())
                 .orElseThrow(() -> new AppException("VenteInit not found", HttpStatus.NOT_FOUND));
 
-        vente.setProduit(produit);
+        vente.setApprovisionnement(approvisionnement);
         vente.setVenteInit(venteInit);
         vente.setQuantite(venteDto.getQuantite());
         vente.setPrixVente(venteDto.getPrixVente());
@@ -87,6 +90,18 @@ public class VenteService {
 
         return venteMapper.toVenteDto(venteRepository.save(vente));
     }
+    public List<VenteDto> getVentesByDate(Date date) {
+        Integer userId = userService.getCurrentUserId();
+        List<Vente> ventes = venteRepository.findByCreatedAtAndCreatedBy(date, userId);
+        if (ventes.isEmpty()) {
+            throw new AppException("Aucune vente trouvée pour cette date", HttpStatus.NOT_FOUND);
+        }
+        return ventes.stream()
+                .map(venteMapper::toVenteDto)
+                .collect(Collectors.toList());
+    }
+
+
 
   /*  public List<VenteDto> getVentesByDate(Date date) {
         Integer userId = userService.getCurrentUserId();
@@ -110,9 +125,9 @@ public class VenteService {
                 .collect(Collectors.toList());
     }
 
-    public double getTotalVentesByDateRange(Date startDate, Date endDate) {
+    public int getTotalVentesByDateRange(Date startDate, Date endDate) {
         Integer userId = userService.getCurrentUserId();
-        Double totalVentes = venteRepository.sumPrixVenteByCreatedAtBetweenAndCreatedBy(startDate, endDate, userId);
+        int totalVentes = venteRepository.sumPrixVenteByCreatedAtBetweenAndCreatedBy(startDate, endDate, userId);
         if (totalVentes == null) {
             throw new AppException("Aucune vente trouvée pour cette plage de dates", HttpStatus.NOT_FOUND);
         }

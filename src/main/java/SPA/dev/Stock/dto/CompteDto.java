@@ -2,6 +2,8 @@ package SPA.dev.Stock.dto;
 
 import lombok.*;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -14,5 +16,8 @@ public class CompteDto {
     private String apiKey;
     private String description;
     private String numero;
-
+    private Date createdAt;
+    private Date updatedAt;
+    private int createdBy;
+    private int updatedBy;
 }

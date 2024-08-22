@@ -1,6 +1,8 @@
 package SPA.dev.Stock.dto;
 import lombok.*;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -13,4 +15,8 @@ public class ClientDto {
     private String prenom;
     private String telephone;
     private String adresse;
+    private Date createdAt;
+    private Date updatedAt;
+    private int createdBy;
+    private int updatedBy;
 }
