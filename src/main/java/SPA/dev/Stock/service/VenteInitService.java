@@ -26,44 +26,56 @@ public class VenteInitService {
     private final UserService userService;
 
     public List<VenteInitDto> getAll() {
-        List<VenteInit> ventes = venteInitRepository.findAllByCreatedBy(userService.getCurrentUserId());
+        int currentUserId = userService.getCurrentUserId();
+        List<VenteInit> ventes = venteInitRepository.findAllByCreatedBy(currentUserId);
         return ventes.stream()
                 .map(venteInitMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+
     public VenteInitDto getVenteInit(Long id) {
-        VenteInit vente = (VenteInit) venteInitRepository.findByIdAndCreatedBy(id,userService.getCurrentUserId())
+        int currentUserId = userService.getCurrentUserId();
+        VenteInit vente = (VenteInit) venteInitRepository.findByIdAndCreatedBy(id, currentUserId)
                 .orElseThrow(() -> new AppException("Vente initial not found", HttpStatus.NOT_FOUND));
         return venteInitMapper.toDto(vente);
     }
 
-    public VenteInitDto addVenteInit(VenteInitDto venteInitDto) {
-        // Vous devrez obtenir l'entité Client ici pour l'utiliser dans le mapping
-        Client client =  clientRepository.findById(venteInitDto.getIdClient())
-                .orElseThrow(() -> new AppException("Client not found", HttpStatus.NOT_FOUND));// Code pour récupérer le client à partir de venteInitDto.getIdClient()
 
-                VenteInit venteInit = venteInitMapper.toEntity(venteInitDto, client);
+    public VenteInitDto addVenteInit(VenteInitDto venteInitDto) {
+        int currentUserId = userService.getCurrentUserId();
+        Client client = clientRepository.findById(venteInitDto.getIdClient())
+                .orElseThrow(() -> new AppException("Client not found", HttpStatus.NOT_FOUND));
+
+        VenteInit venteInit = venteInitMapper.toEntity(venteInitDto, client);
         venteInit.setReference(UUID.randomUUID().toString());
+        venteInit.setCreatedBy(currentUserId); // Associe l'utilisateur connecté à la création
         VenteInit newVenteInit = venteInitRepository.save(venteInit);
         return venteInitMapper.toDto(newVenteInit);
     }
 
+
     public VenteInitDto removeVenteInit(Long id) {
-        VenteInit venteInit = venteInitRepository.findById(id)
+        int currentUserId = userService.getCurrentUserId();
+        VenteInit venteInit = (VenteInit) venteInitRepository.findByIdAndCreatedBy(id, currentUserId)
                 .orElseThrow(() -> new AppException("Vente not found", HttpStatus.NOT_FOUND));
         venteInitRepository.deleteById(id);
         return venteInitMapper.toDto(venteInit);
     }
 
-    public VenteInitDto updateVenteInit(Long id, VenteInitDto venteInitDto) {
-        // Vous devrez obtenir l'entité Client ici pour l'utiliser dans le mapping
-        Client client =clientRepository.findById(venteInitDto.getId())
-                .orElseThrow(() -> new AppException("Client not found", HttpStatus.NOT_FOUND)); // Code pour récupérer le client à partir de venteInitDto.getIdClient()
 
-                VenteInit venteInit = venteInitMapper.toEntity(venteInitDto, client);
-        venteInit.setId(id); // Assurez-vous de définir l'ID pour la mise à jour
+    public VenteInitDto updateVenteInit(Long id, VenteInitDto venteInitDto) {
+        int currentUserId = userService.getCurrentUserId();
+        VenteInit existingVente = (VenteInit) venteInitRepository.findByIdAndCreatedBy(id, currentUserId)
+                .orElseThrow(() -> new AppException("Vente not found", HttpStatus.NOT_FOUND));
+
+        Client client = clientRepository.findById(venteInitDto.getIdClient())
+                .orElseThrow(() -> new AppException("Client not found", HttpStatus.NOT_FOUND));
+
+        VenteInit venteInit = venteInitMapper.toEntity(venteInitDto, client);
+        venteInit.setId(id);
         VenteInit updatedVenteInit = venteInitRepository.save(venteInit);
         return venteInitMapper.toDto(updatedVenteInit);
     }
+
 }
