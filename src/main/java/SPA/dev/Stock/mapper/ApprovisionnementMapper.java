@@ -15,36 +15,36 @@ import java.util.stream.Collectors;
 @Component
 public class ApprovisionnementMapper  {
 
-  public   ApprovisionnementDto toDto(Approvisionnement approvisionnement){
-      return ApprovisionnementDto.builder()
-              .idApprovisionnement(approvisionnement.getIdApprovisionnement())
-              .idEntrepot(approvisionnement.getEntrepot().getIdEntrepot())
-              .idProduit(approvisionnement.getProduit().getIdProduit())
-              .idFournisseur(approvisionnement.getFournisseur().getIdFournissseur())
-              .montantTotal(approvisionnement.getMontantTotal())
-              .prixUniteAchat(approvisionnement.getPrixUniteAchat())
-              .prixUniteVente(approvisionnement.getPrixUniteVente())
-              .quantite(approvisionnement.getQuantite())
-              .datePeremption(approvisionnement.getDatePeremption())
-              .build();
-  }
-  public  Approvisionnement toEntity(ApprovisionnementDto approvisionnementDto, Produit produit, Entrepot entrepot, Fournisseur fournisseur){
-      return Approvisionnement.builder()
-              .idApprovisionnement(approvisionnementDto.getIdApprovisionnement())
-              .entrepot(entrepot)
-              .produit(produit)
-              .fournisseur(fournisseur)
-              .montantTotal(approvisionnementDto.getMontantTotal())
-              .prixUniteAchat(approvisionnementDto.getPrixUniteAchat())
-              .prixUniteVente(approvisionnementDto.getPrixUniteVente())
-              .quantite(approvisionnementDto.getQuantite())
-              .datePeremption(approvisionnementDto.getDatePeremption())
-              .build();
-  }
-   public List<ApprovisionnementDto> toDtoList(List<Approvisionnement> approvisionnements){
-      return approvisionnements.stream()
-              .map(this::toDto)
-              .collect(Collectors.toList());
-   }
+    public   ApprovisionnementDto toDto(Approvisionnement approvisionnement){
+        return ApprovisionnementDto.builder()
+                .idApprovisionnement(approvisionnement.getIdApprovisionnement())
+                .idEntrepot(approvisionnement.getEntrepot().getIdEntrepot())
+                .idProduit(approvisionnement.getProduit().getIdProduit())
+                .idFournisseur(approvisionnement.getFournisseur().getIdFournissseur())
+                .montantTotal(approvisionnement.getMontantTotal())
+                .prixUniteAchat(approvisionnement.getPrixUniteAchat())
+                .prixUniteVente(approvisionnement.getPrixUniteVente())
+                .quantite(approvisionnement.getQuantite())
+                .datePeremption(approvisionnement.getDatePeremption())
+                .build();
+    }
+    public  Approvisionnement toEntity(ApprovisionnementDto approvisionnementDto, Produit produit, Entrepot entrepot, Fournisseur fournisseur){
+        return Approvisionnement.builder()
+                .idApprovisionnement(approvisionnementDto.getIdApprovisionnement())
+                .entrepot(entrepot)
+                .produit(produit)
+                .fournisseur(fournisseur)
+                .montantTotal(approvisionnementDto.getMontantTotal())
+                .prixUniteAchat(approvisionnementDto.getPrixUniteAchat())
+                .prixUniteVente(approvisionnementDto.getPrixUniteVente())
+                .quantite(approvisionnementDto.getQuantite())
+                .datePeremption(approvisionnementDto.getDatePeremption())
+                .build();
+    }
+    public List<ApprovisionnementDto> toDtoList(List<Approvisionnement> approvisionnements){
+        return approvisionnements.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
 }
 

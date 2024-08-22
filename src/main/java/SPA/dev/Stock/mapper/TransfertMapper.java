@@ -21,15 +21,15 @@ public class TransfertMapper {
                 .status(transfert.getStatus())
                 .build();
     }
-  public  Transfert toEntity(TransfertDto transfertDto, Produit produit, Magasin magasin){
+    public  Transfert toEntity(TransfertDto transfertDto, Produit produit, Magasin magasin){
         return Transfert.builder()
                 .idTransfert(transfertDto.getIdTransfert())
                 .produit(produit)
                 .magasin(magasin)
                 .status(transfertDto.getStatus())
                 .build();
-  }
-   public List<TransfertDto> toDtoList(List<Transfert> transfert){
+    }
+    public List<TransfertDto> toDtoList(List<Transfert> transfert){
         return transfert.stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
