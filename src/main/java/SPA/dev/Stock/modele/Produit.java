@@ -30,4 +30,6 @@ public class Produit extends AbstractEntitie{
 
     @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL)
     private List<Transfert> transferts;
+
+
 }

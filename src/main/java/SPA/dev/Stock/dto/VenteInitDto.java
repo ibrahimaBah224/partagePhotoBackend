@@ -1,11 +1,9 @@
 package SPA.dev.Stock.dto;
 
-
 import SPA.dev.Stock.enumeration.EnumEtatCommande;
 import SPA.dev.Stock.enumeration.EnumStatus;
 import SPA.dev.Stock.modele.Client;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -18,11 +16,12 @@ import lombok.*;
 public class VenteInitDto {
     private Long id;
     private String reference;
-    private Client client;
-    @Enumerated(EnumType.STRING)
+
+    // Remplacer Client par idClient
+    private Long idClient;
+
     @NotNull
     private EnumStatus status;
-    @Enumerated(EnumType.STRING)
     @NotNull
     private EnumEtatCommande etatCommande;
     private String remise;

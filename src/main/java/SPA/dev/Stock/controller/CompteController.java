@@ -29,8 +29,7 @@ public class CompteController {
 
     @PostMapping("/add")
     public ResponseEntity<CompteDto> addCompte(@Valid @RequestBody CompteDto compteDto){
-        CompteDto compteDto1 = compteService.addCompte(compteDto);
-        return ResponseEntity.created(URI.create("/comptes/"+compteDto1.getId())).body(compteDto1);
+        return ResponseEntity.ok( compteService.addCompte(compteDto));
     }
 
     @DeleteMapping("/delete/{id}")

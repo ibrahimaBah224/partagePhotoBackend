@@ -28,8 +28,8 @@ public class ClientController {
 
     @PostMapping("/add")
     public ResponseEntity<ClientDto> addClient(@Valid @RequestBody ClientDto clientDto){
-        ClientDto client = clientService.addClient(clientDto);
-        return ResponseEntity.created(URI.create("/clients/"+client.getId())).body(client);
+
+        return ResponseEntity.ok(clientService.addClient(clientDto));
     }
 
     @DeleteMapping("/delete/{id}")

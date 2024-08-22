@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
@@ -15,6 +18,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Client {
     @Transient
     private UserService userService;
@@ -22,7 +26,7 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_client")
-    private Long id;
+    private Long idClient;
     private String nom;
     private String prenom;
     private String telephone;
@@ -33,5 +37,11 @@ public class Client {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
+    @CreatedBy
+    @Column(name = "created_by",updatable = false)
+    private int createdBy;
 
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    private int updatedBy;
 }

@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 public class ClientDto {
-    private Long id;
+    private Long idClient;
     private String nom;
     private String prenom;
     private String telephone;

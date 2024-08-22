@@ -3,7 +3,6 @@ package SPA.dev.Stock.service;
 
 import SPA.dev.Stock.dto.ApprovisionnementDto;
 
-import SPA.dev.Stock.dto.FournisseurDto;
 import SPA.dev.Stock.dto.TransfertDto;
 import SPA.dev.Stock.enumeration.StatusTransfertEnum;
 import SPA.dev.Stock.mapper.*;
@@ -129,4 +128,7 @@ public class ApprovisionnementService {
         return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
     }
 
+    public int getStockDisponible(int produitId) {
+        return 0;
+    }
 }
