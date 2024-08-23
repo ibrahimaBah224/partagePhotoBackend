@@ -15,13 +15,12 @@ import java.util.Optional;
 
 @Repository
 public interface VenteRepository extends JpaRepository<Vente, Long> {
-    List<Vente> findByProduitIdProduit(int produitId);
 
     List<Vente> findByCreatedBy(Integer userId);
 
     Optional<Vente> findByIdAndCreatedBy(Long id, int currentUserId);
 
-    List<Vente> findByProduitIdProduitAndCreatedBy(int id, int currentUserId);
+
 
     List<Vente> findByStatus(EnumVente status);
 

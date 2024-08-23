@@ -28,11 +28,11 @@ public class VenteController {
         return ResponseEntity.ok(venteService.getVente(id));
     }
 
-    @GetMapping("/{produitId}")
+   /* @GetMapping("/{produitId}")
     public ResponseEntity<List<VenteDto>> getVentesByProduit(@PathVariable int produitId) {
         return ResponseEntity.ok(venteService.getVenteByProduit(produitId));
     }
-
+*/
     @PostMapping("/add")
     public ResponseEntity<VenteDto> addVente(@Valid @RequestBody VenteDto venteDto){
         return ResponseEntity.ok( venteService.addVente(venteDto));

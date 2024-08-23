@@ -1,9 +1,11 @@
 package SPA.dev.Stock.dto;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProduitDto  extends AbstractEntitieDto{
 
     private int idProduit;

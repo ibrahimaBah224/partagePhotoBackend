@@ -25,8 +25,8 @@ public class Vente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "idProduit", nullable = false)
-    private Produit produit;
+    @JoinColumn(name = "idApprovisionnement", nullable = false)
+    private Approvisionnement approvisionnement;
     @ManyToOne
     private VenteInit venteInit;
     private int quantite;

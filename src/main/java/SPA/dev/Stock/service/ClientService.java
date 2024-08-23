@@ -26,7 +26,6 @@ public class ClientService {
         Client client = clientRepository.findById(id)
                 .orElseThrow(()-> new AppException("Client not found", HttpStatus.NOT_FOUND));
         return clientMapper.toClientDto(client);
-
     }
 
     public ClientDto addClient(ClientDto clientDto){
