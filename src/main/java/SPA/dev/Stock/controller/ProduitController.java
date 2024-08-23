@@ -4,7 +4,9 @@ import SPA.dev.Stock.service.ProduitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +17,13 @@ public class ProduitController {
     private final ProduitService produitService;
 
     @PostMapping("/add")
-    public ResponseEntity<ProduitDto> ajouter(@RequestBody ProduitDto produitDto) {
-        return ResponseEntity.ok(produitService.ajouter(produitDto));
+    public ResponseEntity<ProduitDto> ajouter(
+            @ModelAttribute ProduitDto produitDto,
+            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+        return ResponseEntity.ok(produitService.ajouter(produitDto, file));
     }
+
+
 
     @GetMapping("/list")
     public ResponseEntity<List<ProduitDto>> liste() {

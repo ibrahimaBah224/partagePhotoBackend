@@ -1,13 +1,15 @@
 package SPA.dev.Stock.modele;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Produit extends AbstractEntitie{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -28,12 +28,9 @@ public class UserService {
 
     public int getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-
         // Check if the authentication object is present and valid
         if (authentication == null || !(authentication.getPrincipal() instanceof UserDetails)) {
             throw new AccessDeniedException("User is not authenticated.");
-
         }
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();

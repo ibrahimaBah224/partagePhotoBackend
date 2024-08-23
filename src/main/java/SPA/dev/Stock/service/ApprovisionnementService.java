@@ -3,6 +3,7 @@ package SPA.dev.Stock.service;
 
 import SPA.dev.Stock.dto.ApprovisionnementDto;
 
+import SPA.dev.Stock.dto.ProduitDto;
 import SPA.dev.Stock.dto.TransfertDto;
 import SPA.dev.Stock.enumeration.StatusTransfertEnum;
 import SPA.dev.Stock.mapper.*;
@@ -37,6 +38,8 @@ public class ApprovisionnementService {
     private final TransfertMapper transfertMapper;
     private final ProduitService produitService;
     private final ProduitMapper produitMapper;
+    private  final SousCategorieService sousCategorieService;
+    private final SousCategorieMapper sousCategorieMapper;
 
 
     private final MagasinService magasinService;
@@ -53,7 +56,9 @@ public class ApprovisionnementService {
             transfertDto.setIdMagasin(magasin.getId());
             transfertDto.setIdProduit(approvisionnementDto.getIdProduit());
             transfertDto.setStatus(StatusTransfertEnum.terminer);
-            Produit produit = produitMapper.toEntity(produitService.getProduit(approvisionnementDto.getIdProduit()).orElseThrow(()->new RuntimeException("produit introuvable")));
+            ProduitDto produitDto = produitService.getProduit(approvisionnementDto.getIdProduit()).orElseThrow(()->new RuntimeException("produit introuvable"));
+            SousCategorie sousCategorie=sousCategorieMapper.toEntity(sousCategorieService.getSousCategorie(produitDto.getId_sousCategorie()).orElseThrow(()->new RuntimeException("sous categorie introuvable"))) ;
+            Produit produit = produitMapper.toEntity(produitDto,sousCategorie);
             transfertMapper.toEntity(transfertService.ajouter(transfertDto),produit,magasin);
             Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto,produit,entrepot,f);
             return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
@@ -66,7 +71,10 @@ public class ApprovisionnementService {
                     //on verrifie si le prpduit qu'on  veux approvisionner est bien celui qui a ete initier dans transfert
                     if (trans.getIdProduit()==approvisionnementDto.getIdProduit()){
                         approvisionnementDto.setCreatedBy(user.getId());
-                        Produit produit = produitMapper.toEntity(produitService.getProduit(trans.getIdProduit()).orElseThrow(()->new RuntimeException("produit introuvable")));
+                        ProduitDto produitDto = produitService.getProduit(trans.getIdProduit()).orElseThrow(()->new RuntimeException("produit introuvable"));
+                        SousCategorie sousCategorie=sousCategorieMapper.toEntity(sousCategorieService.getSousCategorie(produitDto.getId_sousCategorie()).orElseThrow(()->new RuntimeException("sous categorie introuvable"))) ;
+
+                        Produit produit = produitMapper.toEntity(produitService.getProduit(trans.getIdProduit()).orElseThrow(()->new RuntimeException("produit introuvable")),sousCategorie);
                         Transfert transfert1 = transfertMapper.toEntity(trans,produit,magasin);
                         Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto,transfert1.getProduit(),entrepot,f);
                         trans.setStatus(StatusTransfertEnum.terminer);
@@ -100,7 +108,9 @@ public class ApprovisionnementService {
     }
 
     public List<ApprovisionnementDto> getApprovisionnementByProduit(int idProduit) {
-        Produit produit =produitMapper.toEntity(produitService.getProduit(idProduit).orElseThrow(()->new RuntimeException("produit introuvable")));
+        ProduitDto produitDto = produitService.getProduit(idProduit).orElseThrow(()->new RuntimeException("produit introuvable"));
+        SousCategorie sousCategorie=sousCategorieMapper.toEntity(sousCategorieService.getSousCategorie(produitDto.getId_sousCategorie()).orElseThrow(()->new RuntimeException("sous categorie introuvable"))) ;
+        Produit produit =produitMapper.toEntity(produitDto,sousCategorie);
         return  approvisionnementRepository.findApprovisionnementByProduit(produit);
     }
 
@@ -120,7 +130,9 @@ public class ApprovisionnementService {
         getApprovisionnement(id);
         Fournisseur fournisseur =fournisseurMapper.toEntity(fournisseurService.getFournisseur(approvisionnementDto.getIdFournisseur()).orElseThrow(()->new RuntimeException("fourniseur introuvable")));
         Entrepot entrepot =entrepotMapper.toEntity(entrepotService.getEntrepot(approvisionnementDto.getIdEntrepot()).orElseThrow(()->new RuntimeException("entrepot introuvable")));
-        Produit produit = produitMapper.toEntity(produitService.getProduit(approvisionnementDto.getIdProduit()).orElseThrow(()->new RuntimeException("produit introuvable")));
+        ProduitDto produitDto = produitService.getProduit(approvisionnementDto.getIdProduit()).orElseThrow(()->new RuntimeException("produit introuvable"));
+        SousCategorie sousCategorie=sousCategorieMapper.toEntity(sousCategorieService.getSousCategorie(produitDto.getId_sousCategorie()).orElseThrow(()->new RuntimeException("sous categorie introuvable"))) ;
+        Produit produit = produitMapper.toEntity(produitDto,sousCategorie);
         approvisionnementDto.setUpdatedBy(userService.getCurrentUserId());
 
         Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto,produit,entrepot,fournisseur);
