@@ -43,17 +43,17 @@ public class VenteService {
         return venteMapper.toVenteDto(vente);
     }
 
-   /* public List<VenteDto> getVenteByProduit(int produitId) {
-        Produit produit = approvisionnementService.
-        List<Vente> ventes = venteRepository.findByProduitIdProduitAndCreatedBy(produitId, userService.getCurrentUserId());
+   /*public List<VenteDto> getVenteByProduit(int produitId) {
+        Produit produit = approvisionnementService.getApprovisionnementByProduit(produitId);
+        List<Vente> ventes = venteRepository.(produitId, userService.getCurrentUserId());
         if (ventes.isEmpty()) {
             throw new AppException("Pas de vente liée à ce produit", HttpStatus.NOT_FOUND);
         }
         return ventes.stream()
                 .map(venteMapper::toVenteDto)
                 .collect(Collectors.toList());
-    }
-*/
+    }*/
+
     public VenteDto addVente(VenteDto venteDto) {
         Approvisionnement approvisionnement = approvisionnementRepository.findById(venteDto.getIdApprovisionnement())
                 .orElseThrow(() -> new AppException("Produit not found", HttpStatus.NOT_FOUND));

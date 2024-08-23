@@ -1,6 +1,7 @@
 package SPA.dev.Stock.mapper;
 
 import SPA.dev.Stock.dto.CaisseDto;
+import SPA.dev.Stock.dto.PerteDto;
 import SPA.dev.Stock.dto.VenteDto;
 import SPA.dev.Stock.dto.VenteInitDto;
 import SPA.dev.Stock.modele.*;
@@ -78,5 +79,27 @@ public class Mapper {
     }
     public List<CaisseDto> toCaisseDtoList(List<Caisse> caisse) {
         return caisse.stream().map(this::toCaisseDto).collect(toList());
+    }
+
+    public Perte toPerteEntity(PerteDto perteDto, Approvisionnement approvisionnement){
+        return Perte.builder()
+                .id(perteDto.getId())
+                .approvisionnement(approvisionnement)
+                .quantitePerdu(perteDto.getQuantitePerdu())
+                .prixUnitaire(perteDto.getPrixUnitaire())
+                .build();
+    }
+
+    public PerteDto toPerteDto(Perte perte){
+        return PerteDto.builder()
+                .id(perte.getId())
+                .idApprovisionnement(perte.getApprovisionnement().getIdApprovisionnement())
+                .quantitePerdu(perte.getQuantitePerdu())
+                .prixUnitaire(perte.getPrixUnitaire())
+                .createdAt(perte.getCreatedAt())
+                .updatedAt(perte.getUpdatedAt())
+                .createdBy(perte.getCreatedBy())
+                .updatedBy(perte.getUpdatedBy())
+                .build();
     }
 }

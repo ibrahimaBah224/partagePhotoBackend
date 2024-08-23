@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,4 +22,8 @@ public class CaisseDto {
     private EnumOperation typeOperation;
     private int montant;
     private String motif;
+    private Date createdAt;
+    private Date updatedAt;
+    private int createdBy;
+    private int updatedBy;
 }
