@@ -14,4 +14,5 @@ public class TransfertDto  extends AbstractEntitieDto{
     private int idProduit;
     private int idMagasin;
     private StatusTransfertEnum status;
+    private int quantité;
 }

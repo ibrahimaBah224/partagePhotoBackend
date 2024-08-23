@@ -7,7 +7,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
@@ -18,15 +17,13 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-public class Perte {
+public class Recyclage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    private Approvisionnement approvisionnement;
+    @OneToOne
+    private Perte perte;
     private float quantitePerdu;
-    private float prixUnitaire;
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
@@ -40,6 +37,6 @@ public class Perte {
     @LastModifiedBy
     @Column(name = "updated_by")
     private int updatedBy;
-    private int status;
 
+    private int status;
 }

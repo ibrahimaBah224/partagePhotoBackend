@@ -1,9 +1,6 @@
 package SPA.dev.Stock.mapper;
 
-import SPA.dev.Stock.dto.CaisseDto;
-import SPA.dev.Stock.dto.PerteDto;
-import SPA.dev.Stock.dto.VenteDto;
-import SPA.dev.Stock.dto.VenteInitDto;
+import SPA.dev.Stock.dto.*;
 import SPA.dev.Stock.modele.*;
 import org.springframework.stereotype.Component;
 
@@ -100,6 +97,28 @@ public class Mapper {
                 .updatedAt(perte.getUpdatedAt())
                 .createdBy(perte.getCreatedBy())
                 .updatedBy(perte.getUpdatedBy())
+                .build();
+    }
+
+    public RecyclageDto toRecyclageDto(Recyclage recyclage){
+        return RecyclageDto.builder()
+                .id(recyclage.getId())
+                .idPerte(recyclage.getPerte().getId())
+                .quantitePerdu(recyclage.getQuantitePerdu())
+                .createdAt(recyclage.getCreatedAt())
+                .createdBy(recyclage.getCreatedBy())
+                .updatedAt(recyclage.getUpdatedAt())
+                .updatedBy(recyclage.getUpdatedBy())
+                .status(recyclage.getStatus())
+                .build();
+
+    }
+
+    public Recyclage toRecyclageEntity(RecyclageDto recyclageDto, Perte perte){
+        return Recyclage.builder()
+                .id(recyclageDto.getId())
+                .perte(perte)
+                .quantitePerdu(recyclageDto.getQuantitePerdu())
                 .build();
     }
 }

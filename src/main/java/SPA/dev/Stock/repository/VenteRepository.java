@@ -15,7 +15,13 @@ import java.util.Optional;
 
 @Repository
 public interface VenteRepository extends JpaRepository<Vente, Long> {
-
+    @Query("SELECT SUM(v.quantite)" +
+            " FROM Vente v JOIN v.approvisionnement a" +
+            " WHERE a.produit.idProduit = :idProduit AND v.status = :status AND v.createdBy = :createdBy")
+    Integer findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
+            @Param("idProduit") int idProduit,
+            @Param("status") EnumVente status,
+            @Param("createdBy") int createdBy);
     List<Vente> findByCreatedBy(Integer userId);
 
     Optional<Vente> findByIdAndCreatedBy(Long id, int currentUserId);

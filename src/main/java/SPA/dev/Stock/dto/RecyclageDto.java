@@ -1,10 +1,11 @@
 package SPA.dev.Stock.dto;
 
-import SPA.dev.Stock.modele.Approvisionnement;
-import jakarta.persistence.ManyToOne;
+import SPA.dev.Stock.modele.Perte;
+import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.util.Date;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,12 +13,10 @@ import java.util.Date;
 @Data
 @Getter
 @Setter
-public class PerteDto {
+public class RecyclageDto {
     private Long id;
-    private int idApprovisionnement;
+    private Long idPerte;
     private float quantitePerdu;
-    private float prixUnitaire;
-
     private Date createdAt;
     private Date updatedAt;
     private int createdBy;
