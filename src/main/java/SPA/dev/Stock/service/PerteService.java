@@ -22,20 +22,20 @@ public class PerteService {
     private final Mapper perteMapper; // Injection de Mapper
     private final UserService userService;
 
-    private List<PerteDto> getAll() {
+    public List<PerteDto> getAll() {
         return perteRepository.findAllByCreatedBy(userService.getCurrentUserId())
                 .stream()
                 .map(perteMapper::toPerteDto)
                 .collect(Collectors.toList());
     }
 
-    private PerteDto getPerte(Long id) {
+    public PerteDto getPerte(Long id) {
         Perte perte = perteRepository.findById(id)
                 .orElseThrow(()-> new AppException("pas de perte avec ce parametre", HttpStatus.NOT_FOUND));
         return perteMapper.toPerteDto(perte);
     }
 
-    private PerteDto addPerte(PerteDto perteDto){
+    public PerteDto addPerte(PerteDto perteDto){
         Approvisionnement approvisionnement = approvisionnementRepository.findById(perteDto.getIdApprovisionnement())
                 .orElseThrow(()-> new AppException("approvisionnement non disponible", HttpStatus.NOT_FOUND));
         Perte perte = perteMapper.toPerteEntity(perteDto,  approvisionnement);
@@ -43,7 +43,7 @@ public class PerteService {
         return perteMapper.toPerteDto(newPerte);
     }
 
-    private PerteDto removePerte(Long id){
+    public PerteDto removePerte(Long id){
         Perte perte= perteRepository.findById(id)
                 .orElseThrow(()->new AppException("cette perte n'est pas disponible", HttpStatus.NOT_FOUND));
         perteRepository.deleteById(id);
