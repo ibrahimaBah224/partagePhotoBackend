@@ -44,7 +44,7 @@ public class PerteService {
     }
 
     public PerteDto removePerte(Long id){
-        Perte perte= perteRepository.findById(id)
+        Perte perte=  perteRepository.findById(id)
                 .orElseThrow(()->new AppException("cette perte n'est pas disponible", HttpStatus.NOT_FOUND));
         perteRepository.deleteById(id);
         return  perteMapper.toPerteDto(perte);

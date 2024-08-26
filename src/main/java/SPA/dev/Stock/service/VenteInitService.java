@@ -7,11 +7,13 @@ import SPA.dev.Stock.modele.Client;
 import SPA.dev.Stock.modele.VenteInit;
 import SPA.dev.Stock.repository.ClientRepository;
 import SPA.dev.Stock.repository.VenteInitRepository;
+import SPA.dev.Stock.repository.VenteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,6 +26,7 @@ public class VenteInitService {
 
     private final Mapper venteInitMapper; // Injection de Mapper
     private final UserService userService;
+    private final VenteRepository venteRepository;
 
     public List<VenteInitDto> getAll() {
         int currentUserId = userService.getCurrentUserId();
@@ -43,9 +46,15 @@ public class VenteInitService {
 
 
     public VenteInitDto addVenteInit(VenteInitDto venteInitDto) {
-        int currentUserId = userService.getCurrentUserId();
         Client client = clientRepository.findById(venteInitDto.getIdClient())
                 .orElseThrow(() -> new AppException("Client not found", HttpStatus.NOT_FOUND));
+
+        Optional<VenteInit> existingVenteInit = venteInitRepository.findByClientAndStatus(client, "BROUILLON");
+
+        if (existingVenteInit.isPresent()) {
+            throw new AppException("Le client a déjà une vente initialisée avec le statut brouillon.", HttpStatus.CONFLICT);
+        }
+        int currentUserId = userService.getCurrentUserId();
 
         VenteInit venteInit = venteInitMapper.toEntity(venteInitDto, client);
         venteInit.setReference(UUID.randomUUID().toString());
