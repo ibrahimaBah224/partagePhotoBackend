@@ -15,6 +15,6 @@ public class ProduitDto  extends AbstractEntitieDto{
     private int seuil;
     private String description;
     private String image;
-    private int id_sousCategorie;
+    private String sousCategorie;
 
 }

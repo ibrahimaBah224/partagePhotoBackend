@@ -8,15 +8,20 @@ import SPA.dev.Stock.repository.ProduitRepository;
 import SPA.dev.Stock.repository.SousCategorieRepository;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.lang.Integer.parseInt;
+
 @Component
 @RequiredArgsConstructor
 public class ProduitMapper {
     private final SousCategorieRepository sousCategorieRepository;
+    @Value("${file.upload-dir}")
+    private String uploadDir;
    public ProduitDto toDto(Produit produit){
        return ProduitDto.builder()
                .idProduit(produit.getIdProduit())
@@ -24,7 +29,7 @@ public class ProduitMapper {
                .seuil(produit.getSeuil())
                .description(produit.getDescription())
                .designation(produit.getDesignation())
-               .id_sousCategorie(produit.getSousCategorie().getIdSousCategorie())
+               .sousCategorie(produit.getSousCategorie().getLibelle())
                .reference(produit.getReference())
                .build();
    }
@@ -36,14 +41,19 @@ public class ProduitMapper {
                .description(produitDto.getDescription())
                .designation(produitDto.getDesignation())
                .sousCategorie(sousCategorieRepository
-                       .findById(produitDto.getId_sousCategorie())
+                       .findById(parseInt(produitDto.getSousCategorie()))
                        .orElseThrow(()->new RuntimeException("sous categorie introuvable")))
                .reference(produitDto.getReference())
                .build();
    }
  public    List<ProduitDto> toDtoList(List<Produit> produits){
-       return produits.stream()
-               .map(this::toDto)
-               .collect(Collectors.toList());
+     return produits.stream()
+             .map(produit -> {
+                 // Personnalisation des données : concaténation de designation et reference
+                 ProduitDto produitDto = toDto(produit);
+                     produitDto.setImage(STR."\{uploadDir}/\{produit.getImage()}");
+                 return produitDto;
+             })
+             .collect(Collectors.toList());
  }
 }

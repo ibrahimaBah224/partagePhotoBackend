@@ -123,6 +123,7 @@ public class UserService {
         Magasin magasin = magasinRepository.findById(user.getMagasin().getId())
                 .orElseThrow(()->new RuntimeException("magasin for user not found"));
         magasin.setUser(null);
+        magasinRepository.save(magasin);
         userRepository.delete(user);
     }
 }

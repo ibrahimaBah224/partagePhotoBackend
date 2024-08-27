@@ -39,4 +39,7 @@ public class AbstractEntitie implements Serializable {
     @Column(name = "updated_by")
     private int updatedBy;
 
+    @Column(columnDefinition = "integer default 1", nullable = false)
+    private int statut = 1;
+
 }
