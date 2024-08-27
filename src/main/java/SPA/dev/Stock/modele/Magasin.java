@@ -26,8 +26,7 @@ public class Magasin {
     private String reference;
 
     @OneToOne
-    @JoinColumn(name = "admin_id")
-
+    @JoinColumn(name = "admin_id",nullable = true)
     private User user;
 
     @CreationTimestamp

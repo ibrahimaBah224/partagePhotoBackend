@@ -15,6 +15,7 @@ import SPA.dev.Stock.modele.Produit;
 
 import SPA.dev.Stock.repository.ApprovisionnementRepository;
 import SPA.dev.Stock.repository.MagasinRepository;
+import SPA.dev.Stock.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,13 +41,14 @@ public class ApprovisionnementService {
     private final ProduitMapper produitMapper;
     private  final SousCategorieService sousCategorieService;
     private final SousCategorieMapper sousCategorieMapper;
+    private final UserRepository userRepository;
 
 
     private final MagasinService magasinService;
     private final MagasinMapper magasinMapper;
     public ApprovisionnementDto ajouter(ApprovisionnementDto approvisionnementDto) {
 
-        User user =  userService.findById(userService.getCurrentUserId()).orElseThrow(()->new RuntimeException("utilisateur introuvable"));
+        User user =  userRepository.findById(userService.getCurrentUserId()).orElseThrow(()->new RuntimeException("utilisateur introuvable"));
         Magasin magasin =magasinRepository.findByUserId(user.getId());
         Entrepot entrepot =entrepotMapper.toEntity(entrepotService.getEntrepot(approvisionnementDto.getIdEntrepot()).orElseThrow(()->new RuntimeException("entrepot introuvable")));
         Fournisseur f = fournisseurMapper.toEntity(fournisseurService.getFournisseur(approvisionnementDto.getIdFournisseur()).orElseThrow(()->new RuntimeException("fournisseur introuvable")));

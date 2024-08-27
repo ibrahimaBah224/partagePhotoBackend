@@ -2,6 +2,7 @@ package SPA.dev.Stock.service;
 
 
 import SPA.dev.Stock.dto.MagasinDto;
+import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.exception.MagasinNotFoundException;
 import SPA.dev.Stock.exception.UserNotFoundException;
 import SPA.dev.Stock.mapper.MagasinMapper;
@@ -10,17 +11,25 @@ import SPA.dev.Stock.modele.User;
 import SPA.dev.Stock.repository.MagasinRepository;
 
 
+import SPA.dev.Stock.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class MagasinService {
     private final MagasinRepository magasinRepository;
     private final UserService userService;
     private final MagasinMapper magasinMapper;
+    private final UserRepository userRepository;
+
+    public MagasinService(MagasinRepository magasinRepository, UserService userService, MagasinMapper magasinMapper, UserRepository userRepository) {
+        this.magasinRepository = magasinRepository;
+        this.userService = userService;
+        this.magasinMapper = magasinMapper;
+        this.userRepository = userRepository;
+    }
 
 
     public MagasinDto getMagasinsForCurrentUser() {
@@ -28,25 +37,31 @@ public class MagasinService {
         Magasin magasins = magasinRepository.findByUserId(currentUserId);
         return magasinMapper.magasinToMagasinDTO(magasins);
     }
-
+    public List<MagasinDto> list(){
+        List<Magasin> magasins = magasinRepository.findAllByIdOrCreatedBy(userService.getCurrentUserId(),userService.getCurrentUserId());
+        return magasinMapper.magasinsToMagasinDTOs(magasins);
+    }
     public MagasinDto createMagasin(MagasinDto magasinDTO) {
-        int currentUserId = userService.getCurrentUserId();
-        boolean hasNoMagasin = !magasinRepository.existsByCreatedBy(currentUserId);
-        if (!hasNoMagasin) {
-            throw  new RuntimeException("cet utilisateur a déjà un magasin");
+        User user = userRepository.findById(userService.getCurrentUserId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (!RoleEnumeration.SUPER_ADMIN.name().equalsIgnoreCase(String.valueOf(user.getRole()))) {
+            throw new RuntimeException("Vous n'êtes pas autorisé");
         }
-        User user = userService.findById(currentUserId)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + currentUserId));
         Magasin magasin = magasinMapper.magasinDTOToMagasin(magasinDTO);
-        magasin.setUser(user);
         Magasin savedMagasin = magasinRepository.save(magasin);
         return magasinMapper.magasinToMagasinDTO(savedMagasin);
     }
+
 
     public MagasinDto getMagasinById(int id) {
         int currentUserId = userService.getCurrentUserId();
         Magasin magasin = magasinRepository.findByIdAndUserId(id, currentUserId)
                 .orElseThrow(() -> new MagasinNotFoundException("Magasin not found or access denied"));
+        return magasinMapper.magasinToMagasinDTO(magasin);
+    }
+    public MagasinDto getMagasin(int id){
+        Magasin magasin = magasinRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("magasin not found"));
         return magasinMapper.magasinToMagasinDTO(magasin);
     }
 

@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/magasin")
 @AllArgsConstructor
@@ -17,8 +19,8 @@ public class MagasinController {
         return magasinService.createMagasin(magasinDto);
     }
      @GetMapping("/list")
-     public MagasinDto getMagasins(){
-        return magasinService.getMagasinsForCurrentUser();
+     public List<MagasinDto> getMagasins(){
+        return magasinService.list();
     }
     @GetMapping("/getOne/{id}")
     public MagasinDto getMagasinById(@PathVariable int id){
