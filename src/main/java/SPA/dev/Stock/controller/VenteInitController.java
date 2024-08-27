@@ -25,6 +25,11 @@ public class VenteInitController {
         return ResponseEntity.ok(venteInitService.getVenteInit(id));
     }
 
+    @GetMapping("/getLastInitVente")
+    public ResponseEntity<VenteInitDto> getVenteInit(){
+        return ResponseEntity.ok(venteInitService.getLastInitVente());
+    }
+
     @PostMapping("/add")
     public ResponseEntity<VenteInitDto> addVenteInit(@Valid @RequestBody VenteInitDto venteInitDto){
         return ResponseEntity.ok( venteInitService.addVenteInit(venteInitDto));

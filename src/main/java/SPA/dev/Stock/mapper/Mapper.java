@@ -16,8 +16,13 @@ public class Mapper {
                 .reference(venteInit.getReference())
                 .idClient(venteInit.getClient().getIdClient()) // Extraire uniquement l'ID du client
                 .status(venteInit.getStatus())
-                .etatCommande(venteInit.getEtatCommande())
                 .remise(venteInit.getRemise())
+                .payementMode(venteInit.getPayementMode())
+
+                .createdAt(venteInit.getCreatedAt())
+                .updatedAt(venteInit.getUpdatedAt())
+                .createdBy(venteInit.getCreatedBy())
+                .updatedBy(venteInit.getUpdatedBy())
                 .build();
     }
 
@@ -27,31 +32,34 @@ public class Mapper {
                 .reference(venteInitDto.getReference())
                 .client(client) // Associer l'entité Client
                 .status(venteInitDto.getStatus())
-                .etatCommande(venteInitDto.getEtatCommande())
                 .remise(venteInitDto.getRemise())
+                .payementMode(venteInitDto.getPayementMode())
                 .build();
     }
 
     public VenteDto toVenteDto(Vente vente) {
         return VenteDto.builder()
                 .id(vente.getId())
-                .idApprovisionnement(vente.getApprovisionnement().getIdApprovisionnement())  // Extraire l'ID du produit
+                .idProduit(vente.getProduit().getIdProduit())  // Extraire l'ID du produit
                 .venteInitId(vente.getVenteInit().getId()) // Extraire l'ID de VenteInit
                 .quantite(vente.getQuantite())
                 .prixVente(vente.getPrixVente())
-                .payementMode(vente.getPayementMode())
+                .createdAt(vente.getCreatedAt())
+                .createdBy(vente.getCreatedBy())
+                .updatedAt(vente.getUpdatedAt())
+                .updatedBy(vente.getUpdatedBy())
                 .build();
     }
 
     // Mapper VenteDto to Vente
-    public Vente toVenteEntity(VenteDto venteDto, Approvisionnement approvisionnement, VenteInit venteInit) {
+    public Vente toVenteEntity(VenteDto venteDto, Produit produit, VenteInit venteInit) {
         return Vente.builder()
                 .id(venteDto.getId())
-                .approvisionnement(approvisionnement) // Associer l'entité Produit
+                .produit(produit) // Associer l'entité Produit
                 .venteInit(venteInit) // Associer l'entité VenteInit
                 .quantite(venteDto.getQuantite())
                 .prixVente(venteDto.getPrixVente())
-                .payementMode(venteDto.getPayementMode())
+
                 .build();
     }
 
@@ -62,6 +70,11 @@ public class Mapper {
                 .typeOperation(caisse.getTypeOperation())
                 .montant(caisse.getMontant())
                 .motif(caisse.getMotif())
+                .createdAt(caisse.getCreatedAt())
+                .createdBy(caisse.getCreatedBy())
+                .updatedAt(caisse.getUpdatedAt())
+                .updatedBy(caisse.getUpdatedBy())
+                .status(caisse.getStatus())
                 .build();
     }
 
@@ -97,6 +110,7 @@ public class Mapper {
                 .updatedAt(perte.getUpdatedAt())
                 .createdBy(perte.getCreatedBy())
                 .updatedBy(perte.getUpdatedBy())
+                .status(perte.getStatus())
                 .build();
     }
 

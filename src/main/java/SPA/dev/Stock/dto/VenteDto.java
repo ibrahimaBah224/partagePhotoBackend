@@ -16,15 +16,14 @@ public class VenteDto {
     private Long id;
 
     @NotNull
-    private int idApprovisionnement;  // Remplacer Produit par produitId
+    private int idProduit;  // Remplacer Produit par produitId
 
     @NotNull
     private Long venteInitId;  // Remplacer VenteInit par venteInitId
-
+    @NotNull
     private int quantite;
+    @NotNull
     private double prixVente;
-
-    private EnumPayementMode payementMode;
 
     private Date createdAt;
     private Date updatedAt;

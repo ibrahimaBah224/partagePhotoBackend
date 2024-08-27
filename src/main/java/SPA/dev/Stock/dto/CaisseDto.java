@@ -26,4 +26,6 @@ public class CaisseDto {
     private Date updatedAt;
     private int createdBy;
     private int updatedBy;
+    private int status;
+
 }
