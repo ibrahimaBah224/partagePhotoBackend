@@ -16,6 +16,7 @@ public class UserMapper1 {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     public RegisterUserDto toDto(User user) {
         return RegisterUserDto.builder()
+                .id(user.getId())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .idMagasin(user.getMagasin().getId())

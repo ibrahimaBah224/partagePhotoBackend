@@ -11,6 +11,7 @@ import SPA.dev.Stock.modele.Magasin;
 import SPA.dev.Stock.modele.User;
 import SPA.dev.Stock.repository.MagasinRepository;
 import SPA.dev.Stock.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -112,12 +113,16 @@ public class UserService {
         throw new RuntimeException("User already exists with this telephone number.");
     }
 
+    @Transactional
     public void deleteUser(int id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id " + id));
         int currentUserId = getCurrentUserId();
         if (user.getCreatedBy() != currentUserId) {
             throw new AccessDeniedException("You do not have permission to delete this user.");
         }
+        Magasin magasin = magasinRepository.findById(user.getMagasin().getId())
+                .orElseThrow(()->new RuntimeException("magasin for user not found"));
+        magasin.setUser(null);
         userRepository.delete(user);
     }
 }

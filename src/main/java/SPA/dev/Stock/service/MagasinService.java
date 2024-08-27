@@ -77,10 +77,19 @@ public class MagasinService {
     }
 
     public void deleteMagasin(int id) {
-        int currentUserId = userService.getCurrentUserId();
+       /* int currentUserId = userService.getCurrentUserId();
         Magasin magasin = magasinRepository.findByIdAndUserId(id, currentUserId)
                 .orElseThrow(() -> new MagasinNotFoundException("Magasin not found or access denied"));
-        magasinRepository.delete(magasin);
+        magasinRepository.delete(magasin);*/
 
+        Magasin magasin = magasinRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("magasin not found"));
+        if(magasin.getCreatedBy() != userService.getCurrentUserId()){
+            throw new RuntimeException("access denied");
+        }
+        if (magasin.getUser()!= null){
+            throw new RuntimeException("ce magasin est déjà lié à un Gestionnaire");
+        }
+        magasinRepository.deleteById(id);
     }
 }

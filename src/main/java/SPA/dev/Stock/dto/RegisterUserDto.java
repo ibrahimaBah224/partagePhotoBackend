@@ -1,5 +1,8 @@
 package SPA.dev.Stock.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.Null;
 import lombok.*;
 
 @Data
@@ -7,6 +10,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterUserDto {
+
+    @Null
+    private int id;
 
     private String fullName;
 
