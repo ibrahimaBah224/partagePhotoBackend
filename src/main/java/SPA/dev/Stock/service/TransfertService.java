@@ -4,15 +4,13 @@ package SPA.dev.Stock.service;
 import SPA.dev.Stock.dto.MagasinDto;
 import SPA.dev.Stock.dto.ProduitDto;
 import SPA.dev.Stock.dto.TransfertDto;
+import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.enumeration.StatusTransfertEnum;
 import SPA.dev.Stock.mapper.MagasinMapper;
 import SPA.dev.Stock.mapper.ProduitMapper;
 import SPA.dev.Stock.mapper.SousCategorieMapper;
 import SPA.dev.Stock.mapper.TransfertMapper;
-import SPA.dev.Stock.modele.Magasin;
-import SPA.dev.Stock.modele.Produit;
-import SPA.dev.Stock.modele.SousCategorie;
-import SPA.dev.Stock.modele.Transfert;
+import SPA.dev.Stock.modele.*;
 import SPA.dev.Stock.repository.TransfertRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,34 +23,27 @@ import java.util.Optional;
 public class TransfertService {
     private final TransfertRepository transfertRepository;
     private final ProduitService produitService;
-    private final ProduitMapper produitMapper;
     private final MagasinService magasinService;
     private final MagasinMapper magasinMapper;
     private final TransfertMapper transfertMapper;
     private final UserService userService;
-    private final SousCategorieService sousCategorieService;
-    private final SousCategorieMapper sousCategorieMapper;
-    public TransfertDto ajouter(TransfertDto transfertDto) {
-        MagasinDto magasinDto =  magasinService.getMagasinById(transfertDto.getIdMagasin());
-        ProduitDto produitDto = produitService.getProduit(transfertDto.getIdProduit()).orElseThrow();
-        SousCategorie sousCategorie=sousCategorieMapper.toEntity(sousCategorieService.getSousCategorie(produitDto.getId_sousCategorie()).orElseThrow(()->new RuntimeException("sous categorie introuvable"))) ;
-        Magasin magasin = magasinMapper.magasinDTOToMagasin(magasinDto);
-        Produit produit = produitMapper.toEntity(produitDto,sousCategorie);
 
-        transfertDto.setCreatedBy(userService.getCurrentUserId());
-        Transfert transfert = transfertMapper.toEntity(transfertDto,produit,magasin);
+    public TransfertDto ajouter(TransfertDto transfertDto) {
+        Transfert transfert = transfertMapper.toEntity(transfertDto);
         transfert.setStatus(StatusTransfertEnum.en_cours);
         transfertRepository.save(transfert);
         return transfertMapper.toDto(transfert);
     }
 
     public List<TransfertDto> liste() {
+        Magasin magasin =magasinMapper.magasinDTOToMagasin(magasinService.getMagasinsForCurrentUser());
+        List<TransfertDto> list = transfertRepository.findTransfertsByMagasin(magasin);
 
-        return transfertMapper.toDtoList(transfertRepository.findAll());
+        return list;
     }
 
-    public List<TransfertDto> getTransfertByMagasin(int idMagasin) {
-        Magasin magasin =magasinMapper.magasinDTOToMagasin(magasinService.getMagasinById(idMagasin));
+    public List<TransfertDto> getTransfertByMagasin() {
+        Magasin magasin =magasinMapper.magasinDTOToMagasin(magasinService.getMagasinsForCurrentUser());
         return transfertMapper.toDtoList(transfertRepository.findTransfertsByMagasinAndStatus(magasin,StatusTransfertEnum.en_cours));
     }
 
@@ -70,12 +61,8 @@ public class TransfertService {
     public TransfertDto modifier(int id, TransfertDto transfertDto) {
 
         getTransfert(id);
-        Magasin magasin = magasinMapper.magasinDTOToMagasin(magasinService.getMagasinById(transfertDto.getIdMagasin()));
-        ProduitDto produitDto =  produitService.getProduit(transfertDto.getIdProduit()).orElseThrow(()-> new RuntimeException("produit non trouve"));
-        SousCategorie sousCategorie=sousCategorieMapper.toEntity(sousCategorieService.getSousCategorie(produitDto.getId_sousCategorie()).orElseThrow(()->new RuntimeException("sous categorie introuvable"))) ;
-        Produit produit = produitMapper.toEntity(produitDto,sousCategorie);
         transfertDto.setUpdatedBy(userService.getCurrentUserId());
-        Transfert transfert = transfertMapper.toEntity(transfertDto,produit,magasin);
+        Transfert transfert = transfertMapper.toEntity(transfertDto);
         transfert.setIdTransfert(id);
         return transfertMapper.toDto(transfertRepository.save(transfert));
     }

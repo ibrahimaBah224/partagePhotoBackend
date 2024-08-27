@@ -3,6 +3,10 @@ package SPA.dev.Stock.mapper;
 import SPA.dev.Stock.dto.ProduitDto;
 import SPA.dev.Stock.modele.Produit;
 import SPA.dev.Stock.modele.SousCategorie;
+import SPA.dev.Stock.repository.CategorieRepository;
+import SPA.dev.Stock.repository.ProduitRepository;
+import SPA.dev.Stock.repository.SousCategorieRepository;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +14,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class ProduitMapper {
+    private final SousCategorieRepository sousCategorieRepository;
    public ProduitDto toDto(Produit produit){
        return ProduitDto.builder()
                .idProduit(produit.getIdProduit())
@@ -22,14 +28,16 @@ public class ProduitMapper {
                .reference(produit.getReference())
                .build();
    }
-   public Produit toEntity(ProduitDto produitDto, SousCategorie sousCategorie){
+   public Produit toEntity(ProduitDto produitDto){
        return Produit.builder()
                .idProduit(produitDto.getIdProduit())
                .image(produitDto.getImage())
                .seuil(produitDto.getSeuil())
                .description(produitDto.getDescription())
                .designation(produitDto.getDesignation())
-               .sousCategorie(sousCategorie)
+               .sousCategorie(sousCategorieRepository
+                       .findById(produitDto.getId_sousCategorie())
+                       .orElseThrow(()->new RuntimeException("sous categorie introuvable")))
                .reference(produitDto.getReference())
                .build();
    }

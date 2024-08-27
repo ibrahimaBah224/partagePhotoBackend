@@ -1,11 +1,12 @@
 package SPA.dev.Stock.dto;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class SousCategorieDto  extends AbstractEntitieDto{
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class SousCategorieDto  {
 
     private int idSousCategorie;
     private String libelle;

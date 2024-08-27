@@ -1,9 +1,12 @@
-package SPA.dev.Stock.service;
-
+package SPA.dev.Stock.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -13,14 +16,17 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-public class FileUploadService {
+@RestController
+@RequestMapping("/photo")
+public class FileUploadController {
 
     @Value("${file.upload-dir}")
     private String uploadDir;
 
     private final List<String> allowedExtensions = Arrays.asList("jpg", "jpeg", "png", "pdf", "docx");
 
-    public ResponseEntity<String> uploadFile(MultipartFile file) {
+    @PostMapping("api/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
             String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1).toLowerCase();
@@ -38,3 +44,4 @@ public class FileUploadService {
         }
     }
 }
+

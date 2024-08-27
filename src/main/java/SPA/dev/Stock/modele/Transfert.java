@@ -24,6 +24,7 @@ public class Transfert extends AbstractEntitie{
     @JoinColumn(name = "idMagasin", nullable = false)
     private Magasin magasin;
 
+    private int quantite;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

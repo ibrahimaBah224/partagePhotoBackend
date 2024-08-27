@@ -30,11 +30,11 @@ public class ApprovisionnementController {
         return ResponseEntity.ok(approvisionnementService.getApprovisionnement(id));
     }
 
-    @PutMapping("update/{id}")
+  /*  @PutMapping("update/{id}")
     public ResponseEntity<ApprovisionnementDto> modifier(@PathVariable int id, @RequestBody ApprovisionnementDto approvisionnementDTO) {
         return ResponseEntity.ok(approvisionnementService.modifier(id, approvisionnementDTO));
     }
-
+*/
     @DeleteMapping("delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) {
         return ResponseEntity.ok(approvisionnementService.delete(id));

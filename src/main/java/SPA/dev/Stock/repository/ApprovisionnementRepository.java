@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface ApprovisionnementRepository extends JpaRepository<Approvisionnement,Integer> {
     List<Approvisionnement> findApprovisionnementByCreatedBy(int createdBy);
-    List<ApprovisionnementDto> findApprovisionnementByFournisseur(Fournisseur fournisseur);
-    List<ApprovisionnementDto> findApprovisionnementByEntrepot(Entrepot entrepot);
+    List<ApprovisionnementDto> findApprovisionnementByFournisseurAndCreatedBy(Fournisseur fournisseur,int id);
+    List<ApprovisionnementDto> findApprovisionnementByEntrepotAndCreatedBy(Entrepot entrepot,int createdBy);
     List<ApprovisionnementDto> findApprovisionnementByProduit(Produit produit);
 
 

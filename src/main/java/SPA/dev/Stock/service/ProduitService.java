@@ -1,18 +1,21 @@
 package SPA.dev.Stock.service;
 
-
 import SPA.dev.Stock.dto.ProduitDto;
-import SPA.dev.Stock.dto.SousCategorieDto;
+import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.mapper.ProduitMapper;
-import SPA.dev.Stock.mapper.SousCategorieMapper;
 import SPA.dev.Stock.modele.Produit;
-import SPA.dev.Stock.modele.SousCategorie;
+import SPA.dev.Stock.modele.User;
 import SPA.dev.Stock.repository.ProduitRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,59 +24,70 @@ import java.util.Optional;
 public class ProduitService {
 
     private final ProduitMapper produitMapper;
-    private final SousCategorieService sousCategorieService;
-    private final SousCategorieMapper sousCategorieMapper;
     private final ProduitRepository produitRepository;
     private final UserService userService;
-    private final  FileUploadService fileUploadService;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
+    // Ajouter un produit avec gestion de l'image
     public ProduitDto ajouter(ProduitDto produitDto, MultipartFile file) throws IOException {
         produitDto.setCreatedBy(userService.getCurrentUserId());
+        Produit produit = produitMapper.toEntity(produitDto);
 
-        SousCategorie sousCategorie = sousCategorieMapper.toEntity(
-                sousCategorieService.getSousCategorie(produitDto.getId_sousCategorie())
-                        .orElseThrow(() -> new RuntimeException("Souscategorie introuvable"))
-        );
-
-        // Vérification si un fichier est présent
+        // Gestion de l'image
         if (file != null && !file.isEmpty()) {
-            String photoFileName = fileUploadService.uploadFile(file);
-            produitDto.setImage(photoFileName); // Enregistrer uniquement le nom du fichier dans produitDto
-        } else {
-            produitDto.setImage(null); // Optionnel: Vous pouvez décider de laisser l'image inchangée si aucune n'est fournie
+            String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
+            String fileName = System.currentTimeMillis() + "_" + originalFileName;
+            Path filePath = Paths.get(uploadDir + "/" + fileName);
+            Files.copy(file.getInputStream(), filePath);
+            produit.setImage(fileName);  // Stocker uniquement le nom du fichier dans la base de données
         }
 
-        Produit produit = produitMapper.toEntity(produitDto, sousCategorie);
-        produit.setSousCategorie(sousCategorie);
         produitRepository.save(produit);
-
-        ProduitDto p = produitMapper.toDto(produit);
-        p.setId_sousCategorie(produitDto.getId_sousCategorie());
-        return p;
+        return produitMapper.toDto(produit);
     }
 
+    // Récupérer la liste des produits en fonction du rôle de l'utilisateur
     public List<ProduitDto> liste() {
-        return produitMapper.toDtoList(produitRepository.findAll());
+        int userId = userService.getCurrentUserId();
+        User user = userService.findById(userId).orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+        List<Produit> produits;
+        if (user.getRole() == RoleEnumeration.SUPER_ADMIN) {
+            produits = produitRepository.findAll();  // Super admin peut voir tous les produits
+        } else {
+            User admin = userService.getUsersByRole(RoleEnumeration.SUPER_ADMIN)
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Super admin introuvable"));
+            produits = produitRepository.findProduitsByCreatedBy(userId);
+            produits.addAll(produitRepository.findProduitsByCreatedBy(admin.getId()));
+        }
+
+        return produitMapper.toDtoList(produits);
     }
 
+    // Récupérer un produit par ID
     public Optional<ProduitDto> getProduit(int id) {
-        Produit produit = produitRepository.findById(id).orElseThrow(()->new RuntimeException("produit non trouver"));
+        Produit produit = produitRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produit non trouvé"));
         return Optional.of(produitMapper.toDto(produit));
     }
 
+    // Supprimer un produit par ID
     public String delete(int id) {
-        getProduit(id);
+        ProduitDto produitDto = getProduit(id).orElseThrow(() -> new RuntimeException("Produit non trouvé"));
         produitRepository.deleteById(id);
-        return "produit supprimer avec success";
+        return "Produit supprimé avec succès";
     }
 
+    // Modifier un produit
     public ProduitDto modifier(int id, ProduitDto produitDto) {
-        getProduit(id);
-        SousCategorie sousCategorie = sousCategorieMapper.toEntity(sousCategorieService.getSousCategorie(produitDto.getId_sousCategorie()).orElseThrow(()->new RuntimeException("sousCategorie introuvable")));
-        produitDto.setUpdatedBy(userService.getCurrentUserId());
-        Produit produit = produitMapper.toEntity(produitDto,sousCategorie);
-        sousCategorieService.getSousCategorie(produitDto.getId_sousCategorie());
+        ProduitDto existingProduitDto = getProduit(id).orElseThrow(() -> new RuntimeException("Produit non trouvé"));
+        Produit produit = produitMapper.toEntity(produitDto);
         produit.setIdProduit(id);
+        produit.setCreatedBy(existingProduitDto.getCreatedBy());  // Conserver le créateur d'origine
         return produitMapper.toDto(produitRepository.save(produit));
     }
-
 }

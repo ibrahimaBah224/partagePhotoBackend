@@ -53,6 +53,9 @@ public class UserService {
         return users;
     }
 
+    public List<User> getUsersByRole(RoleEnumeration role) {
+        return userRepository.findByRole(role);
+    }
     public User updateUser(int id, RegisterUserDto registerUserDto) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {

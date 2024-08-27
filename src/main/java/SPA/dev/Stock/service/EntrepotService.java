@@ -24,11 +24,13 @@ public class EntrepotService {
     }
 
     public List<EntrepotDto> liste() {
-        return entrepotMapper.toDtoList(entrepotRepository.findAll());
+        int userId= userService.getCurrentUserId();
+        return entrepotMapper.toDtoList(entrepotRepository.findEntrepotsByCreatedBy(userId));
     }
 
     public Optional<EntrepotDto> getEntrepot(int id) {
-        Entrepot entrepot = entrepotRepository.findById(id).orElseThrow(()-> new RuntimeException("entrepot introuvable"));
+        int userId = userService.getCurrentUserId();
+        Entrepot entrepot = entrepotRepository.findEntrepotByIdEntrepotAndCreatedBy(id, userId).orElseThrow(()-> new RuntimeException("entrepot introuvable"));
         return Optional.of(entrepotMapper.toDto(entrepot));
     }
 
@@ -40,7 +42,6 @@ public class EntrepotService {
 
     public EntrepotDto modifier(int id, EntrepotDto entrepotDto) {
         getEntrepot(id);
-        entrepotDto.setUpdatedBy(userService.getCurrentUserId());
         Entrepot entrepot = entrepotMapper.toEntity(entrepotDto);
         entrepot.setIdEntrepot(id);
         return entrepotMapper.toDto(entrepotRepository.save(entrepot));
