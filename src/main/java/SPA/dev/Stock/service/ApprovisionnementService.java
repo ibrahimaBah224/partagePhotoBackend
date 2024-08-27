@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -42,6 +43,7 @@ public class ApprovisionnementService {
     private final ProduitService produitService;
     private final ProduitMapper produitMapper;
     private final UserRepository userRepository;
+    private final MagasinService magasinService;
 
     @Transactional
     public ApprovisionnementDto ajouter(ApprovisionnementDto approvisionnementDto) {
@@ -62,15 +64,21 @@ public class ApprovisionnementService {
                 .orElseThrow(() -> new RuntimeException("Produit introuvable"));
           List<TransfertDto> l =  transfertService.getTransfertByMagasin();
 
+        User admin=userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN)
+                .stream()
+                .findFirst()
+                .orElseThrow(()->new RuntimeException("admin introuvable"));
+        if (user.getId()!= admin.getId()){
         // Vérification si l'approvisionnement est fait directement avec le fournisseur
-        if (l!=null) {
-
-            return traiterApprovisionnementAvecTransfert(approvisionnementDto);
-        } else {
-            Fournisseur fournisseur = fournisseurService.getFournisseur(approvisionnementDto.getIdFournisseur())
-                    .map(fournisseurMapper::toEntity)
-                    .orElseThrow(() -> new RuntimeException("Fournisseur introuvable"));
-            return traiterApprovisionnementAvecFournisseur(approvisionnementDto, magasin);
+            if (l!=null) {
+                return traiterApprovisionnementAvecTransfert(approvisionnementDto);
+            } else {
+                    throw new RuntimeException("aucun transfert n est initier pour vous avec ce produit");
+            }
+        }
+        else {
+            Magasin mag = magasinRepository.findByUserId(admin.getId());
+            return traiterApprovisionnementAvecFournisseur(approvisionnementDto,mag);
         }
     }
 

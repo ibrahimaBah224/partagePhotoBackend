@@ -34,9 +34,10 @@ public class ProduitService {
 
     // Ajouter un produit avec gestion de l'image
     public ProduitDto ajouter(ProduitDto produitDto, MultipartFile file) throws IOException {
-        produitDto.setCreatedBy(userService.getCurrentUserId());
+        User admin= userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN).stream()
+                .findFirst()
+                .orElseThrow(()->new RuntimeException("admin introuvable"));
         Produit produit = produitMapper.toEntity(produitDto);
-
         // Gestion de l'image
         if (file != null && !file.isEmpty()) {
             String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -45,29 +46,16 @@ public class ProduitService {
             Files.copy(file.getInputStream(), filePath);
             produit.setImage(fileName);  // Stocker uniquement le nom du fichier dans la base de données
         }
-
+        if (userService.getCurrentUserId()!=admin.getId()){
+            produit.setStatut(0);
+        }
         produitRepository.save(produit);
         return produitMapper.toDto(produit);
     }
 
     // Récupérer la liste des produits en fonction du rôle de l'utilisateur
     public List<ProduitDto> liste() {
-        int userId = userService.getCurrentUserId();
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
-
-        List<Produit> produits;
-        if (user.getRole() == RoleEnumeration.SUPER_ADMIN) {
-            produits = produitRepository.findAll();  // Super admin peut voir tous les produits
-        } else {
-            User admin = userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN)
-                    .stream()
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Super admin introuvable"));
-            produits = produitRepository.findProduitsByCreatedBy(userId);
-            produits.addAll(produitRepository.findProduitsByCreatedBy(admin.getId()));
-        }
-
-        return produitMapper.toDtoList(produits);
+        return produitMapper.toDtoList(produitRepository.findAll());
     }
 
     // Récupérer un produit par ID
@@ -85,11 +73,25 @@ public class ProduitService {
     }
 
     // Modifier un produit
-    public ProduitDto modifier(int id, ProduitDto produitDto) {
-        ProduitDto existingProduitDto = getProduit(id).orElseThrow(() -> new RuntimeException("Produit non trouvé"));
+    public ProduitDto modifier(int id, ProduitDto produitDto, MultipartFile file) throws IOException {
         Produit produit = produitMapper.toEntity(produitDto);
+
+        // Gestion de l'image
+        if (file != null && !file.isEmpty()) {
+            String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
+            String fileName = System.currentTimeMillis() + "_" + originalFileName;
+            Path filePath = Paths.get(uploadDir + "/" + fileName);
+            Files.copy(file.getInputStream(), filePath);
+            produit.setImage(fileName);  // Stocker uniquement le nom du fichier dans la base de données
+        }
         produit.setIdProduit(id);
-        produit.setCreatedBy(existingProduitDto.getCreatedBy());  // Conserver le créateur d'origine
+        return produitMapper.toDto(produitRepository.save(produit));
+    }
+
+    public ProduitDto changeStatut(int id,int status){
+        Produit produit =produitMapper.toEntity(getProduit(id).orElseThrow(()->new RuntimeException("produit introuvable")));
+        produit.setStatut(status);
+
         return produitMapper.toDto(produitRepository.save(produit));
     }
 }

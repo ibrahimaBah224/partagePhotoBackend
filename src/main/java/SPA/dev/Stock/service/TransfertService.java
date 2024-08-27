@@ -12,6 +12,7 @@ import SPA.dev.Stock.mapper.SousCategorieMapper;
 import SPA.dev.Stock.mapper.TransfertMapper;
 import SPA.dev.Stock.modele.*;
 import SPA.dev.Stock.repository.TransfertRepository;
+import SPA.dev.Stock.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,19 +28,36 @@ public class TransfertService {
     private final MagasinMapper magasinMapper;
     private final TransfertMapper transfertMapper;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     public TransfertDto ajouter(TransfertDto transfertDto) {
         Transfert transfert = transfertMapper.toEntity(transfertDto);
         transfert.setStatus(StatusTransfertEnum.en_cours);
-        transfertRepository.save(transfert);
-        return transfertMapper.toDto(transfert);
+        Produit produit = transfert.getProduit();
+        if(produit.getStatut()==0){
+
+           throw new RuntimeException("le produit que vous voulez transferer n'est pas valider");
+        }
+        else {
+            transfertRepository.save(transfert);
+            return transfertMapper.toDto(transfert);
+        }
     }
 
     public List<TransfertDto> liste() {
-        Magasin magasin =magasinMapper.magasinDTOToMagasin(magasinService.getMagasinsForCurrentUser());
-        List<TransfertDto> list = transfertRepository.findTransfertsByMagasin(magasin);
+        User admin=userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN)
+                .stream()
+                .findFirst()
+                .orElseThrow(()->new RuntimeException("admin introuvable"));
+        if (userService.getCurrentUserId()==admin.getId()){
+            return transfertMapper.toDtoList(transfertRepository.findAll());
+        }
+        else {
+            Magasin magasin = magasinMapper.magasinDTOToMagasin(magasinService.getMagasinsForCurrentUser());
+            List<TransfertDto> list = transfertRepository.findTransfertsByMagasin(magasin);
 
-        return list;
+            return list;
+        }
     }
 
     public List<TransfertDto> getTransfertByMagasin() {
@@ -61,9 +79,17 @@ public class TransfertService {
     public TransfertDto modifier(int id, TransfertDto transfertDto) {
 
         getTransfert(id);
-        transfertDto.setUpdatedBy(userService.getCurrentUserId());
-        Transfert transfert = transfertMapper.toEntity(transfertDto);
-        transfert.setIdTransfert(id);
-        return transfertMapper.toDto(transfertRepository.save(transfert));
+        User admin=userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN)
+                .stream()
+                .findFirst()
+                .orElseThrow(()->new RuntimeException("admin introuvable"));
+        if (userService.getCurrentUserId()==admin.getId()) {
+            Transfert transfert = transfertMapper.toEntity(transfertDto);
+            transfert.setIdTransfert(id);
+            return transfertMapper.toDto(transfertRepository.save(transfert));
+        }
+        else {
+            throw new RuntimeException("vous ne pouvez pas modifier un transfert car vous n avez pas le role necessaire");
+        }
     }
 }

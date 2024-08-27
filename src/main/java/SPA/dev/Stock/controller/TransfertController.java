@@ -1,6 +1,7 @@
 package SPA.dev.Stock.controller;
 
 import SPA.dev.Stock.dto.TransfertDto;
+import SPA.dev.Stock.modele.Produit;
 import SPA.dev.Stock.service.TransfertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

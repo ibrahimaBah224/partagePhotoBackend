@@ -19,4 +19,5 @@ public class AbstractEntitieDto  {
     private Date createdAt;
     private int updatedBy;
     private Date updatedAt;
+    private  int statut;
 }
