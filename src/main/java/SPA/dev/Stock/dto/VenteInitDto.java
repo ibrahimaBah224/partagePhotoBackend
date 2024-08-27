@@ -1,6 +1,7 @@
 package SPA.dev.Stock.dto;
 
 import SPA.dev.Stock.enumeration.EnumEtatCommande;
+import SPA.dev.Stock.enumeration.EnumPayementMode;
 import SPA.dev.Stock.enumeration.EnumStatus;
 import SPA.dev.Stock.modele.Client;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,13 +23,13 @@ public class VenteInitDto {
     // Remplacer Client par idClient
     private Long idClient;
 
-    @NotNull
-    private EnumStatus status;
-    @NotNull
-    private EnumEtatCommande etatCommande;
     private String remise;
+    private EnumPayementMode payementMode;
+
     private Date createdAt;
     private Date updatedAt;
     private int createdBy;
     private int updatedBy;
+    private int status;
+
 }

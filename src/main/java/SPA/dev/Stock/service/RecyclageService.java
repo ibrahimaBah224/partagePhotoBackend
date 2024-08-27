@@ -25,20 +25,20 @@ public class RecyclageService {
     private  final Mapper recyclageMapper;
     private final PerteRepository perteRepository;
 
-    private List<RecyclageDto> getAll() {
+    public List<RecyclageDto> getAll() {
         return recyclageRepository.findAllByCreatedBy(userService.getCurrentUserId())
                 .stream()
                 .map(recyclageMapper::toRecyclageDto)
                 .collect(Collectors.toList());
     }
 
-    private RecyclageDto getPerte(Long id) {
+    public RecyclageDto getPerte(Long id) {
         Recyclage recyclage = recyclageRepository.findById(id)
                 .orElseThrow(()-> new AppException("pas de recyclage avec cette perte", HttpStatus.NOT_FOUND));
         return recyclageMapper.toRecyclageDto(recyclage);
     }
 
-    private RecyclageDto addRecyclage(RecyclageDto recyclageDto){
+    public RecyclageDto addRecyclage(RecyclageDto recyclageDto){
         Perte perte = perteRepository.findById(recyclageDto.getIdPerte())
                 .orElseThrow(()-> new AppException("cette perte n'est pas disponible", HttpStatus.NOT_FOUND));
         Recyclage recyclage = recyclageMapper.toRecyclageEntity( recyclageDto , perte);
@@ -46,14 +46,14 @@ public class RecyclageService {
         return recyclageMapper.toRecyclageDto(recyclage);
     }
 
-    private RecyclageDto removeRecyclage(Long id){
+    public RecyclageDto removeRecyclage(Long id){
         Recyclage recyclage= recyclageRepository.findById(id)
                 .orElseThrow(()->new AppException("recyclage n'est pas disponible", HttpStatus.NOT_FOUND));
         recyclageRepository.deleteById(id);
         return  recyclageMapper.toRecyclageDto(recyclage);
     }
 
-    private RecyclageDto updateRecyclage(Long id, RecyclageDto recyclageDto){
+    public RecyclageDto updateRecyclage(Long id, RecyclageDto recyclageDto){
         Recyclage recyclage= recyclageRepository.findById(id)
                 .orElseThrow(()-> new AppException("recyclage n'est pas disponible", HttpStatus.NOT_FOUND));
         Perte perte= perteRepository.findById(recyclageDto.getIdPerte())

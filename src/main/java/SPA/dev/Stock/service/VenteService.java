@@ -27,7 +27,7 @@ public class VenteService {
     private final Mapper venteMapper;
     private final UserService userService;
     private final VenteInitRepository venteInitRepository;
-    private  final ApprovisionnementRepository approvisionnementRepository;
+    private  final ProduitRepository produitRepository;
     private final ApprovisionnementService approvisionnementService;
     public List<VenteDto> getAll() {
         Integer userId = userService.getCurrentUserId();
@@ -55,12 +55,12 @@ public class VenteService {
     }*/
 
     public VenteDto addVente(VenteDto venteDto) {
-        Approvisionnement approvisionnement = approvisionnementRepository.findById(venteDto.getIdApprovisionnement())
+        Produit produit = produitRepository.findById(venteDto.getIdProduit())
                 .orElseThrow(() -> new AppException("Produit not found", HttpStatus.NOT_FOUND));
         VenteInit venteInit = venteInitRepository.findById(venteDto.getVenteInitId())
                 .orElseThrow(() -> new AppException("VenteInit not found", HttpStatus.NOT_FOUND));
 
-        Vente vente = venteMapper.toVenteEntity(venteDto, approvisionnement, venteInit);
+        Vente vente = venteMapper.toVenteEntity(venteDto, produit, venteInit);
         vente.setCreatedBy(userService.getCurrentUserId());
         Vente newVente = venteRepository.save(vente);
         return venteMapper.toVenteDto(newVente);
@@ -77,16 +77,15 @@ public class VenteService {
         Vente vente = venteRepository.findByIdAndCreatedBy(id, userService.getCurrentUserId())
                 .orElseThrow(() -> new AppException("Vente not found", HttpStatus.NOT_FOUND));
 
-        Approvisionnement approvisionnement = approvisionnementRepository.findById(venteDto.getIdApprovisionnement())
+        Produit produit = produitRepository.findById(venteDto.getIdProduit())
                 .orElseThrow(() -> new AppException("Produit not found", HttpStatus.NOT_FOUND));
         VenteInit venteInit = venteInitRepository.findById(venteDto.getVenteInitId())
                 .orElseThrow(() -> new AppException("VenteInit not found", HttpStatus.NOT_FOUND));
 
-        vente.setApprovisionnement(approvisionnement);
+        vente.setProduit(produit);
         vente.setVenteInit(venteInit);
         vente.setQuantite(venteDto.getQuantite());
         vente.setPrixVente(venteDto.getPrixVente());
-        vente.setPayementMode(venteDto.getPayementMode());
 
         return venteMapper.toVenteDto(venteRepository.save(vente));
     }

@@ -1,6 +1,7 @@
 package SPA.dev.Stock.modele;
 
 import SPA.dev.Stock.enumeration.EnumEtatCommande;
+import SPA.dev.Stock.enumeration.EnumPayementMode;
 import SPA.dev.Stock.enumeration.EnumStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,12 +30,10 @@ public class VenteInit {
     @ManyToOne
     @JoinColumn(name = "idClient")
     private Client client;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private EnumStatus status;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "etat_commande", nullable = false)
-    private EnumEtatCommande etatCommande;
+    private EnumPayementMode payementMode;
+
     private String remise;
 
     @CreationTimestamp
@@ -42,7 +41,7 @@ public class VenteInit {
     private Date createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = true)
     private Date updatedAt;
 
     @CreatedBy
@@ -52,5 +51,7 @@ public class VenteInit {
     @LastModifiedBy
     @Column(name = "updated_by")
     private int updatedBy;
+    private int status;
+
 }
 

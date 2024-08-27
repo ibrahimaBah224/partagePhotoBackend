@@ -1,17 +1,21 @@
 package SPA.dev.Stock.service;
 
 import SPA.dev.Stock.dto.VenteInitDto;
+import SPA.dev.Stock.enumeration.EnumEtatCommande;
 import SPA.dev.Stock.exception.AppException;
 import SPA.dev.Stock.mapper.Mapper;
 import SPA.dev.Stock.modele.Client;
 import SPA.dev.Stock.modele.VenteInit;
 import SPA.dev.Stock.repository.ClientRepository;
 import SPA.dev.Stock.repository.VenteInitRepository;
+import SPA.dev.Stock.repository.VenteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,6 +28,7 @@ public class VenteInitService {
 
     private final Mapper venteInitMapper; // Injection de Mapper
     private final UserService userService;
+    private final VenteRepository venteRepository;
 
     public List<VenteInitDto> getAll() {
         int currentUserId = userService.getCurrentUserId();
@@ -33,25 +38,65 @@ public class VenteInitService {
                 .collect(Collectors.toList());
     }
 
+    public VenteInitDto getLastInitVente() {
+        int currentUserId = userService.getCurrentUserId();
+        Optional<VenteInit> lastVente = venteInitRepository.findAllByCreatedBy(currentUserId)
+                .stream()
+                .sorted(Comparator.comparing(VenteInit::getCreatedAt).reversed())
+                .findFirst();
+
+        if (lastVente.isPresent()) {
+            return venteInitMapper.toDto(lastVente.get());
+        } else {
+            throw new AppException("Pas de dernière vente initialisée par cet utilisateur", HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     public VenteInitDto getVenteInit(Long id) {
         int currentUserId = userService.getCurrentUserId();
         VenteInit vente = (VenteInit) venteInitRepository.findByIdAndCreatedBy(id, currentUserId)
-                .orElseThrow(() -> new AppException("Vente initial not found", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new RuntimeException("pas de vente initialization"));
         return venteInitMapper.toDto(vente);
     }
 
 
     public VenteInitDto addVenteInit(VenteInitDto venteInitDto) {
-        int currentUserId = userService.getCurrentUserId();
-        Client client = clientRepository.findById(venteInitDto.getIdClient())
-                .orElseThrow(() -> new AppException("Client not found", HttpStatus.NOT_FOUND));
 
-        VenteInit venteInit = venteInitMapper.toEntity(venteInitDto, client);
-        venteInit.setReference(UUID.randomUUID().toString());
-        venteInit.setCreatedBy(currentUserId); // Associe l'utilisateur connecté à la création
-        VenteInit newVenteInit = venteInitRepository.save(venteInit);
-        return venteInitMapper.toDto(newVenteInit);
+       // Recuperation de l'utilisateur par défaut
+        Optional<Client> existingClient= clientRepository.findById(1L);
+
+        // voir si l'utilisateur par défaut existe ?
+        if (!existingClient.isPresent()){
+
+          Client newClient = new Client();
+          newClient.setNom("comptoir");
+          newClient.setPrenom("default");
+          newClient.setAdresse("default");
+          newClient.setTelephone("default");
+          newClient.setStatus(1);
+          clientRepository.save(newClient);
+            VenteInit venteInit = venteInitMapper.toEntity(venteInitDto, newClient);
+            venteInit.setReference(UUID.randomUUID().toString());
+            venteInit.setStatus(1);
+            VenteInit newVenteInit = venteInitRepository.save(venteInit);
+            return venteInitMapper.toDto(newVenteInit);
+
+        }
+        else {
+            Client client = clientRepository.findById(venteInitDto.getIdClient())
+                    .orElseThrow(() -> new AppException("Le client n'existe pas", HttpStatus.NOT_FOUND));
+
+
+            int currentUserId = userService.getCurrentUserId();
+
+            VenteInit venteInit = venteInitMapper.toEntity(venteInitDto, client);
+            venteInit.setReference(UUID.randomUUID().toString());
+            venteInit.setCreatedBy(currentUserId); // Associe l'utilisateur connecté à la création
+            venteInit.setStatus(1);
+            VenteInit newVenteInit = venteInitRepository.save(venteInit);
+            return venteInitMapper.toDto(newVenteInit);
+        }
     }
 
 
@@ -65,6 +110,7 @@ public class VenteInitService {
 
 
     public VenteInitDto updateVenteInit(Long id, VenteInitDto venteInitDto) {
+
         int currentUserId = userService.getCurrentUserId();
         VenteInit existingVente = (VenteInit) venteInitRepository.findByIdAndCreatedBy(id, currentUserId)
                 .orElseThrow(() -> new AppException("Vente not found", HttpStatus.NOT_FOUND));

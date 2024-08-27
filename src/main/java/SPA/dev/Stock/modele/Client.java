@@ -44,4 +44,6 @@ public class Client {
     @LastModifiedBy
     @Column(name = "updated_by")
     private int updatedBy;
+    private int status;
+
 }
