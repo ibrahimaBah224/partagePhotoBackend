@@ -23,15 +23,13 @@ public class SousCategorieService {
     private final UserService userService;
     private final CategorieMapper categorieMapper;
     public SousCategorieDto ajouter(SousCategorieDto sousCategorieDto) {
-      Categorie categorie =categorieMapper.toEntity(categorieService.getCategorie(sousCategorieDto.getIdCategorie()).orElseThrow(()->new RuntimeException("categorie introuvable")));
-        sousCategorieDto.setCreatedBy(userService.getCurrentUserId());
         SousCategorie sousCategorie = sousCategorieMapper.toEntity(sousCategorieDto);
-        sousCategorie.setCategorie(categorie);
         return sousCategorieMapper.toDto(sousCategorieRepository.save(sousCategorie));
     }
 
     public List<SousCategorieDto> liste() {
-        return sousCategorieMapper.toDtoList(sousCategorieRepository.findAll());
+        List<SousCategorieDto> list = sousCategorieMapper.toDtoList(sousCategorieRepository.findAll());
+        return list;
     }
 
     public Optional<SousCategorieDto> getSousCategorie(int id) {
@@ -46,9 +44,7 @@ public class SousCategorieService {
     }
 
     public SousCategorieDto modifier(int id, SousCategorieDto sousCategorieDto) {
-       getSousCategorie(id);
-        categorieService.getCategorie(sousCategorieDto.getIdCategorie());
-        sousCategorieDto.setUpdatedBy(userService.getCurrentUserId());
+        getSousCategorie(id);
         SousCategorie sousCategorie = sousCategorieMapper.toEntity(sousCategorieDto);
         sousCategorie.setIdSousCategorie(id);
         return sousCategorieMapper.toDto(sousCategorieRepository.save(sousCategorie));

@@ -1,8 +1,11 @@
 package SPA.dev.Stock.service;
 
 import SPA.dev.Stock.dto.CategorieDto;
+import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.mapper.CategorieMapper;
+import SPA.dev.Stock.modele.Approvisionnement;
 import SPA.dev.Stock.modele.Categorie;
+import SPA.dev.Stock.modele.User;
 import SPA.dev.Stock.repository.CategorieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +26,8 @@ public class CategorieService {
     }
 
     public List<CategorieDto> liste() {
-        return categorieMapper.toDtoList(categorieRepository.findAll());
+        List<Categorie> list = categorieRepository.findAll();
+        return categorieMapper.toDtoList(list);
     }
 
     public Optional<CategorieDto> getCategorie(int id) {
@@ -37,7 +41,6 @@ public class CategorieService {
     }
 
     public CategorieDto modifier(int id, CategorieDto categorieDto) {
-        categorieDto.setUpdatedBy(userService.getCurrentUserId());
         Categorie categorie = categorieMapper.toEntity(categorieDto);
         categorie.setIdCategorie(id);
         return categorieMapper.toDto(categorieRepository.save(categorie));

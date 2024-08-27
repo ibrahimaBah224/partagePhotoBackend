@@ -3,8 +3,7 @@ package SPA.dev.Stock.modele;
 import SPA.dev.Stock.service.UserService;
 import jakarta.persistence.*;
 import jdk.jfr.Registered;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -19,7 +18,6 @@ import java.util.Date;
 @MappedSuperclass
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@RequiredArgsConstructor
 public class AbstractEntitie implements Serializable {
 
 

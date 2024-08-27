@@ -18,17 +18,19 @@ public class FournisseurService {
     private final FournisseurRepository fournisseurRepository;
     private final UserService userService;
     public FournisseurDto ajouter(FournisseurDto fournisseurDto) {
-        fournisseurDto.setCreatedBy(userService.getCurrentUserId());
         Fournisseur fournisseur = fournisseurMapper.toEntity(fournisseurDto);
+
         return fournisseurMapper.toDto(fournisseurRepository.save(fournisseur));
     }
 
     public List<FournisseurDto> liste() {
-        return fournisseurMapper.toDtoList(fournisseurRepository.findAll());
+        int userId=userService.getCurrentUserId();
+        return fournisseurMapper.toDtoList(fournisseurRepository.findFournisseursByCreatedBy(userId));
     }
 
     public Optional<FournisseurDto> getFournisseur(int id) {
-        Fournisseur fournisseur = fournisseurRepository.findById(id).orElseThrow(()->new RuntimeException("fournisseur introuvable"));
+        int userId = userService.getCurrentUserId();
+        Fournisseur fournisseur = fournisseurRepository.findFournisseurByIdFournissseurAndCreatedBy(id,userId).orElseThrow(()->new RuntimeException("fournisseur introuvable"));
         return Optional.of(fournisseurMapper.toDto(fournisseur));
     }
 
@@ -40,7 +42,6 @@ public class FournisseurService {
 
     public FournisseurDto modifier(int id, FournisseurDto fournisseurDto) {
         getFournisseur(id);
-        fournisseurDto.setUpdatedBy(userService.getCurrentUserId());
         Fournisseur fournisseur = fournisseurMapper.toEntity(fournisseurDto);
         fournisseur.setIdFournissseur(id);
         return fournisseurMapper.toDto(fournisseurRepository.save(fournisseur));

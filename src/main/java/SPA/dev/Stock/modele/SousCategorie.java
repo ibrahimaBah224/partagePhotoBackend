@@ -1,12 +1,14 @@
 package SPA.dev.Stock.modele;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SousCategorie extends AbstractEntitie{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

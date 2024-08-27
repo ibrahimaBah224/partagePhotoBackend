@@ -13,6 +13,7 @@ public class TransfertDto  extends AbstractEntitieDto{
     private int idTransfert;
     private int idProduit;
     private int idMagasin;
+    private int quantite;
     private StatusTransfertEnum status;
     private int quantité;
 }
