@@ -18,7 +18,7 @@ public class FileUploadService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    private final List<String> allowedExtensions = Arrays.asList("jpg", "jpeg", "png", "pdf", "docx");
+    private final List<String> allowedExtensions = Arrays.asList("jpg", "jpeg", "png", "pdf", "docx","webp");
 
     public ResponseEntity<String> uploadFile(MultipartFile file) {
         try {

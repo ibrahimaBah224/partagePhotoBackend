@@ -41,7 +41,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+
+    @OneToOne
+    @JoinColumn(name = "magasin_id",nullable = true)
     private Magasin magasin;
 
     @Enumerated(EnumType.STRING)

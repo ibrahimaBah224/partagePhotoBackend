@@ -1,6 +1,5 @@
 package SPA.dev.Stock.repository;
 
-import SPA.dev.Stock.dto.RegisterUserDto;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.modele.User;
 import org.springframework.data.repository.CrudRepository;
@@ -15,4 +14,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     List<User> findByRole(RoleEnumeration role);
 
     List<User> getUsersByRole(RoleEnumeration roleEnumeration);
+
+    List<User> findAllByCreatedBy(int currentUserId);
 }

@@ -28,6 +28,7 @@ public class UserController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserService userService;
     private final UserMapper1 userMapper;
+    private final MagasinRepository magasinRepository;
 
     @GetMapping("/list")
     public List<RegisterUserDto> getAllUsers() {
@@ -54,16 +55,24 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-    @PostConstruct
+
+
+   @PostConstruct
     public void addAdmin(){
         Optional<User> user = userRepository.findByTelephone("624085523");
         if(user.isPresent()) {
             throw new RuntimeException("ce numero est déja utilisé");
         }
+        Magasin magasin = new Magasin();
+        magasin.setNom("Magasin1");
+        magasin.setAdresse("12 rue de la république");
+        magasin.setReference("Ref-1");
+        magasin = magasinRepository.save(magasin);
         User userDto = new User();
         userDto.setEmail("admin@gmail.com");
         userDto.setRole(RoleEnumeration.valueOf("SUPER_ADMIN"));
         userDto.setFullName("admin");
+        userDto.setMagasin(magasin);
         userDto.setTelephone("624085523");
         userDto.setPassword(bCryptPasswordEncoder.encode("admin"));
         User savedUser = userRepository.save(userDto);
@@ -72,6 +81,63 @@ public class UserController {
         }
         savedUser.setCreatedBy(savedUser.getId());
         userRepository.save(savedUser);
+
+       user = userRepository.findByTelephone("626370138");
+       if(user.isPresent()) {
+           throw new RuntimeException("ce numero est déja utilisé");
+       }
+        userDto = new User();
+       userDto.setEmail("admin@gmail.com");
+       userDto.setRole(RoleEnumeration.valueOf("SUPER_ADMIN"));
+       userDto.setFullName("admin");
+       userDto.setTelephone("626370138");
+       userDto.setMagasin(magasin);
+       userDto.setPassword(bCryptPasswordEncoder.encode("admin"));
+        savedUser = userRepository.save(userDto);
+       if (savedUser == null) {
+           throw new IllegalArgumentException("L'utilisateur n'a pas pu être enregistré.");
+       }
+       savedUser.setCreatedBy(savedUser.getId());
+       userRepository.save(savedUser);
+
+
+       user = userRepository.findByTelephone("624226778");
+       if(user.isPresent()) {
+           throw new RuntimeException("ce numero est déja utilisé");
+       }
+       userDto = new User();
+       userDto.setEmail("admin@gmail.com");
+       userDto.setRole(RoleEnumeration.valueOf("SUPER_ADMIN"));
+       userDto.setFullName("admin");
+       userDto.setTelephone("624226778");
+       userDto.setMagasin(magasin);
+       userDto.setPassword(bCryptPasswordEncoder.encode("admin"));
+       savedUser = userRepository.save(userDto);
+       if (savedUser == null) {
+           throw new IllegalArgumentException("L'utilisateur n'a pas pu être enregistré.");
+       }
+       savedUser.setCreatedBy(savedUser.getId());
+       userRepository.save(savedUser);
+
+
+       user = userRepository.findByTelephone("620158715");
+       if(user.isPresent()) {
+           throw new RuntimeException("ce numero est déja utilisé");
+       }
+       userDto = new User();
+       userDto.setEmail("admin@gmail.com");
+       userDto.setRole(RoleEnumeration.valueOf("SUPER_ADMIN"));
+       userDto.setFullName("admin");
+       userDto.setTelephone("620158715");
+       userDto.setMagasin(magasin);
+       userDto.setPassword(bCryptPasswordEncoder.encode("admin"));
+       savedUser = userRepository.save(userDto);
+       if (savedUser == null) {
+           throw new IllegalArgumentException("L'utilisateur n'a pas pu être enregistré.");
+       }
+       savedUser.setCreatedBy(savedUser.getId());
+       userRepository.save(savedUser);
+
     }
 
 }
