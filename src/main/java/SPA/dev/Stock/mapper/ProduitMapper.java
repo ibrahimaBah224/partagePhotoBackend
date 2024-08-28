@@ -20,8 +20,8 @@ import static java.lang.Integer.parseInt;
 @RequiredArgsConstructor
 public class ProduitMapper {
     private final SousCategorieRepository sousCategorieRepository;
-    @Value("${file.upload-dir}")
-    private String uploadDir;
+
+    private String uploadDir = "http://localhost:8080/photo";
    public ProduitDto toDto(Produit produit){
        return ProduitDto.builder()
                .idProduit(produit.getIdProduit())

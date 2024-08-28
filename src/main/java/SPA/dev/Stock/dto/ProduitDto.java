@@ -1,5 +1,6 @@
 package SPA.dev.Stock.dto;
 import lombok.*;
+import org.springframework.core.io.Resource;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -16,5 +17,5 @@ public class ProduitDto  extends AbstractEntitieDto{
     private String description;
     private String image;
     private String sousCategorie;
-
+    private Resource photo;
 }
