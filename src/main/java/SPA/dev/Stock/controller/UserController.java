@@ -4,8 +4,10 @@ import SPA.dev.Stock.dto.PasswordDto;
 import SPA.dev.Stock.dto.RegisterUserDto;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.mapper.UserMapper1;
+import SPA.dev.Stock.modele.Fournisseur;
 import SPA.dev.Stock.modele.Magasin;
 import SPA.dev.Stock.modele.User;
+import SPA.dev.Stock.repository.FournisseurRepository;
 import SPA.dev.Stock.repository.MagasinRepository;
 import SPA.dev.Stock.repository.UserRepository;
 import SPA.dev.Stock.service.UserService;
@@ -29,6 +31,7 @@ public class UserController {
     private final UserService userService;
     private final UserMapper1 userMapper;
     private final MagasinRepository magasinRepository;
+    private final FournisseurRepository fournisseurRepository;
 
     @GetMapping("/list")
     public List<RegisterUserDto> getAllUsers() {
@@ -55,7 +58,7 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-/*
+
    @PostConstruct
     public void addAdmin(){
         Optional<User> user = userRepository.findByTelephone("624085523");
@@ -80,64 +83,13 @@ public class UserController {
         }
         savedUser.setCreatedBy(savedUser.getId());
         userRepository.save(savedUser);
-
-
-       user = userRepository.findByTelephone("626370138");
-       if(user.isPresent()) {
-           throw new RuntimeException("ce numero est déja utilisé");
-       }
-        userDto = new User();
-       userDto.setEmail("admin@gmail.com");
-       userDto.setRole(RoleEnumeration.valueOf("SUPER_ADMIN"));
-       userDto.setFullName("admin");
-       userDto.setTelephone("626370138");
-       userDto.setMagasin(magasin);
-       userDto.setPassword(bCryptPasswordEncoder.encode("admin"));
-        savedUser = userRepository.save(userDto);
-       if (savedUser == null) {
-           throw new IllegalArgumentException("L'utilisateur n'a pas pu être enregistré.");
-       }
-       savedUser.setCreatedBy(savedUser.getId());
-       userRepository.save(savedUser);
-
-
-       user = userRepository.findByTelephone("624226778");
-       if(user.isPresent()) {
-           throw new RuntimeException("ce numero est déja utilisé");
-       }
-       userDto = new User();
-       userDto.setEmail("admin@gmail.com");
-       userDto.setRole(RoleEnumeration.valueOf("SUPER_ADMIN"));
-       userDto.setFullName("admin");
-       userDto.setTelephone("624226778");
-       userDto.setMagasin(magasin);
-       userDto.setPassword(bCryptPasswordEncoder.encode("admin"));
-       savedUser = userRepository.save(userDto);
-       if (savedUser == null) {
-           throw new IllegalArgumentException("L'utilisateur n'a pas pu être enregistré.");
-       }
-       savedUser.setCreatedBy(savedUser.getId());
-       userRepository.save(savedUser);
-
-
-       user = userRepository.findByTelephone("620158715");
-       if(user.isPresent()) {
-           throw new RuntimeException("ce numero est déja utilisé");
-       }
-       userDto = new User();
-       userDto.setEmail("admin@gmail.com");
-       userDto.setRole(RoleEnumeration.valueOf("SUPER_ADMIN"));
-       userDto.setFullName("admin");
-       userDto.setTelephone("620158715");
-       userDto.setMagasin(magasin);
-       userDto.setPassword(bCryptPasswordEncoder.encode("admin"));
-       savedUser = userRepository.save(userDto);
-       if (savedUser == null) {
-           throw new IllegalArgumentException("L'utilisateur n'a pas pu être enregistré.");
-       }
-       savedUser.setCreatedBy(savedUser.getId());
-       userRepository.save(savedUser);
-
+       Fournisseur fournisseur = new Fournisseur();
+       fournisseur.setAdresse(userDto.getEmail());
+       fournisseur.setNom(userDto.getFullName());
+       fournisseur.setTel(userDto.getTelephone());
+       fournisseur.setCreatedBy(savedUser.getId());
+       fournisseur.setSociete("Magasin Principal");
+       fournisseurRepository.save(fournisseur);
     }
-*/
+
 }
