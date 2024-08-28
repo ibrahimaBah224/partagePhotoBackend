@@ -9,11 +9,14 @@ import SPA.dev.Stock.repository.ProduitRepository;
 import SPA.dev.Stock.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,10 +37,11 @@ public class ProduitService {
 
     // Ajouter un produit avec gestion de l'image
     public ProduitDto ajouter(ProduitDto produitDto, MultipartFile file) throws IOException {
-        User admin= userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN).stream()
+        User admin = userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN).stream()
                 .findFirst()
-                .orElseThrow(()->new RuntimeException("admin introuvable"));
+                .orElseThrow(() -> new RuntimeException("admin introuvable"));
         Produit produit = produitMapper.toEntity(produitDto);
+
         // Gestion de l'image
         if (file != null && !file.isEmpty()) {
             String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -46,10 +50,32 @@ public class ProduitService {
             Files.copy(file.getInputStream(), filePath);
             produit.setImage(fileName);  // Stocker uniquement le nom du fichier dans la base de données
         }
-        if (userService.getCurrentUserId()!=admin.getId()){
+
+        if (userService.getCurrentUserId() != admin.getId()) {
             produit.setStatut(0);
         }
+
         produitRepository.save(produit);
+
+        // Forcer le rafraîchissement du fichier en accédant au fichier directement après l'enregistrement
+        if (produit.getImage() != null) {
+            try {
+                Path filePath = Paths.get(uploadDir + "/" + produit.getImage());
+
+                Resource resource = new UrlResource(filePath.toUri());
+
+                // Si le fichier n'est pas accessible, vous pouvez lever une exception ici
+                if (!resource.exists() || !resource.isReadable()) {
+                    throw new RuntimeException("Le fichier n'est pas accessible ou lisible.");
+                }
+
+                // Accéder au fichier pour forcer la mise à jour
+                System.out.println("Fichier accessible : " + resource.getFilename());
+            } catch (MalformedURLException e) {
+                throw new RuntimeException("Erreur lors de la tentative d'accès au fichier : " + produit.getImage(), e);
+            }
+        }
+
         return produitMapper.toDto(produit);
     }
 
