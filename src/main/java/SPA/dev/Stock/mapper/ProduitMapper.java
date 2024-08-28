@@ -48,12 +48,7 @@ public class ProduitMapper {
    }
  public    List<ProduitDto> toDtoList(List<Produit> produits){
      return produits.stream()
-             .map(produit -> {
-                 // Personnalisation des données : concaténation de designation et reference
-                 ProduitDto produitDto = toDto(produit);
-                     produitDto.setImage(STR."\{uploadDir}/\{produit.getImage()}");
-                 return produitDto;
-             })
+             .map(this::toDto)
              .collect(Collectors.toList());
  }
 }

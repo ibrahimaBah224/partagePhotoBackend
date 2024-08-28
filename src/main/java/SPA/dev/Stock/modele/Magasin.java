@@ -25,8 +25,7 @@ public class Magasin {
 
     private String reference;
 
-    @OneToOne
-    @JoinColumn(name = "admin_id",nullable = true)
+    @OneToOne(mappedBy = "magasin", cascade = CascadeType.ALL)
     private User user;
 
     @CreationTimestamp

@@ -52,12 +52,7 @@ public class UserService {
     }
     public List<RegisterUserDto> allUsers() {
         int currentUserId = getCurrentUserId();
-        List<User> users = new ArrayList<>();
-        userRepository.findAll().forEach(user -> {
-            if (user.getCreatedBy() == currentUserId) {
-                users.add(user);
-            }
-        });
+        List<User> users = userRepository.findAllByCreatedBy(currentUserId);
         return userMapper.toUserDtoList(users);
     }
 
