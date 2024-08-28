@@ -54,7 +54,7 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-   /* @PostConstruct
+    @PostConstruct
     public void addAdmin(){
         Optional<User> user = userRepository.findByTelephone("624085523");
         if(user.isPresent()) {
@@ -72,6 +72,6 @@ public class UserController {
         }
         savedUser.setCreatedBy(savedUser.getId());
         userRepository.save(savedUser);
-    }*/
+    }
 
 }
