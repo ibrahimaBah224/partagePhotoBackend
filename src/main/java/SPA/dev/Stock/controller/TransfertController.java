@@ -1,7 +1,7 @@
 package SPA.dev.Stock.controller;
 
+import SPA.dev.Stock.dto.ProduitDto;
 import SPA.dev.Stock.dto.TransfertDto;
-import SPA.dev.Stock.modele.Produit;
 import SPA.dev.Stock.service.TransfertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +25,13 @@ public class TransfertController {
     public ResponseEntity<List<TransfertDto>> liste() {
         return ResponseEntity.ok(transfertService.liste());
     }
+
+    @GetMapping("/listProduit")
+    public ResponseEntity<List<ProduitDto>> Listeproduit() {
+        return ResponseEntity.ok(transfertService.listProduit());
+    }
+
+
 
     @GetMapping("/listEnCours")
     public ResponseEntity<List<TransfertDto>> getTransfertByMagasin() {

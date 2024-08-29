@@ -7,15 +7,15 @@ import SPA.dev.Stock.dto.TransfertDto;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.enumeration.StatusTransfertEnum;
 import SPA.dev.Stock.mapper.MagasinMapper;
-import SPA.dev.Stock.mapper.ProduitMapper;
-import SPA.dev.Stock.mapper.SousCategorieMapper;
 import SPA.dev.Stock.mapper.TransfertMapper;
 import SPA.dev.Stock.modele.*;
+import SPA.dev.Stock.repository.ProduitRepository;
 import SPA.dev.Stock.repository.TransfertRepository;
 import SPA.dev.Stock.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,35 +29,39 @@ public class TransfertService {
     private final TransfertMapper transfertMapper;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final ProduitRepository produitRepository;
 
     public TransfertDto ajouter(TransfertDto transfertDto) {
         Transfert transfert = transfertMapper.toEntity(transfertDto);
         transfert.setStatus(StatusTransfertEnum.en_cours);
         Produit produit = transfert.getProduit();
-        if(produit.getStatut()==0){
 
-           throw new RuntimeException("le produit que vous voulez transferer n'est pas valider");
+        int currentUserId =  userService.getCurrentUserId();
+        User user = userRepository.findById(currentUserId)
+                .orElseThrow(()->new RuntimeException("user not found"));
+
+        if(!user.getRole().equals(RoleEnumeration.SUPER_ADMIN)){
+            throw new RuntimeException("vous n'êtes pas autorisé a effectuer un transfert");
         }
         else {
-            transfertRepository.save(transfert);
-            return transfertMapper.toDto(transfert);
+            if (produit.getStatut() == 0) {
+
+                throw new RuntimeException("le produit que vous voulez transferer n'est pas valider");
+            } else {
+                transfertRepository.save(transfert);
+                return transfertMapper.toDto(transfert);
+            }
         }
     }
 
     public List<TransfertDto> liste() {
-        User admin=userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN)
-                .stream()
-                .findFirst()
-                .orElseThrow(()->new RuntimeException("admin introuvable"));
-        if (userService.getCurrentUserId()==admin.getId()){
-            return transfertMapper.toDtoList(transfertRepository.findAll());
-        }
-        else {
-            Magasin magasin = magasinMapper.magasinDTOToMagasin(magasinService.getMagasinsForCurrentUser());
-            List<TransfertDto> list = transfertRepository.findTransfertsByMagasin(magasin);
-
-            return list;
-        }
+        int currentId = userService.getCurrentUserId();
+        User user = userRepository.findById(currentId)
+                .orElseThrow(()->new RuntimeException("user not found"));
+        MagasinDto magasinDto = magasinService.getMagasinsForCurrentUser();
+        Magasin magasin = magasinMapper.magasinDTOToMagasin(magasinDto);
+        List<Transfert> liste = transfertRepository.findAllByMagasinOrCreatedBy(magasin,currentId);
+        return  transfertMapper.toDtoList(liste);
     }
 
     public List<TransfertDto> getTransfertByMagasin() {
@@ -72,7 +76,7 @@ public class TransfertService {
 
     public String delete(int id) {
         getTransfert(id);
-        transfertRepository.findById(id);
+        transfertRepository.deleteById(id);
         return "supprimer avec success";
     }
 
@@ -92,4 +96,22 @@ public class TransfertService {
             throw new RuntimeException("vous ne pouvez pas modifier un transfert car vous n avez pas le role necessaire");
         }
     }
+    public List<ProduitDto> listProduit() {
+        Magasin magasin = magasinMapper.magasinDTOToMagasin(
+                magasinService.getMagasinsForCurrentUser()
+        );
+
+        List<ProduitDto> produits = new ArrayList<>();
+        List<TransfertDto> listTransfert = getTransfertByMagasin();
+
+        listTransfert.forEach(transfert -> {
+            Produit p = produitRepository.findByDesignation(transfert.getProduit());
+            ProduitDto produit = produitService.getProduit(p.getIdProduit())
+                    .orElseThrow(() -> new RuntimeException("Produit introuvable"));
+            produits.add(produit);
+        });
+
+        return produits;
+    }
+
 }

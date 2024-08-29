@@ -84,7 +84,7 @@ public class ApprovisionnementService {
     private ApprovisionnementDto traiterApprovisionnementAvecTransfert(ApprovisionnementDto approvisionnementDto) {
         List<TransfertDto> transferts = transfertService.getTransfertByMagasin();
         return transferts.stream()
-                .filter(trans -> trans.getIdProduit() == approvisionnementDto.getIdProduit())
+                .filter(trans -> trans.getProduit().equals( STR."\{approvisionnementDto.getIdProduit()}"))
                 .filter(trans -> trans.getQuantite() >= approvisionnementDto.getQuantite())
                 .findFirst()
                 .map(trans -> {
@@ -106,8 +106,8 @@ public class ApprovisionnementService {
 
     private TransfertDto creerTransfertDto(ApprovisionnementDto approvisionnementDto, Magasin magasin) {
         TransfertDto transfertDto = new TransfertDto();
-        transfertDto.setIdMagasin(magasin.getId());
-        transfertDto.setIdProduit(approvisionnementDto.getIdProduit());
+        transfertDto.setMagasin(String.valueOf(magasin.getId()));
+        transfertDto.setProduit(String.valueOf(approvisionnementDto.getIdProduit()));
         transfertDto.setQuantite(approvisionnementDto.getQuantite());
         transfertDto.setStatus(StatusTransfertEnum.terminer);
         return transfertDto;

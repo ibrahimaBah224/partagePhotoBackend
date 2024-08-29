@@ -20,7 +20,7 @@ public interface VenteRepository extends JpaRepository<Vente, Long> {
             " WHERE a.idProduit = :idProduit AND v.status = :status AND v.createdBy = :createdBy")
     Integer findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
             @Param("idProduit") int idProduit,
-            @Param("status") EnumVente status,
+            @Param("status") int status,
             @Param("createdBy") int createdBy);
     List<Vente> findByCreatedBy(Integer userId);
 

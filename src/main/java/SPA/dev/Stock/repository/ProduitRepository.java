@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface ProduitRepository extends JpaRepository<Produit,Integer> {
     List<Produit> findProduitsByCreatedBy(int createdBy);
     Optional<Produit> findProduitByIdProduitAndCreatedBy(int idCategorie, int createdBy);
+    Produit findByDesignation(String designation);
 
 }

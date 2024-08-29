@@ -23,8 +23,8 @@ public class TransfertMapper {
     public TransfertDto toDto(Transfert transfert){
         return TransfertDto.builder()
                 .idTransfert(transfert.getIdTransfert())
-                .idProduit(transfert.getProduit().getIdProduit())
-                .idMagasin(transfert.getMagasin().getId())
+                .produit(transfert.getProduit().getDesignation())
+                .magasin(transfert.getMagasin().getNom())
                 .quantite(transfert.getQuantite())
                 .status(transfert.getStatus())
                 .build();
@@ -32,11 +32,11 @@ public class TransfertMapper {
     public  Transfert toEntity(TransfertDto transfertDto){
         return Transfert.builder()
                 .idTransfert(transfertDto.getIdTransfert())
-                .produit(produitRepository.findById(transfertDto
-                        .getIdProduit())
+                .produit(produitRepository.findById(Integer.valueOf(transfertDto
+                        .getProduit()))
                         .orElseThrow(()->new RuntimeException("produit introuvable")))
-                .magasin(magasinRepository.findById(transfertDto
-                        .getIdMagasin())
+                .magasin(magasinRepository.findById(Integer.valueOf(transfertDto
+                        .getMagasin()))
                         .orElseThrow(()->new RuntimeException("idMagasin introuvable")))
                 .quantite(transfertDto.getQuantite())
                 .status(transfertDto.getStatus())
@@ -45,6 +45,12 @@ public class TransfertMapper {
     public List<TransfertDto> toDtoList(List<Transfert> transfert){
         return transfert.stream()
                 .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<Transfert> toEntityList(List<TransfertDto> transfertdto){
+        return transfertdto.stream()
+                .map(this::toEntity)
                 .collect(Collectors.toList());
     }
 }

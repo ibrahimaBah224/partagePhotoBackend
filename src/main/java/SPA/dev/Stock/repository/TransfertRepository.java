@@ -1,9 +1,11 @@
 package SPA.dev.Stock.repository;
 
+import SPA.dev.Stock.dto.MagasinDto;
 import SPA.dev.Stock.dto.TransfertDto;
 import SPA.dev.Stock.enumeration.StatusTransfertEnum;
 import SPA.dev.Stock.modele.Categorie;
 import SPA.dev.Stock.modele.Magasin;
+import SPA.dev.Stock.modele.Produit;
 import SPA.dev.Stock.modele.Transfert;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,5 +29,6 @@ public interface TransfertRepository extends JpaRepository<Transfert,Integer> {
             @Param("idProduit") int idProduit,
             @Param("createdBy") int createdBy
     );
-    
+
+    List<Transfert> findAllByMagasinOrCreatedBy(Magasin magasin, int currentId);
 }

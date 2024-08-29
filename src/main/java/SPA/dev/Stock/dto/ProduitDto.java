@@ -18,4 +18,5 @@ public class ProduitDto  extends AbstractEntitieDto{
     private String image;
     private String sousCategorie;
     private Resource photo;
+    private int quantite = 0;
 }
