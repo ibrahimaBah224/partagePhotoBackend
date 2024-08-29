@@ -4,6 +4,7 @@ import SPA.dev.Stock.enumeration.EnumPayementMode;
 import SPA.dev.Stock.enumeration.EnumVente;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
@@ -27,7 +28,7 @@ public class Vente {
     @ManyToOne
     @JoinColumn(name = "idProduit", nullable = false)
     private Produit produit;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private VenteInit venteInit;
     private int quantite;
     private double prixVente;

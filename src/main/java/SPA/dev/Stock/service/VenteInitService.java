@@ -19,6 +19,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static SPA.dev.Stock.config.RandomStringGenerator.generateRandomString;
+
 @Service
 @RequiredArgsConstructor
 public class VenteInitService {
@@ -61,7 +63,16 @@ public class VenteInitService {
 
 
     public VenteInitDto addVenteInit(VenteInitDto venteInitDto) {
+        List<VenteInit> venteInitList = venteInitRepository.findAll();
+        final String[] reference = new String[1];
+        boolean exists;
 
+        // Boucle pour générer une référence unique
+        do {
+            reference[0] = "VTE-" + generateRandomString(5);
+            exists = venteInitList.stream()
+                    .anyMatch(compte -> compte.getReference().equals(reference[0]));
+        } while (exists);
        // Recuperation de l'utilisateur par défaut
         Optional<Client> existingClient= clientRepository.findById(1L);
 
@@ -72,11 +83,12 @@ public class VenteInitService {
           newClient.setNom("comptoir");
           newClient.setPrenom("default");
           newClient.setAdresse("default");
+
           newClient.setTelephone("default");
           newClient.setStatus(1);
           clientRepository.save(newClient);
             VenteInit venteInit = venteInitMapper.toEntity(venteInitDto, newClient);
-            venteInit.setReference(UUID.randomUUID().toString());
+            venteInit.setReference(reference[0]);
             venteInit.setStatus(1);
             VenteInit newVenteInit = venteInitRepository.save(venteInit);
             return venteInitMapper.toDto(newVenteInit);
@@ -90,7 +102,7 @@ public class VenteInitService {
             int currentUserId = userService.getCurrentUserId();
 
             VenteInit venteInit = venteInitMapper.toEntity(venteInitDto, client);
-            venteInit.setReference(UUID.randomUUID().toString());
+            venteInit.setReference("VTE-" + generateRandomString(5));
             venteInit.setCreatedBy(currentUserId); // Associe l'utilisateur connecté à la création
             venteInit.setStatus(1);
             VenteInit newVenteInit = venteInitRepository.save(venteInit);
