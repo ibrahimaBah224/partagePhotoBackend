@@ -58,7 +58,7 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
-
+/*
    @PostConstruct
     public void addAdmin(){
         Optional<User> user = userRepository.findByTelephone("624085523");
@@ -91,5 +91,5 @@ public class UserController {
        fournisseur.setSociete("Magasin Principal");
        fournisseurRepository.save(fournisseur);
     }
-
+*/
 }
