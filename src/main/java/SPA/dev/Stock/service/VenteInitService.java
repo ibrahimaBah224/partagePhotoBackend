@@ -55,8 +55,7 @@ public class VenteInitService {
 
     public VenteInitDto getVenteInit(Long id) {
         int currentUserId = userService.getCurrentUserId();
-        VenteInit vente = (VenteInit) venteInitRepository.findByIdAndCreatedBy(id, currentUserId)
-                .orElseThrow(() -> new RuntimeException("pas de vente initialization"));
+        VenteInit vente = venteInitRepository.findByIdAndCreatedBy(id, currentUserId);
         return venteInitMapper.toDto(vente);
     }
 
@@ -102,8 +101,8 @@ public class VenteInitService {
 
     public VenteInitDto removeVenteInit(Long id) {
         int currentUserId = userService.getCurrentUserId();
-        VenteInit venteInit = (VenteInit) venteInitRepository.findByIdAndCreatedBy(id, currentUserId)
-                .orElseThrow(() -> new AppException("Vente not found", HttpStatus.NOT_FOUND));
+        VenteInit venteInit = venteInitRepository.findByIdAndCreatedBy(id, currentUserId);
+
         venteInitRepository.deleteById(id);
         return venteInitMapper.toDto(venteInit);
     }
@@ -112,8 +111,7 @@ public class VenteInitService {
     public VenteInitDto updateVenteInit(Long id, VenteInitDto venteInitDto) {
 
         int currentUserId = userService.getCurrentUserId();
-        VenteInit existingVente = (VenteInit) venteInitRepository.findByIdAndCreatedBy(id, currentUserId)
-                .orElseThrow(() -> new AppException("Vente not found", HttpStatus.NOT_FOUND));
+        VenteInit existingVente =  venteInitRepository.findByIdAndCreatedBy(id, currentUserId);
 
         Client client = clientRepository.findById(venteInitDto.getIdClient())
                 .orElseThrow(() -> new AppException("Client not found", HttpStatus.NOT_FOUND));
