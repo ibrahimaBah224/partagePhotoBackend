@@ -3,6 +3,7 @@ package SPA.dev.Stock.mapper;
 import SPA.dev.Stock.dto.ApprovisionnementDto;
 import SPA.dev.Stock.dto.ProduitDto;
 import SPA.dev.Stock.dto.VenteDto;
+import SPA.dev.Stock.modele.Approvisionnement;
 import SPA.dev.Stock.modele.Produit;
 import SPA.dev.Stock.repository.ApprovisionnementRepository;
 import SPA.dev.Stock.repository.SousCategorieRepository;
@@ -57,6 +58,8 @@ public class ProduitMapper {
                     // Convertir le produit en ProduitDto une seule fois
                     ProduitDto produitDto = toDto(produit);
 
+                    Approvisionnement lastAppro= approvisionnementRepository.findAll().getLast();
+
                     // Calculer la quantité approvisionnée, en gérant le cas où la requête peut retourner null
                     Integer quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
                             produit.getIdProduit(),
@@ -71,10 +74,9 @@ public class ProduitMapper {
                             userService.getCurrentUserId()
                     );
                     quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;
-
                     // Mettre à jour la quantité dans le DTO
                     produitDto.setQuantite(quantiteApprovisionnee - quantiteVendue);
-
+                    produitDto.setPrixUnitaire(lastAppro.getPrixUniteVente());
                     return produitDto;
                 })
                 .collect(Collectors.toList());

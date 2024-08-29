@@ -14,7 +14,6 @@ import java.util.List;
 public interface ApprovisionnementRepository extends JpaRepository<Approvisionnement,Integer> {
     @Query("SELECT SUM(a.quantite) FROM Approvisionnement a WHERE a.produit.idProduit = :idProduit AND a.createdBy = :createdBy")
     Integer findTotalQuantityByProduitIdAndCreatedBy(@Param("idProduit") int idProduit, @Param("createdBy")int createdBy);
-
     List<Approvisionnement> findApprovisionnementByCreatedBy(int createdBy);
     List<ApprovisionnementDto> findApprovisionnementByFournisseurAndCreatedBy(Fournisseur fournisseur,int id);
     List<ApprovisionnementDto> findApprovisionnementByEntrepotAndCreatedBy(Entrepot entrepot,int createdBy);
