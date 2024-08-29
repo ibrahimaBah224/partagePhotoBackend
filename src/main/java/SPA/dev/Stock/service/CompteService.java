@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static SPA.dev.Stock.config.RandomStringGenerator.generateRandomString;
+
 @Service
 @RequiredArgsConstructor
 public class CompteService {
@@ -30,8 +32,19 @@ public class CompteService {
     }
 
     public CompteDto addCompte(CompteDto compteDto){
+        List<Compte> comptes = compteRepository.findAll();
+        final String[] reference = new String[1];
+        boolean exists;
+
+        // Boucle pour générer une référence unique
+        do {
+            reference[0] = "COMPT-" + generateRandomString(5);
+            exists = comptes.stream()
+                    .anyMatch(compte -> compte.getReference().equals(reference[0]));
+        } while (exists);
+
         Compte compte = compteMapper.toCompte(compteDto);
-        compte.setReference(UUID.randomUUID().toString());
+        compte.setReference(reference[0]);
         Compte newCompte = compteRepository.save(compte);
         return compteMapper.toCompteDto(newCompte);
     }

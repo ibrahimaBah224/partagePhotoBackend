@@ -13,5 +13,5 @@ import java.util.Optional;
 public interface VenteInitRepository extends JpaRepository<VenteInit, Long> {
 
     List<VenteInit> findAllByCreatedBy(int currentUserId);
-    <T>ScopedValue<T> findByIdAndCreatedBy(Long id, int currentUserId);
+    VenteInit findByIdAndCreatedBy(Long id, int currentUserId);
 }
