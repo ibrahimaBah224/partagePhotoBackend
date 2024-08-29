@@ -66,7 +66,7 @@ public class ApprovisionnementService {
             }
         }
         else {
-            Magasin mag = magasinRepository.findByUserId(admin.getId());
+            Magasin mag = admin.getMagasin();
             return traiterApprovisionnementAvecFournisseur(approvisionnementDto,mag);
         }
     }
