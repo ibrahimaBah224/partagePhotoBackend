@@ -51,17 +51,6 @@ public class ApprovisionnementService {
         // Récupération de l'utilisateur courant
         User user = userRepository.findById(userService.getCurrentUserId())
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
-
-        // Récupération du magasin de l'utilisateur
-        Magasin magasin = magasinRepository.findByUserId(user.getId());
-
-        // Récupération de l'entrepôt, du fournisseur, et du produit
-        Entrepot entrepot = entrepotService.getEntrepot(approvisionnementDto.getIdEntrepot())
-                .map(entrepotMapper::toEntity)
-                .orElseThrow(() -> new RuntimeException("Entrepôt introuvable"));
-        Produit produit = produitService.getProduit(approvisionnementDto.getIdProduit())
-                .map(produitMapper::toEntity)
-                .orElseThrow(() -> new RuntimeException("Produit introuvable"));
           List<TransfertDto> l =  transfertService.getTransfertByMagasin();
 
         User admin=userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN)
@@ -77,7 +66,7 @@ public class ApprovisionnementService {
             }
         }
         else {
-            Magasin mag = magasinRepository.findByUserId(admin.getId());
+            Magasin mag = admin.getMagasin();
             return traiterApprovisionnementAvecFournisseur(approvisionnementDto,mag);
         }
     }

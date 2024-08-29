@@ -21,7 +21,7 @@ import static java.lang.Integer.parseInt;
 public class ProduitMapper {
     private final SousCategorieRepository sousCategorieRepository;
 
-    private String uploadDir = "http://localhost:8080/photo";
+
    public ProduitDto toDto(Produit produit){
        return ProduitDto.builder()
                .idProduit(produit.getIdProduit())
