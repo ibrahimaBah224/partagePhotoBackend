@@ -10,6 +10,7 @@ import SPA.dev.Stock.repository.SousCategorieRepository;
 import SPA.dev.Stock.repository.UserRepository;
 import SPA.dev.Stock.repository.VenteRepository;
 import SPA.dev.Stock.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -55,28 +56,30 @@ public class ProduitMapper {
     public List<ProduitDto> toDtoList(List<Produit> produits) {
         return produits.stream()
                 .map(produit -> {
-                    // Convertir le produit en ProduitDto une seule fois
                     ProduitDto produitDto = toDto(produit);
 
-                    Approvisionnement lastAppro= approvisionnementRepository.findAll().getLast();
+                    List<Approvisionnement> approvisionnements = approvisionnementRepository.findApprovisionnementByProduit(produit);
+                    if (!approvisionnements.isEmpty()) {
+                        Approvisionnement lastAppro = approvisionnements.get(approvisionnements.size() - 1);
+                        produitDto.setPrixUnitaire(lastAppro.getPrixUniteVente());
+                    } else {
+                        produitDto.setPrixUnitaire(0);
+                    }
 
-                    // Calculer la quantité approvisionnée, en gérant le cas où la requête peut retourner null
                     Integer quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
                             produit.getIdProduit(),
                             userService.getCurrentUserId()
                     );
                     quantiteApprovisionnee = (quantiteApprovisionnee != null) ? quantiteApprovisionnee : 0;
 
-                    // Calculer la quantité vendue, en gérant le cas où la requête peut retourner null
                     Integer quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
                             produit.getIdProduit(),
-                            2, // Status de vente spécifique
+                            2,
                             userService.getCurrentUserId()
                     );
                     quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;
-                    // Mettre à jour la quantité dans le DTO
+
                     produitDto.setQuantite(quantiteApprovisionnee - quantiteVendue);
-                    produitDto.setPrixUnitaire(lastAppro.getPrixUniteVente());
                     return produitDto;
                 })
                 .collect(Collectors.toList());

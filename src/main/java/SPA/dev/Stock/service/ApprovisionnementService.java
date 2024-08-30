@@ -5,6 +5,7 @@ import SPA.dev.Stock.dto.ApprovisionnementDto;
 
 import SPA.dev.Stock.dto.ProduitDto;
 import SPA.dev.Stock.dto.TransfertDto;
+import SPA.dev.Stock.enumeration.EnumTypeMagasin;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.enumeration.StatusTransfertEnum;
 import SPA.dev.Stock.mapper.*;
@@ -32,18 +33,15 @@ import java.util.Optional;
 public class ApprovisionnementService {
 
     private final ApprovisionnementMapper approvisionnementMapper;
-    private final EntrepotService entrepotService;
     private final FournisseurService fournisseurService;
     private final ApprovisionnementRepository approvisionnementRepository;
     private final UserService userService;
-    private final MagasinRepository magasinRepository;
     private final TransfertService transfertService;
-    private final EntrepotMapper entrepotMapper;
     private final FournisseurMapper fournisseurMapper;
     private final ProduitService produitService;
     private final ProduitMapper produitMapper;
     private final UserRepository userRepository;
-    private final MagasinService magasinService;
+    private final MagasinRepository magasinRepository;
 
     @Transactional
     public ApprovisionnementDto ajouter(ApprovisionnementDto approvisionnementDto) {
@@ -84,30 +82,28 @@ public class ApprovisionnementService {
     private ApprovisionnementDto traiterApprovisionnementAvecTransfert(ApprovisionnementDto approvisionnementDto) {
         List<TransfertDto> transferts = transfertService.getTransfertByMagasin();
         return transferts.stream()
-                .filter(trans -> trans.getProduit().equals( STR."\{approvisionnementDto.getIdProduit()}"))
+                .filter(trans -> trans.getProduit().equals(approvisionnementDto.getProduit()))
                 .filter(trans -> trans.getQuantite() >= approvisionnementDto.getQuantite())
                 .findFirst()
                 .map(trans -> {
-                    // Mise à jour du transfert
-                    int q =trans.getQuantite() - approvisionnementDto.getQuantite();
+                    int q = trans.getQuantite() - approvisionnementDto.getQuantite();
                     trans.setQuantite(q);
                     if (trans.getQuantite() == 0) {
                         trans.setStatus(StatusTransfertEnum.terminer);
                     }
                     transfertService.modifier(trans.getIdTransfert(), trans);
-
-                    // Création et sauvegarde de l'approvisionnement
-                    approvisionnementDto.setIdFournisseur(1);
+                    approvisionnementDto.setFournisseur("1");
                     Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto);
                     return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
                 })
                 .orElseThrow(() -> new RuntimeException("Aucun transfert correspondant trouvé ou quantité insuffisante pour l'approvisionnement."));
     }
 
+
     private TransfertDto creerTransfertDto(ApprovisionnementDto approvisionnementDto, Magasin magasin) {
         TransfertDto transfertDto = new TransfertDto();
         transfertDto.setMagasin(String.valueOf(magasin.getId()));
-        transfertDto.setProduit(String.valueOf(approvisionnementDto.getIdProduit()));
+        transfertDto.setProduit(String.valueOf(approvisionnementDto.getProduit()));
         transfertDto.setQuantite(approvisionnementDto.getQuantite());
         transfertDto.setStatus(StatusTransfertEnum.terminer);
         return transfertDto;
@@ -136,10 +132,8 @@ public class ApprovisionnementService {
     }
 
     public List<ApprovisionnementDto> getApprovisionnementByEntrepot(int idEntrepot) {
-        Entrepot entrepot =entrepotMapper
-                .toEntity(entrepotService
-                        .getEntrepot(idEntrepot)
-                        .orElseThrow(()->new RuntimeException("entrepot introuvable")));
+        Magasin entrepot = magasinRepository.findByIdAndTypeMagasin(idEntrepot, EnumTypeMagasin.ENTREPOT)
+                .orElseThrow(()->new RuntimeException("Entrepot not found"));
         int userId = userService.getCurrentUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new RuntimeException("utilisateur introuvable"));
@@ -171,7 +165,7 @@ public class ApprovisionnementService {
     public List<ApprovisionnementDto> getApprovisionnementByProduit(int idProduit) {
         ProduitDto produitDto = produitService.getProduit(idProduit).orElseThrow(()->new RuntimeException("produit introuvable"));
         Produit produit =produitMapper.toEntity(produitDto);
-        return  approvisionnementRepository.findApprovisionnementByProduit(produit);
+        return approvisionnementMapper.toDtoList(approvisionnementRepository.findApprovisionnementByProduit(produit));
     }
 
     public Optional<ApprovisionnementDto> getApprovisionnement(int id) {

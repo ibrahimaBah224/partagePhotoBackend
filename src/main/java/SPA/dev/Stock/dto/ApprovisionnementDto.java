@@ -4,19 +4,23 @@ import lombok.*;
 
 import java.util.Date;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApprovisionnementDto extends AbstractEntitieDto {
+public class ApprovisionnementDto  {
     private int idApprovisionnement;
-    private int idProduit;
-    private int idEntrepot;
-    private int idFournisseur;
+    private String produit;
+    private String entrepot;
+    private String fournisseur;
     private int montantTotal;
     private int quantite;
     private float prixUniteAchat;
     private float prixUniteVente;
     private Date datePeremption;
+    private int createdBy;
+    private Date createdAt;
+    private int updatedBy;
+    private Date updatedAt;
+    private  int statut;
 }

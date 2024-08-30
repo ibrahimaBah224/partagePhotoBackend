@@ -1,6 +1,7 @@
 package SPA.dev.Stock.mapper;
 
 import SPA.dev.Stock.dto.*;
+import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.modele.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +22,7 @@ public class UserMapper1 {
                 .fullName(user.getFullName())
                 .idMagasin(user.getMagasin().getId())
                 .telephone(user.getTelephone())
+                .Role(String.valueOf(user.getRole()))
                 .password(bCryptPasswordEncoder.encode(user.getPassword()))
                 .build();
     }
@@ -31,6 +33,7 @@ public class UserMapper1 {
                 .magasin(magasin)
                 .fullName(registerUserDto.getFullName())
                 .telephone(registerUserDto.getTelephone())
+                .role(RoleEnumeration.valueOf(registerUserDto.getRole()))
                 .build();
     }
 

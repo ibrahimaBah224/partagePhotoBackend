@@ -2,6 +2,7 @@ package SPA.dev.Stock.controller;
 
 import SPA.dev.Stock.dto.PasswordDto;
 import SPA.dev.Stock.dto.RegisterUserDto;
+import SPA.dev.Stock.enumeration.EnumTypeMagasin;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.mapper.UserMapper1;
 import SPA.dev.Stock.modele.Fournisseur;
@@ -69,6 +70,7 @@ public class UserController {
         magasin.setNom("Magasin1");
         magasin.setAdresse("12 rue de la république");
         magasin.setReference("Ref-1");
+        magasin.setTypeMagasin(EnumTypeMagasin.MAGASIN);
         magasin = magasinRepository.save(magasin);
         User userDto = new User();
         userDto.setEmail("admin@gmail.com");

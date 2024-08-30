@@ -1,8 +1,7 @@
 package SPA.dev.Stock.enumeration;
 
-public enum RoleEnumeration {
-    SUPER_ADMIN,
-    ADMIN,
+public enum EnumTypeMagasin {
+    MAGASIN,
     ENTREPOT,
     CUISINE,
     PDV

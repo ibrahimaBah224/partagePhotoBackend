@@ -23,7 +23,7 @@ public class Fournisseur extends AbstractEntitie{
     private String email;
     private String adresse;
 
-    @OneToMany(mappedBy = "fournisseur", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "fournisseur")
     private List<Approvisionnement> approvisionnements;
 
 

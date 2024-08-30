@@ -30,7 +30,7 @@ public class Produit extends AbstractEntitie{
     @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL)
     private List<Approvisionnement> approvisionnements;
 
-    @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "produit")
     private List<Transfert> transferts;
 
 

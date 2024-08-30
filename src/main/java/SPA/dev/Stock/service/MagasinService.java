@@ -2,9 +2,9 @@ package SPA.dev.Stock.service;
 
 
 import SPA.dev.Stock.dto.MagasinDto;
+import SPA.dev.Stock.enumeration.EnumTypeMagasin;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.exception.MagasinNotFoundException;
-import SPA.dev.Stock.exception.UserNotFoundException;
 import SPA.dev.Stock.mapper.MagasinMapper;
 import SPA.dev.Stock.modele.Magasin;
 import SPA.dev.Stock.modele.User;
@@ -12,7 +12,6 @@ import SPA.dev.Stock.repository.MagasinRepository;
 
 
 import SPA.dev.Stock.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +22,16 @@ public class MagasinService {
     private final UserService userService;
     private final MagasinMapper magasinMapper;
     private final UserRepository userRepository;
+
+
+    public boolean isValidEnumTypeMagasin(String value) {
+        try {
+            EnumTypeMagasin.valueOf(value.toUpperCase());
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
 
     public MagasinService(MagasinRepository magasinRepository, UserService userService, MagasinMapper magasinMapper, UserRepository userRepository) {
         this.magasinRepository = magasinRepository;
@@ -37,38 +46,27 @@ public class MagasinService {
         Magasin magasins = magasinRepository.findByUserId(currentUserId);
         return magasinMapper.magasinToMagasinDTO(magasins);
     }
-    public List<MagasinDto> list(){
-        List<Magasin> magasins = magasinRepository.findAllByIdOrCreatedBy(userService.getCurrentUserId(),userService.getCurrentUserId());
+    public List<MagasinDto> list(EnumTypeMagasin typeMagasin){
+        List<Magasin> magasins = magasinRepository.findAllByCreatedByAndTypeMagasin(userService.getCurrentUserId(),typeMagasin);
         return magasinMapper.magasinsToMagasinDTOs(magasins);
     }
     public MagasinDto createMagasin(MagasinDto magasinDTO) {
-        User user = userRepository.findById(userService.getCurrentUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        if (!RoleEnumeration.SUPER_ADMIN.name().equalsIgnoreCase(String.valueOf(user.getRole()))) {
-            throw new RuntimeException("Vous n'êtes pas autorisé");
-        }
         Magasin magasin = magasinMapper.magasinDTOToMagasin(magasinDTO);
         Magasin savedMagasin = magasinRepository.save(magasin);
         return magasinMapper.magasinToMagasinDTO(savedMagasin);
     }
 
 
-    public MagasinDto getMagasinById(int id) {
+    public MagasinDto getMagasinById(int id,EnumTypeMagasin typeMagasin) {
         int currentUserId = userService.getCurrentUserId();
-        Magasin magasin = magasinRepository.findByIdAndUserId(id, currentUserId)
-                .orElseThrow(() -> new MagasinNotFoundException("Magasin not found or access denied"));
+        Magasin magasin = magasinRepository.findByIdAndUserIdAndTypeMagasin(id, currentUserId,typeMagasin)
+                .orElseThrow(() -> new MagasinNotFoundException(STR."\{typeMagasin} not found or access denied"));
         return magasinMapper.magasinToMagasinDTO(magasin);
     }
-    public MagasinDto getMagasin(int id){
-        Magasin magasin = magasinRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("magasin not found"));
-        return magasinMapper.magasinToMagasinDTO(magasin);
-    }
-
-    public MagasinDto updateMagasin(int id, MagasinDto magasinDTO) {
+    public MagasinDto updateMagasin(int id, MagasinDto magasinDTO,EnumTypeMagasin enumTypeMagasin) {
         int currentUserId = userService.getCurrentUserId();
-        Magasin magasin = magasinRepository.findByIdAndUserId(id, currentUserId)
-                .orElseThrow(() -> new MagasinNotFoundException("Magasin not found or access denied"));
+        Magasin magasin = magasinRepository.findByIdAndUserIdAndTypeMagasin(id, currentUserId,enumTypeMagasin)
+                .orElseThrow(() -> new MagasinNotFoundException(STR."\{enumTypeMagasin} not found or access denied"));
         magasin.setNom(magasinDTO.getNom());
         magasin.setReference(magasinDTO.getReference());
         magasin.setAdresse(magasinDTO.getAdresse());
@@ -76,19 +74,14 @@ public class MagasinService {
         return magasinMapper.magasinToMagasinDTO(updatedMagasin);
     }
 
-    public void deleteMagasin(int id) {
-       /* int currentUserId = userService.getCurrentUserId();
-        Magasin magasin = magasinRepository.findByIdAndUserId(id, currentUserId)
-                .orElseThrow(() -> new MagasinNotFoundException("Magasin not found or access denied"));
-        magasinRepository.delete(magasin);*/
-
-        Magasin magasin = magasinRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("magasin not found"));
+    public void deleteMagasin(int id,EnumTypeMagasin typeMagasin) {
+        Magasin magasin = magasinRepository.findByIdAndTypeMagasin(id,typeMagasin)
+                .orElseThrow(()->new RuntimeException(STR."\{typeMagasin} not found"));
         if(magasin.getCreatedBy() != userService.getCurrentUserId()){
             throw new RuntimeException("access denied");
         }
         if (magasin.getUser()!= null){
-            throw new RuntimeException("ce magasin est déjà lié à un Gestionnaire");
+            throw new RuntimeException(STR."\{typeMagasin} est déjà lié à un Gestionnaire");
         }
         magasinRepository.deleteById(id);
     }

@@ -3,6 +3,7 @@ package SPA.dev.Stock.service;
 import SPA.dev.Stock.dto.MagasinDto;
 import SPA.dev.Stock.dto.PasswordDto;
 import SPA.dev.Stock.dto.RegisterUserDto;
+import SPA.dev.Stock.enumeration.EnumTypeMagasin;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.exception.UserNotFoundException;
 import SPA.dev.Stock.mapper.UserMapper;
@@ -31,6 +32,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MagasinRepository magasinRepository;
+
+
+    public boolean isValidRoleEnumeration(String value) {
+        try {
+            RoleEnumeration.valueOf(value.toUpperCase());
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
 
     public int getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -84,14 +95,24 @@ public class UserService {
         int currentUserId = getCurrentUserId(); // Fetch the ID of the currently authenticated user
         User currentUser = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new AccessDeniedException("Current user not found."));
-        if (!currentUser.getRole().equals(RoleEnumeration.SUPER_ADMIN)) {
-            throw new AccessDeniedException("You do not have permission to perform this action.");
+        if (!RoleEnumeration.SUPER_ADMIN.equals(currentUser.getRole())) {
+            if(!RoleEnumeration.ADMIN.equals(currentUser.getRole())) {
+                throw new AccessDeniedException("La permission de réaliser cette action vous est refusée.");
+            }
+        }
+        if(!isValidRoleEnumeration(String.valueOf(registerUserDto.getRole()))){
+            throw new RuntimeException("Role non accepté");
+        }
+        if(RoleEnumeration.ADMIN.equals(currentUser.getRole())){
+            if(registerUserDto.getRole().equals(RoleEnumeration.ADMIN) || registerUserDto.getRole().equals(RoleEnumeration.SUPER_ADMIN)){
+                throw new RuntimeException("Impossible de créer un administrateur ");
+            }
         }
         if (!userRepository.findByTelephone(registerUserDto.getTelephone()).isPresent()) {
-            Magasin magasin = magasinRepository.findById(registerUserDto.getIdMagasin())
+            Magasin magasin = magasinRepository.findByIdAndCreatedBy(registerUserDto.getIdMagasin(),currentUserId)
                     .orElseThrow(()->new RuntimeException("magasin not found"));
             User user = userMapper.toEntity(registerUserDto,magasin);
-            user.setRole(RoleEnumeration.ADMIN); // Assign the ADMIN role to the new user
+            user.setRole(RoleEnumeration.valueOf(registerUserDto.getRole())); // Assign the ADMIN role to the new user
             user.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
             user.setCreatedBy(getCurrentUserId());
             if (magasin.getUser()!=null) {

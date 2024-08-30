@@ -8,9 +8,7 @@ import org.springframework.core.io.Resource;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProduitDto  extends AbstractEntitieDto{
-
     private int idProduit;
-
     private String designation;
     private String reference;
     private int seuil;

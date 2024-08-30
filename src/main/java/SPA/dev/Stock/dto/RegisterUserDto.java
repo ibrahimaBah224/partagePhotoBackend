@@ -22,6 +22,8 @@ public class RegisterUserDto {
 
     private String password;
 
+    private String Role;
+
     private int createdBy;
 
     private int idMagasin;
