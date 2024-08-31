@@ -12,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -52,6 +53,9 @@ public class VenteInit {
     @Column(name = "updated_by")
     private int updatedBy;
     private int status;
+
+    @OneToMany(mappedBy = "venteInit", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Vente> ventes;
 
 }
 

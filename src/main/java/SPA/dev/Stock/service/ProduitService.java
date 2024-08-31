@@ -37,9 +37,9 @@ public class ProduitService {
 
     // Ajouter un produit avec gestion de l'image
     public ProduitDto ajouter(ProduitDto produitDto, MultipartFile file) throws IOException {
-        User admin = userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN).stream()
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("admin introuvable"));
+        int currentUserId =  userService.getCurrentUserId();
+        User user = userRepository.findById(currentUserId)
+                .orElseThrow(()->new RuntimeException("user not found"));
         Produit produit = produitMapper.toEntity(produitDto);
 
         // Gestion de l'image
@@ -51,7 +51,10 @@ public class ProduitService {
             produit.setImage(fileName);  // Stocker uniquement le nom du fichier dans la base de données
         }
 
-        if (userService.getCurrentUserId() != admin.getId()) {
+        if (user.getRole()==RoleEnumeration.SUPER_ADMIN) {
+            produit.setStatut(1);
+        }
+        else{
             produit.setStatut(0);
         }
 

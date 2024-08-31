@@ -1,5 +1,6 @@
 package SPA.dev.Stock.service;
 
+import SPA.dev.Stock.dto.ProduitVenteDto;
 import SPA.dev.Stock.dto.VenteDto;
 import SPA.dev.Stock.exception.AppException;
 import SPA.dev.Stock.mapper.Mapper;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,6 +68,24 @@ public class VenteService {
         return venteMapper.toVenteDto(newVente);
     }
 
+    public Object[] venteEnCours(int idVenteInit){
+        List<Vente> ventesEnCours = venteRepository.findByVenteInitIdAndStatus(idVenteInit,1);
+        List<ProduitVenteDto> produitVenteDtos = new ArrayList<>();
+        for (Vente vente :ventesEnCours){
+            ProduitVenteDto produitVenteDto = new ProduitVenteDto();
+
+            produitVenteDto.setDesignation(vente.getProduit().getDesignation());
+            produitVenteDto.setIdVente(vente.getVenteInit().getId());
+            produitVenteDto.setQuantite(vente.getQuantite());
+            produitVenteDto.setPrixUnitaire(vente.getPrixVente());
+
+            produitVenteDtos.add(produitVenteDto);
+        }
+        return new Object[]{produitVenteDtos,getTotalRevenue(produitVenteDtos)};
+    }
+    public double getTotalRevenue(List<ProduitVenteDto> produitVenteDtos) {
+        return produitVenteDtos.stream().mapToDouble(v -> v.getQuantite() * v.getPrixUnitaire()).sum();
+    }
     public VenteDto removeVente(Long id) {
         Vente vente = venteRepository.findByIdAndCreatedBy(id, userService.getCurrentUserId())
                 .orElseThrow(() -> new AppException("Vente not found", HttpStatus.NOT_FOUND));
@@ -141,10 +161,7 @@ public class VenteService {
         return true;
     }
 
-    public double getTotalRevenue() {
-        List<Vente> ventes = venteRepository.findAll();
-        return ventes.stream().mapToDouble(v -> v.getQuantite() * v.getPrixVente()).sum();
-    }
+
 
     public double getTotalRevenueByProduit(int produitId) {
         List<Vente> ventes = venteRepository.findByProduitIdProduit(produitId);

@@ -15,13 +15,22 @@ import java.util.Optional;
 
 @Repository
 public interface VenteRepository extends JpaRepository<Vente, Long> {
-    @Query("SELECT SUM(v.quantite)" +
+    /*@Query("SELECT SUM(v.quantite)" +
             " FROM Vente v JOIN v.produit a" +
             " WHERE a.idProduit = :idProduit AND v.status = :status AND v.createdBy = :createdBy")
     Integer findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
             @Param("idProduit") int idProduit,
             @Param("status") int status,
             @Param("createdBy") int createdBy);
+    */
+
+    @Query("SELECT SUM(v.quantite)" +
+            " FROM Vente v JOIN v.produit a" +
+            " WHERE a.idProduit = :idProduit  AND v.createdBy = :createdBy")
+    Integer findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
+            @Param("idProduit") int idProduit,
+            @Param("createdBy") int createdBy);
+
     List<Vente> findByCreatedBy(Integer userId);
 
     Optional<Vente> findByIdAndCreatedBy(Long id, int currentUserId);
@@ -32,6 +41,9 @@ public interface VenteRepository extends JpaRepository<Vente, Long> {
 
 
     List<Vente> findByCreatedAtBefore(Date olderThanDate);
+
+    @Query("SELECT v FROM Vente v WHERE v.venteInit.id = :venteInitId AND v.venteInit.status = :status")
+    List<Vente> findByVenteInitIdAndStatus(@Param("venteInitId") int venteInitId, @Param("status") int status);
 
 
 }

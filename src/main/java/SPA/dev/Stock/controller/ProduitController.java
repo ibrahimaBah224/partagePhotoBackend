@@ -25,7 +25,7 @@ public class ProduitController {
             @RequestParam("reference") String reference,
             @RequestParam("designation") String designation,
             @RequestParam("id_sousCategorie") int idSousCategorie,
-            @RequestParam("description") String description,
+            @RequestParam(value = "description",required = false) String description,
             @RequestParam("seuil") int seuil,
             @RequestParam(value = "file", required = false) MultipartFile file) {
         ProduitDto produitDto = new ProduitDto();

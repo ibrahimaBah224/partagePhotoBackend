@@ -47,4 +47,8 @@ public class VenteController {
     public ResponseEntity<VenteDto> updateVente(@PathVariable Long id, @Valid @RequestBody VenteDto venteDto){
         return ResponseEntity.ok(venteService.updateVente(id, venteDto));
     }
+    @GetMapping("/venteEnCours/{id}")
+    public ResponseEntity<Object[]> venteEnCours(@PathVariable int id){
+        return ResponseEntity.ok(venteService.venteEnCours(id));
+    }
 }

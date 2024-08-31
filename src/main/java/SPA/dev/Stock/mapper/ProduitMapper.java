@@ -74,7 +74,6 @@ public class ProduitMapper {
 
                     Integer quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
                             produit.getIdProduit(),
-                            2,
                             userService.getCurrentUserId()
                     );
                     quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;

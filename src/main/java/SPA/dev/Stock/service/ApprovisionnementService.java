@@ -70,11 +70,6 @@ public class ApprovisionnementService {
     }
 
     private ApprovisionnementDto traiterApprovisionnementAvecFournisseur(ApprovisionnementDto approvisionnementDto, Magasin magasin) {
-        TransfertDto transfertDto = creerTransfertDto(approvisionnementDto, magasin);
-
-        transfertDto.setStatus(StatusTransfertEnum.terminer);
-        // Sauvegarde du transfert et création de l'approvisionnement
-        transfertService.ajouter(transfertDto);
         Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto);
         return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
     }
@@ -176,7 +171,7 @@ public class ApprovisionnementService {
 
     public String delete(int id) {
         Approvisionnement approvisionnement = approvisionnementRepository.findById(id).orElseThrow(()-> new RuntimeException("approvisionnement introuvable"));
-        approvisionnementRepository.deleteById(approvisionnement.getIdApprovisionnement());
+        approvisionnementRepository.deleteById(id);
         return "suppression effectuer avec succes" ;
     }
 
