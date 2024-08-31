@@ -45,7 +45,7 @@ public class ApprovisionnementMapper  {
         return Approvisionnement.builder()
                 .idApprovisionnement(approvisionnementDto.getIdApprovisionnement())
                 .entrepot(magasinRepository
-                        .findByIdAndTypeMagasin(Integer.valueOf(approvisionnementDto.getEntrepot()), EnumTypeMagasin.ENTREPOT)
+                        .findByIdAndTypeMagasin(Integer.parseInt(approvisionnementDto.getEntrepot()), EnumTypeMagasin.ENTREPOT)
                         .orElseThrow(()->new RuntimeException("idEntrepot introuvable")))
                 .produit(produitRepository
                         .findById(Integer.valueOf(approvisionnementDto.getProduit()))

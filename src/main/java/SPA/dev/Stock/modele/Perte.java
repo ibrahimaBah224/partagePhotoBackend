@@ -41,5 +41,4 @@ public class Perte {
     @Column(name = "updated_by")
     private int updatedBy;
     private int status;
-
 }
