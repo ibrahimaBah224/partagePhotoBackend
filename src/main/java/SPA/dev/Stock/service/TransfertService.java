@@ -9,9 +9,7 @@ import SPA.dev.Stock.enumeration.StatusTransfertEnum;
 import SPA.dev.Stock.mapper.MagasinMapper;
 import SPA.dev.Stock.mapper.TransfertMapper;
 import SPA.dev.Stock.modele.*;
-import SPA.dev.Stock.repository.ProduitRepository;
-import SPA.dev.Stock.repository.TransfertRepository;
-import SPA.dev.Stock.repository.UserRepository;
+import SPA.dev.Stock.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +28,8 @@ public class TransfertService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final ProduitRepository produitRepository;
+    private final VenteRepository venteRepository;
+    private final ApprovisionnementRepository approvisionnementRepository ;
 
     public TransfertDto ajouter(TransfertDto transfertDto) {
         Transfert transfert = transfertMapper.toEntity(transfertDto);
@@ -45,11 +45,14 @@ public class TransfertService {
         }
         else {
             if (produit.getStatut() == 0) {
-
                 throw new RuntimeException("le produit que vous voulez transferer n'est pas valider");
             } else {
-                transfertRepository.save(transfert);
-                return transfertMapper.toDto(transfert);
+                int stock = stockProduit(produit);
+                if (transfert.getQuantite()>stock) {
+                    transfertRepository.save(transfert);
+                    return transfertMapper.toDto(transfert);
+                }
+                else throw new RuntimeException("la quatite que vous voulez transferer est supperieur a la quantitie de votre stock");
             }
         }
     }
@@ -114,4 +117,21 @@ public class TransfertService {
         return produits;
     }
 
+    public int stockProduit(Produit produit){
+        Integer quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
+                produit.getIdProduit(),
+                userService.getCurrentUserId()
+        );
+        quantiteApprovisionnee = (quantiteApprovisionnee != null) ? quantiteApprovisionnee : 0;
+
+        Integer quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
+                produit.getIdProduit(),
+                userService.getCurrentUserId(),
+                userRepository.findById(userService.getCurrentUserId())
+                        .orElseThrow(()->new RuntimeException("user not found"))
+        );
+        quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;
+
+       return quantiteApprovisionnee - quantiteVendue;
+    }
 }
