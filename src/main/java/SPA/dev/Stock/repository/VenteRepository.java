@@ -34,7 +34,7 @@ public interface VenteRepository extends JpaRepository<Vente, Long> {
 
     @Query("SELECT SUM(v.quantite)" +
             " FROM Vente v JOIN v.produit a" +
-            " WHERE a.idProduit = :idProduit  AND v.createdBy = :createdBy OR v.user= :user")
+            " WHERE a.idProduit = :idProduit  AND ( v.createdBy = :createdBy OR v.user= :user)")
     Integer findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
             @Param("idProduit") int idProduit,
             @Param("createdBy") int createdBy,

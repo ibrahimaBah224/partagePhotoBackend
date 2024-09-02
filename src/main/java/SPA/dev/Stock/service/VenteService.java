@@ -55,8 +55,7 @@ public class VenteService {
     public VenteDto addVente(VenteDto venteDto) {
         User user = userRepository.findById(userService.getCurrentUserId())
                 .orElseThrow(()->new RuntimeException("user not found"));
-        user = userRepository.findById(user.getCreatedBy())
-                .orElseThrow(()-> new RuntimeException("super not found"));
+        user = userRepository.findById(user.getCreatedBy()).orElseThrow(()-> new RuntimeException("super not found"));
         if(venteDto.getVenteInitId() == null){
             throw new RuntimeException("vente Init ne peut pas être null");
         }
@@ -67,12 +66,13 @@ public class VenteService {
         Vente venteProduit = venteRepository.findByProduit(produit);
         if(venteProduit!=null){
             throw new RuntimeException("produit existant");
+        }else {
+            Vente vente = venteMapper.toVenteEntity(venteDto, produit, venteInit);
+            vente.setCreatedBy(userService.getCurrentUserId());
+            vente.setUser(user);
+            Vente newVente = venteRepository.save(vente);
+            return venteMapper.toVenteDto(newVente);
         }
-        Vente vente = venteMapper.toVenteEntity(venteDto, produit, venteInit);
-        vente.setCreatedBy(userService.getCurrentUserId());
-        vente.setUser(user);
-        Vente newVente = venteRepository.save(vente);
-        return venteMapper.toVenteDto(newVente);
     }
 
     public Object[] venteEnCours(int idVenteInit){

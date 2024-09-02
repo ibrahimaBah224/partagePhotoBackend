@@ -34,8 +34,8 @@ public class Vente {
     private double prixVente;
     private int status;
 
-    @OneToOne
-    @JoinColumn(name = "adminUser")
+    @ManyToOne
+    @JoinColumn(name = "user")
     private User user;
 
     @CreationTimestamp

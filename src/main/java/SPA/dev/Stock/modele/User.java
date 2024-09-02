@@ -46,6 +46,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "magasin_id",nullable = true)
     private Magasin magasin;
 
+    @OneToMany(mappedBy = "user")
+    private List<Vente> ventes;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE",nullable = true)
     private RoleEnumeration role;
