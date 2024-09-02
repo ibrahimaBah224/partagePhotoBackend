@@ -48,7 +48,6 @@ public class TransfertService {
                 throw new RuntimeException("le produit que vous voulez transferer n'est pas valider");
             } else {
                 int stock = stockProduit(produit);
-                System.out.println(STR."============================\n============================\n============================\n\{stock}");
                 if (transfert.getQuantite()<=stock) {
                     transfertRepository.save(transfert);
                     return transfertMapper.toDto(transfert);

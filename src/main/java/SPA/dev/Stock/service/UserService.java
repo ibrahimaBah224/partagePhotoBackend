@@ -95,38 +95,53 @@ public class UserService {
         int currentUserId = getCurrentUserId(); // Fetch the ID of the currently authenticated user
         User currentUser = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new AccessDeniedException("Current user not found."));
-        if (!RoleEnumeration.SUPER_ADMIN.equals(currentUser.getRole())) {
-            if(!RoleEnumeration.ADMIN.equals(currentUser.getRole())) {
-                throw new AccessDeniedException("La permission de réaliser cette action vous est refusée.");
-            }
+
+        RoleEnumeration currentUserRole = currentUser.getRole();
+
+        if (!(RoleEnumeration.SUPER_ADMIN.equals(currentUserRole) || RoleEnumeration.ADMIN.equals(currentUserRole))) {
+            throw new AccessDeniedException("You do not have permission to perform this action.");
         }
-        if(!isValidRoleEnumeration(String.valueOf(registerUserDto.getRole()))){
-            throw new RuntimeException("Role non accepté");
+
+        RoleEnumeration newUserRole = RoleEnumeration.valueOf(registerUserDto.getRole());
+
+        if (!isValidRoleEnumeration(newUserRole.name())) {
+            throw new RuntimeException("Invalid role.");
         }
-        if(RoleEnumeration.ADMIN.equals(currentUser.getRole())){
-            if(registerUserDto.getRole().equals(RoleEnumeration.ADMIN) || registerUserDto.getRole().equals(RoleEnumeration.SUPER_ADMIN)){
-                throw new RuntimeException("Impossible de créer un administrateur ");
-            }
+
+        if (RoleEnumeration.ADMIN.equals(currentUserRole) &&
+                (RoleEnumeration.ADMIN.equals(newUserRole) || RoleEnumeration.SUPER_ADMIN.equals(newUserRole))) {
+            throw new RuntimeException("Admins cannot create another Admin or Super Admin.");
         }
-        if (!userRepository.findByTelephone(registerUserDto.getTelephone()).isPresent()) {
-            Magasin magasin = magasinRepository.findByIdAndCreatedBy(registerUserDto.getIdMagasin(),currentUserId)
-                    .orElseThrow(()->new RuntimeException("magasin not found"));
-            User user = userMapper.toEntity(registerUserDto,magasin);
-            user.setRole(RoleEnumeration.valueOf(registerUserDto.getRole())); // Assign the ADMIN role to the new user
-            user.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
-            user.setCreatedBy(getCurrentUserId());
-            if (magasin.getUser()!=null) {
-                throw new RuntimeException("ce magasin est déjà affecté a quelqu'un");
-            }
-            user = userRepository.save(user);
-            magasin.setUser(user);
-            if(magasinRepository.save(magasin)==null){
-                userRepository.delete(user);
-            }
+
+        userRepository.findByTelephone(registerUserDto.getTelephone())
+                .ifPresent(user -> {
+                    throw new RuntimeException("User already exists with this telephone number.");
+                });
+
+        Magasin magasin = magasinRepository.findByIdAndCreatedBy(registerUserDto.getIdMagasin(), currentUserId)
+                .orElseThrow(() -> new RuntimeException("Magasin not found."));
+
+        if (magasin.getUser() != null) {
+            throw new RuntimeException("This magasin is already assigned to another user.");
+        }
+
+        User user = userMapper.toEntity(registerUserDto, magasin);
+        user.setRole(newUserRole);
+        user.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));
+        user.setCreatedBy(currentUserId);
+
+        User savedUser = userRepository.save(user);
+
+        magasin.setUser(savedUser);
+
+        try {
             magasinRepository.save(magasin);
-            return userMapper.toDto(user);
+        } catch (Exception e) {
+            userRepository.delete(savedUser); // Clean up the user if the magasin update fails
+            throw new RuntimeException("Failed to save magasin. User creation rolled back.");
         }
-        throw new RuntimeException("User already exists with this telephone number.");
+
+        return userMapper.toDto(savedUser);
     }
 
     @Transactional
