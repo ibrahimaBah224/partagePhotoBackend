@@ -11,4 +11,5 @@ public class ProduitVenteDto {
     private String designation;
     private double  prixUnitaire;
     private int quantite = 0;
+    private long id;
 }

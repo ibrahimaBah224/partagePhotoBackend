@@ -25,6 +25,7 @@ public class ProduitMapper {
     private final ApprovisionnementRepository approvisionnementRepository;
     private final VenteRepository venteRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
     private int quantite = 0;
 
     public ProduitDto toDto(Produit produit) {
@@ -74,7 +75,9 @@ public class ProduitMapper {
 
                     Integer quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
                             produit.getIdProduit(),
-                            userService.getCurrentUserId()
+                            userService.getCurrentUserId(),
+                            userRepository.findById(userService.getCurrentUserId())
+                                    .orElseThrow(()->new RuntimeException("user not found"))
                     );
                     quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;
 

@@ -4,14 +4,8 @@ import SPA.dev.Stock.dto.ProduitVenteDto;
 import SPA.dev.Stock.dto.VenteDto;
 import SPA.dev.Stock.exception.AppException;
 import SPA.dev.Stock.mapper.Mapper;
-import SPA.dev.Stock.modele.Approvisionnement;
-import SPA.dev.Stock.modele.Produit;
-import SPA.dev.Stock.modele.Vente;
-import SPA.dev.Stock.modele.VenteInit;
-import SPA.dev.Stock.repository.ApprovisionnementRepository;
-import SPA.dev.Stock.repository.ProduitRepository;
-import SPA.dev.Stock.repository.VenteInitRepository;
-import SPA.dev.Stock.repository.VenteRepository;
+import SPA.dev.Stock.modele.*;
+import SPA.dev.Stock.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,6 +25,8 @@ public class VenteService {
     private final VenteInitRepository venteInitRepository;
     private  final ProduitRepository produitRepository;
     private final ApprovisionnementService approvisionnementService;
+    private final UserRepository userRepository;
+
     public List<VenteDto> getAll() {
         Integer userId = userService.getCurrentUserId();
         List<Vente> ventes = venteRepository.findByCreatedBy(userId);
@@ -57,13 +53,24 @@ public class VenteService {
     }*/
 
     public VenteDto addVente(VenteDto venteDto) {
+        User user = userRepository.findById(userService.getCurrentUserId())
+                .orElseThrow(()->new RuntimeException("user not found"));
+        user = userRepository.findById(user.getCreatedBy())
+                .orElseThrow(()-> new RuntimeException("super not found"));
+        if(venteDto.getVenteInitId() == null){
+            throw new RuntimeException("vente Init ne peut pas être null");
+        }
         Produit produit = produitRepository.findById(venteDto.getIdProduit())
                 .orElseThrow(() -> new AppException("Produit not found", HttpStatus.NOT_FOUND));
         VenteInit venteInit = venteInitRepository.findById(venteDto.getVenteInitId())
                 .orElseThrow(() -> new AppException("VenteInit not found", HttpStatus.NOT_FOUND));
-
+        Vente venteProduit = venteRepository.findByProduit(produit);
+        if(venteProduit!=null){
+            throw new RuntimeException("produit existant");
+        }
         Vente vente = venteMapper.toVenteEntity(venteDto, produit, venteInit);
         vente.setCreatedBy(userService.getCurrentUserId());
+        vente.setUser(user);
         Vente newVente = venteRepository.save(vente);
         return venteMapper.toVenteDto(newVente);
     }
@@ -78,6 +85,7 @@ public class VenteService {
             produitVenteDto.setIdVente(vente.getVenteInit().getId());
             produitVenteDto.setQuantite(vente.getQuantite());
             produitVenteDto.setPrixUnitaire(vente.getPrixVente());
+            produitVenteDto.setId(vente.getId());
 
             produitVenteDtos.add(produitVenteDto);
         }
@@ -86,6 +94,34 @@ public class VenteService {
     public double getTotalRevenue(List<ProduitVenteDto> produitVenteDtos) {
         return produitVenteDtos.stream().mapToDouble(v -> v.getQuantite() * v.getPrixUnitaire()).sum();
     }
+
+/*
+    public Object[] venteEnCours(int idVenteInit) {
+        List<Object[]> result = venteRepository.findQuantiteTotaleParProduit(idVenteInit, 1);
+        List<ProduitVenteDto> produitVenteDtos = new ArrayList<>();
+        for (Object[] row : result) {
+            ProduitVenteDto produitVenteDto = new ProduitVenteDto();
+
+            produitVenteDto.setIdVente((Integer) row[0]);
+            produitVenteDto.setDesignation((String) row[1]);
+            produitVenteDto.setPrixUnitaire((Double) row[2]);
+            produitVenteDto.setQuantite(((Number) row[3]).intValue());
+
+            produitVenteDtos.add(produitVenteDto);
+        }
+        double totalRevenue = getTotalRevenue(produitVenteDtos);
+        return new Object[]{produitVenteDtos, totalRevenue};
+    }
+
+    // Méthode pour calculer le revenu total
+    private double getTotalRevenue(List<ProduitVenteDto> produitVenteDtos) {
+        return produitVenteDtos.stream()
+                .mapToDouble(dto -> dto.getQuantite() * dto.getPrixUnitaire())
+                .sum();
+    }
+
+*/
+
     public VenteDto removeVente(Long id) {
         Vente vente = venteRepository.findByIdAndCreatedBy(id, userService.getCurrentUserId())
                 .orElseThrow(() -> new AppException("Vente not found", HttpStatus.NOT_FOUND));

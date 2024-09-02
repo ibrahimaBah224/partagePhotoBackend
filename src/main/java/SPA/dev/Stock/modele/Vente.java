@@ -28,11 +28,16 @@ public class Vente {
     @ManyToOne
     @JoinColumn(name = "idProduit", nullable = false)
     private Produit produit;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private VenteInit venteInit;
     private int quantite;
     private double prixVente;
     private int status;
+
+    @OneToOne
+    @JoinColumn(name = "adminUser")
+    private User user;
+
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
