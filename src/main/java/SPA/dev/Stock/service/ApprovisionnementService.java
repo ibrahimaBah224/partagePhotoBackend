@@ -37,6 +37,7 @@ public class ApprovisionnementService {
     private final ApprovisionnementRepository approvisionnementRepository;
     private final UserService userService;
     private final TransfertService transfertService;
+    private final TransfertMapper transfertMapper;
     private final FournisseurMapper fournisseurMapper;
     private final ProduitService produitService;
     private final ProduitMapper produitMapper;
@@ -75,34 +76,43 @@ public class ApprovisionnementService {
     }
 
     private ApprovisionnementDto traiterApprovisionnementAvecTransfert(ApprovisionnementDto approvisionnementDto) {
-        List<TransfertDto> transferts = transfertService.getTransfertByMagasin();
-        return transferts.stream()
-                .filter(trans -> trans.getProduit().equals(approvisionnementDto.getProduit()))
-                .filter(trans -> trans.getQuantite() >= approvisionnementDto.getQuantite())
-                .findFirst()
-                .map(trans -> {
-                    int q = trans.getQuantite() - approvisionnementDto.getQuantite();
-                    trans.setQuantite(q);
-                    if (trans.getQuantite() == 0) {
-                        trans.setStatus(StatusTransfertEnum.terminer);
+        List<TransfertDto> listTransferts =transfertService.getTransfertByMagasin();
+        List<Transfert> transferts = transfertMapper.toEntityList(listTransferts);
+        // Filtrer les transferts par produit
+        Transfert transfertCorrespondant = transferts.stream()
+                .filter(trans -> {
+                    if (!(trans.getProduit().getIdProduit() == Integer.valueOf(approvisionnementDto.getProduit()))) {
+                        return false;
                     }
-                    transfertService.modifier(trans.getIdTransfert(), trans);
-                    approvisionnementDto.setFournisseur("1");
-                    Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto);
-                    return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
+                    return true;
                 })
-                .orElseThrow(() -> new RuntimeException("Aucun transfert correspondant trouvé ou quantité insuffisante pour l'approvisionnement."));
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Aucun transfert avec le produit spécifié trouvé."));
+
+        // Vérifier la quantité disponible
+        if (transfertCorrespondant.getQuantite() < approvisionnementDto.getQuantite()) {
+            throw new RuntimeException("Quantité insuffisante pour l'approvisionnement.");
+        }
+
+        // Mettre à jour la quantité et le statut du transfert
+        int q = transfertCorrespondant.getQuantite() - approvisionnementDto.getQuantite();
+        if (transfertCorrespondant.getQuantite() == 0) {
+            transfertCorrespondant.setStatus(StatusTransfertEnum.terminer);
+        }
+        TransfertDto t = transfertMapper.toDto(transfertCorrespondant);
+        t.setProduit(String.valueOf(transfertCorrespondant.getProduit().getIdProduit()));
+        t.setMagasin(String.valueOf(transfertCorrespondant.getMagasin().getId()));
+        // Modifier le transfert
+        transfertService.modifier(transfertCorrespondant.getIdTransfert(), t);
+
+        // Préparer et sauvegarder l'approvisionnement
+        Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto);
+        return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
     }
 
 
-    private TransfertDto creerTransfertDto(ApprovisionnementDto approvisionnementDto, Magasin magasin) {
-        TransfertDto transfertDto = new TransfertDto();
-        transfertDto.setMagasin(String.valueOf(magasin.getId()));
-        transfertDto.setProduit(String.valueOf(approvisionnementDto.getProduit()));
-        transfertDto.setQuantite(approvisionnementDto.getQuantite());
-        transfertDto.setStatus(StatusTransfertEnum.terminer);
-        return transfertDto;
-    }
+
+
 
 
     public List<ApprovisionnementDto> liste() {

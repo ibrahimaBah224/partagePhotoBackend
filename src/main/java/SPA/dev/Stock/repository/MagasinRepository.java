@@ -19,4 +19,6 @@ public interface MagasinRepository extends JpaRepository<Magasin, Integer>{
     Optional<Magasin> findByIdAndTypeMagasin(int id,EnumTypeMagasin typeMagasin);
 
     List<Magasin> findAllByCreatedByAndTypeMagasin(int currentUserId, EnumTypeMagasin typeMagasin);
+
+    Magasin findByNom(String magasin);
 }
