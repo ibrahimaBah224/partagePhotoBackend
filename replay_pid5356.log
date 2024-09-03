@@ -1,0 +1,401 @@
+version 2
+JvmtiExport can_access_local_variables 0
+JvmtiExport can_hotswap_or_post_breakpoint 0
+JvmtiExport can_post_on_exceptions 0
+# 714 ciObject found
+instanceKlass io/swagger/v3/core/jackson/ModelResolver
+ciInstanceKlass java/lang/Cloneable 1 0 7 100 1 100 1 1 1
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver resolve (Lio/swagger/v3/core/converter/AnnotatedType;Lio/swagger/v3/core/converter/ModelConverterContext;Ljava/util/Iterator;)Lio/swagger/v3/oas/models/media/Schema; 1841 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c475d8
+instanceKlass SPA/dev/Stock/dto/RecyclageDto$RecyclageDtoBuilder
+instanceKlass SPA/dev/Stock/dto/ApprovisionnementDto$ApprovisionnementDtoBuilder
+instanceKlass SPA/dev/Stock/dto/LoginResponse
+instanceKlass SPA/dev/Stock/dto/PerteDto$PerteDtoBuilder
+instanceKlass SPA/dev/Stock/dto/ProduitDto$ProduitDtoBuilder
+# instanceKlass java/lang/invoke/LambdaForm$DMH+0x0000022d01b51c00
+# instanceKlass java/lang/invoke/LambdaForm$DMH+0x0000022d01b52000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c52800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c52400
+instanceKlass SPA/dev/Stock/dto/CaisseDto$CaisseDtoBuilder
+instanceKlass SPA/dev/Stock/dto/ClientDto$ClientDtoBuilder
+instanceKlass SPA/dev/Stock/dto/CompteDto$CompteDtoBuilder
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c52000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c51c00
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c51800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c51400
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c51000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c50c00
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c50800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c50400
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c50000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4fc00
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4f800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4f400
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4f000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4ec00
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4e800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4e400
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4e000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4dc00
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4d800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4d400
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4d000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4cc00
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4c800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4c400
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4c000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4bc00
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4b800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4b400
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4b000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4ac00
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4a800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4a400
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c4a000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c49c00
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c49800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c49400
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c49000
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c48c00
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c48800
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c48400
+instanceKlass SPA/dev/Stock/dto/MagasinDto$MagasinDtoBuilder
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService isRequestTypeToIgnore (Ljava/lang/Class;)Z 9 <appendix> member <vmtarget> ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c47198
+instanceKlass SPA/dev/Stock/dto/SousCategorieDto$SousCategorieDtoBuilder
+instanceKlass sun/util/resources/Bundles$2
+instanceKlass sun/util/resources/LocaleData$LocaleDataResourceBundleProvider
+instanceKlass java/util/spi/ResourceBundleProvider
+instanceKlass SPA/dev/Stock/dto/TransfertDto$TransfertDtoBuilder
+# instanceKlass java/lang/invoke/LambdaForm$MH+0x0000022d01c48000
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver addGenericTypeArgumentAnnotationsForOptionalField (Lcom/fasterxml/jackson/databind/introspect/BeanPropertyDefinition;[Ljava/lang/annotation/Annotation;)[Ljava/lang/annotation/Annotation; 64 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c46f80
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver extractGenericTypeArgumentAnnotations (Lcom/fasterxml/jackson/databind/introspect/BeanPropertyDefinition;)Ljava/util/stream/Stream; 29 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c46d68
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver extractGenericTypeArgumentAnnotations (Lcom/fasterxml/jackson/databind/introspect/BeanPropertyDefinition;)Ljava/util/stream/Stream; 21 <appendix> member <vmtarget> ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c46b28
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver extractGenericTypeArgumentAnnotations (Lcom/fasterxml/jackson/databind/introspect/BeanPropertyDefinition;)Ljava/util/stream/Stream; 12 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c468f0
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver extractGenericTypeArgumentAnnotations (Lcom/fasterxml/jackson/databind/introspect/BeanPropertyDefinition;)Ljava/util/stream/Stream; 4 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c466b8
+instanceKlass SPA/dev/Stock/dto/RegisterUserDto$RegisterUserDtoBuilder
+instanceKlass jakarta/validation/constraints/Null$List
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver addRequiredItem (Lio/swagger/v3/oas/models/media/Schema;Ljava/lang/String;)V 56 <appendix> member <vmtarget> ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c46010
+instanceKlass SPA/dev/Stock/dto/VenteDto$VenteDtoBuilder
+instanceKlass jakarta/validation/constraints/NotNull$List
+instanceKlass org/apache/commons/lang3/CharSequenceUtils
+instanceKlass  @bci org/apache/commons/lang3/StringUtils containsAny (Ljava/lang/CharSequence;[Ljava/lang/CharSequence;)Z 0 <appendix> argL0 ; # org/apache/commons/lang3/StringUtils$$Lambda+0x0000022d01c45550
+instanceKlass org/apache/commons/lang3/function/ToBooleanBiFunction
+instanceKlass io/swagger/v3/oas/annotations/callbacks/Callbacks
+instanceKlass io/swagger/v3/oas/annotations/callbacks/Callback
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService setContent ([Ljava/lang/String;Lio/swagger/v3/oas/models/media/Content;Lio/swagger/v3/oas/models/media/MediaType;)V 6 <appendix> member <vmtarget> ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c44b48
+instanceKlass  @bci org/springdoc/core/converters/ConverterUtils isFluxTypeWrapper (Ljava/lang/Class;)Z 9 <appendix> member <vmtarget> ; # org/springdoc/core/converters/ConverterUtils$$Lambda+0x0000022d01c448f8
+instanceKlass  @bci org/springdoc/core/utils/SpringDocAnnotationsUtils isAnnotationToIgnore (Ljava/lang/reflect/Type;)Z 9 <appendix> member <vmtarget> ; # org/springdoc/core/utils/SpringDocAnnotationsUtils$$Lambda+0x0000022d01c446a8
+instanceKlass  @bci org/springdoc/core/models/MethodAttributes calculateGenericMapResponse (Ljava/util/Map;)Lio/swagger/v3/oas/models/responses/ApiResponses; 15 <appendix> member <vmtarget> ; # org/springdoc/core/models/MethodAttributes$$Lambda+0x0000022d01c44478
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService getGenericMapResponse (Ljava/lang/Class;)Ljava/util/Map; 147 <appendix> member <vmtarget> ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c44248
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService getGenericMapResponse (Ljava/lang/Class;)Ljava/util/Map; 93 <appendix> member <vmtarget> ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c43ff8
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService getGenericMapResponse (Ljava/lang/Class;)Ljava/util/Map; 82 <appendix> member <vmtarget> ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c43da8
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService getGenericMapResponse (Ljava/lang/Class;)Ljava/util/Map; 58 <appendix> argL0 ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c43b80
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService getGenericMapResponse (Ljava/lang/Class;)Ljava/util/Map; 53 <appendix> argL0 ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c43958
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService getGenericMapResponse (Ljava/lang/Class;)Ljava/util/Map; 48 <appendix> argL0 ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c43740
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService getGenericMapResponse (Ljava/lang/Class;)Ljava/util/Map; 38 <appendix> argL0 ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c43508
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService getGenericMapResponse (Ljava/lang/Class;)Ljava/util/Map; 10 <appendix> member <vmtarget> ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c432b8
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getParameterLinkedHashMap (Lio/swagger/v3/oas/models/Components;Lorg/springdoc/core/models/MethodAttributes;Ljava/util/List;Ljava/util/Map;)Ljava/util/LinkedHashMap; 328 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c43090
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getParameterLinkedHashMap (Lio/swagger/v3/oas/models/Components;Lorg/springdoc/core/models/MethodAttributes;Ljava/util/List;Ljava/util/Map;)Ljava/util/LinkedHashMap; 21 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c42e78
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getParameterLinkedHashMap (Lio/swagger/v3/oas/models/Components;Lorg/springdoc/core/models/MethodAttributes;Ljava/util/List;Ljava/util/Map;)Ljava/util/LinkedHashMap; 16 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c42c38
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getParameterLinkedHashMap (Lio/swagger/v3/oas/models/Components;Lorg/springdoc/core/models/MethodAttributes;Ljava/util/List;Ljava/util/Map;)Ljava/util/LinkedHashMap; 11 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c42a00
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getParameterLinkedHashMap (Lio/swagger/v3/oas/models/Components;Lorg/springdoc/core/models/MethodAttributes;Ljava/util/List;Ljava/util/Map;)Ljava/util/LinkedHashMap; 6 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c427c8
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService applyBeanValidatorAnnotations (Lio/swagger/v3/oas/models/parameters/RequestBody;Ljava/util/List;Z)V 73 <appendix> member <vmtarget> ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c42578
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService applyBeanValidatorAnnotations (Lio/swagger/v3/oas/models/parameters/RequestBody;Ljava/util/List;Z)V 48 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c42330
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService applyBeanValidatorAnnotations (Lio/swagger/v3/oas/models/parameters/RequestBody;Ljava/util/List;Z)V 38 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c420e8
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService applyBeanValidatorAnnotations (Lio/swagger/v3/oas/models/parameters/RequestBody;Ljava/util/List;Z)V 22 <appendix> member <vmtarget> ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c41eb8
+instanceKlass  @bci org/springdoc/core/converters/PolymorphicModelConverter composePolymorphicSchema (Lio/swagger/v3/core/converter/AnnotatedType;Lio/swagger/v3/oas/models/media/Schema;Ljava/util/Collection;)Lio/swagger/v3/oas/models/media/Schema; 68 <appendix> argL0 ; # org/springdoc/core/converters/PolymorphicModelConverter$$Lambda+0x0000022d01c41c80
+instanceKlass  @bci org/springdoc/core/converters/PolymorphicModelConverter composePolymorphicSchema (Lio/swagger/v3/core/converter/AnnotatedType;Lio/swagger/v3/oas/models/media/Schema;Ljava/util/Collection;)Lio/swagger/v3/oas/models/media/Schema; 58 <appendix> member <vmtarget> ; # org/springdoc/core/converters/PolymorphicModelConverter$$Lambda+0x0000022d01c41a30
+instanceKlass  @bci org/springdoc/core/converters/PolymorphicModelConverter composePolymorphicSchema (Lio/swagger/v3/core/converter/AnnotatedType;Lio/swagger/v3/oas/models/media/Schema;Ljava/util/Collection;)Lio/swagger/v3/oas/models/media/Schema; 46 <appendix> argL0 ; # org/springdoc/core/converters/PolymorphicModelConverter$$Lambda+0x0000022d01c417e8
+instanceKlass  @bci org/springdoc/core/converters/PolymorphicModelConverter composePolymorphicSchema (Lio/swagger/v3/core/converter/AnnotatedType;Lio/swagger/v3/oas/models/media/Schema;Ljava/util/Collection;)Lio/swagger/v3/oas/models/media/Schema; 36 <appendix> member <vmtarget> ; # org/springdoc/core/converters/PolymorphicModelConverter$$Lambda+0x0000022d01c415a8
+instanceKlass  @bci org/springdoc/core/converters/PolymorphicModelConverter composePolymorphicSchema (Lio/swagger/v3/core/converter/AnnotatedType;Lio/swagger/v3/oas/models/media/Schema;Ljava/util/Collection;)Lio/swagger/v3/oas/models/media/Schema; 19 <appendix> member <vmtarget> ; # org/springdoc/core/converters/PolymorphicModelConverter$$Lambda+0x0000022d01c41358
+instanceKlass org/apache/commons/lang3/tuple/Pair
+instanceKlass io/swagger/v3/core/util/RefUtils
+instanceKlass io/swagger/v3/oas/annotations/media/PatternProperty
+instanceKlass io/swagger/v3/oas/annotations/media/PatternProperties
+instanceKlass com/fasterxml/jackson/annotation/JsonSubTypes
+instanceKlass com/fasterxml/jackson/databind/introspect/AnnotationCollector$TwoAnnotations
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver _addEnumProps (Ljava/lang/Class;Lio/swagger/v3/oas/models/media/Schema;)V 256 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3f230
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver _addEnumProps (Ljava/lang/Class;Lio/swagger/v3/oas/models/media/Schema;)V 248 <appendix> member <vmtarget> ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3eff0
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver _addEnumProps (Ljava/lang/Class;Lio/swagger/v3/oas/models/media/Schema;)V 227 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3edb8
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver _addEnumProps (Ljava/lang/Class;Lio/swagger/v3/oas/models/media/Schema;)V 219 <appendix> member <vmtarget> ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3eb78
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver _addEnumProps (Ljava/lang/Class;Lio/swagger/v3/oas/models/media/Schema;)V 103 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3e950
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver _addEnumProps (Ljava/lang/Class;Lio/swagger/v3/oas/models/media/Schema;)V 93 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3e728
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver _addEnumProps (Ljava/lang/Class;Lio/swagger/v3/oas/models/media/Schema;)V 74 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3e4e0
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver _addEnumProps (Ljava/lang/Class;Lio/swagger/v3/oas/models/media/Schema;)V 64 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3e298
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver _addEnumProps (Ljava/lang/Class;Lio/swagger/v3/oas/models/media/Schema;)V 40 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3e050
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver _addEnumProps (Ljava/lang/Class;Lio/swagger/v3/oas/models/media/Schema;)V 30 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3de08
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver applyBeanValidatorAnnotations (Lio/swagger/v3/oas/models/media/Schema;[Ljava/lang/annotation/Annotation;Lio/swagger/v3/oas/models/media/Schema;Z)V 81 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3dbc0
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver addGenericTypeArgumentAnnotationsForOptionalField (Lcom/fasterxml/jackson/databind/introspect/BeanPropertyDefinition;[Ljava/lang/annotation/Annotation;)[Ljava/lang/annotation/Annotation; 20 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3d988
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver addGenericTypeArgumentAnnotationsForOptionalField (Lcom/fasterxml/jackson/databind/introspect/BeanPropertyDefinition;[Ljava/lang/annotation/Annotation;)[Ljava/lang/annotation/Annotation; 12 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3d750
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver addGenericTypeArgumentAnnotationsForOptionalField (Lcom/fasterxml/jackson/databind/introspect/BeanPropertyDefinition;[Ljava/lang/annotation/Annotation;)[Ljava/lang/annotation/Annotation; 4 <appendix> argL0 ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3d518
+instanceKlass javax/xml/bind/annotation/XmlAttribute
+instanceKlass javax/xml/bind/annotation/XmlElementWrapper
+instanceKlass io/swagger/v3/core/jackson/JAXBAnnotationsHelper
+instanceKlass com/fasterxml/jackson/databind/util/TokenBuffer$Segment
+instanceKlass com/fasterxml/jackson/databind/ser/std/NumberSerializers$1
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver resolve (Lio/swagger/v3/core/converter/AnnotatedType;Lio/swagger/v3/core/converter/ModelConverterContext;Ljava/util/Iterator;)Lio/swagger/v3/oas/models/media/Schema; 3776 <appendix> member <vmtarget> ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3b690
+instanceKlass  @bci io/swagger/v3/core/jackson/ModelResolver resolve (Lio/swagger/v3/core/converter/AnnotatedType;Lio/swagger/v3/core/converter/ModelConverterContext;Ljava/util/Iterator;)Lio/swagger/v3/oas/models/media/Schema; 2905 <appendix> member <vmtarget> ; # io/swagger/v3/core/jackson/ModelResolver$$Lambda+0x0000022d01c3b440
+instanceKlass javax/xml/bind/annotation/XmlAccessorType
+instanceKlass javax/xml/bind/annotation/XmlSchema
+instanceKlass SPA/dev/Stock/dto/VenteInitDto$VenteInitDtoBuilder
+instanceKlass com/fasterxml/jackson/databind/introspect/ObjectIdInfo
+instanceKlass com/fasterxml/jackson/databind/annotation/JsonPOJOBuilder$Value
+instanceKlass com/fasterxml/jackson/annotation/JsonRootName
+instanceKlass  @bci org/springdoc/core/providers/WebConversionServiceProvider getSpringConvertedType (Ljava/lang/Class;)Ljava/lang/Class; 61 <appendix> member <vmtarget> ; # org/springdoc/core/providers/WebConversionServiceProvider$$Lambda+0x0000022d01c3a398
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService applyBeanValidatorAnnotations (Lio/swagger/v3/oas/models/parameters/Parameter;Ljava/util/List;)V 36 <appendix> member <vmtarget> ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c3a148
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService applyBeanValidatorAnnotations (Lio/swagger/v3/oas/models/parameters/Parameter;Ljava/util/List;)V 14 <appendix> member <vmtarget> ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c39f18
+instanceKlass  @bci org/springdoc/core/service/GenericParameterService mergeParameter (Ljava/util/List;Lio/swagger/v3/oas/models/parameters/Parameter;)Lio/swagger/v3/oas/models/parameters/Parameter; 33 <appendix> member <vmtarget> ; # org/springdoc/core/service/GenericParameterService$$Lambda+0x0000022d01c39cc8
+instanceKlass javax/xml/bind/annotation/XmlRootElement
+instanceKlass  @bci org/springdoc/core/converters/ConverterUtils isResponseTypeToIgnore (Ljava/lang/Class;)Z 9 <appendix> member <vmtarget> ; # org/springdoc/core/converters/ConverterUtils$$Lambda+0x0000022d01c39880
+instanceKlass  @bci org/springdoc/core/converters/ConverterUtils isResponseTypeWrapper (Ljava/lang/Class;)Z 9 <appendix> member <vmtarget> ; # org/springdoc/core/converters/ConverterUtils$$Lambda+0x0000022d01c39630
+instanceKlass io/swagger/v3/core/util/ReferenceTypeUtils
+instanceKlass io/swagger/v3/core/converter/ResolvedSchema
+instanceKlass io/swagger/v3/core/converter/ModelConverterContextImpl
+instanceKlass  @bci org/springdoc/core/converters/SchemaPropertyDeprecatingConverter containsDeprecatedAnnotation ([Ljava/lang/annotation/Annotation;)Z 26 <appendix> member <vmtarget> ; # org/springdoc/core/converters/SchemaPropertyDeprecatingConverter$$Lambda+0x0000022d01c38d60
+instanceKlass  @bci org/springdoc/core/converters/SchemaPropertyDeprecatingConverter containsDeprecatedAnnotation ([Ljava/lang/annotation/Annotation;)Z 8 <appendix> argL0 ; # org/springdoc/core/converters/SchemaPropertyDeprecatingConverter$$Lambda+0x0000022d01c38b28
+instanceKlass  @bci org/springdoc/core/utils/SpringDocAnnotationsUtils lambda$isAnnotationToIgnore$2 (Ljava/lang/annotation/Annotation;)Z 26 <appendix> member <vmtarget> ; # org/springdoc/core/utils/SpringDocAnnotationsUtils$$Lambda+0x0000022d01c388d8
+instanceKlass  @bci org/springdoc/core/utils/SpringDocAnnotationsUtils isAnnotationToIgnore (Lorg/springframework/core/MethodParameter;)Z 27 <appendix> argL0 ; # org/springdoc/core/utils/SpringDocAnnotationsUtils$$Lambda+0x0000022d01c38690
+instanceKlass  @bci org/springdoc/core/utils/SpringDocAnnotationsUtils isAnnotationToIgnore (Lorg/springframework/core/MethodParameter;)Z 9 <appendix> member <vmtarget> ; # org/springdoc/core/utils/SpringDocAnnotationsUtils$$Lambda+0x0000022d01c38440
+instanceKlass  @bci org/springdoc/core/service/GenericParameterService isFile (Ljava/lang/Class;)Z 9 <appendix> member <vmtarget> ; # org/springdoc/core/service/GenericParameterService$$Lambda+0x0000022d01c38000
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 215 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c37d20
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 210 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c37ae0
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 205 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c378a8
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 200 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c37670
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 159 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c37458
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 154 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c37218
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 149 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c36fe0
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 144 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c36da8
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 103 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c36b90
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 98 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c36950
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 93 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c36718
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 88 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c364e0
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 78 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c362a8
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 44 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c36090
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 39 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c35e50
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 34 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c35c18
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 29 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c359e0
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService getApiParameters (Ljava/lang/reflect/Method;)Ljava/util/Map; 19 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c357a8
+instanceKlass org/springdoc/core/annotations/ParameterObject
+instanceKlass  @bci org/springdoc/core/extractor/MethodParameterPojoExtractor isSimpleType (Ljava/lang/Class;)Z 31 <appendix> member <vmtarget> ; # org/springdoc/core/extractor/MethodParameterPojoExtractor$$Lambda+0x0000022d01c35360
+instanceKlass io/swagger/v3/core/util/PrimitiveType$DateStub
+instanceKlass  @bci org/springdoc/core/extractor/MethodParameterPojoExtractor isSimpleType (Ljava/lang/Class;)Z 9 <appendix> member <vmtarget> ; # org/springdoc/core/extractor/MethodParameterPojoExtractor$$Lambda+0x0000022d01c2d938
+instanceKlass  @bci org/springdoc/core/extractor/MethodParameterPojoExtractor <clinit> ()V 205 <appendix> argL0 ; # org/springdoc/core/extractor/MethodParameterPojoExtractor$$Lambda+0x0000022d01c2d6f0
+instanceKlass  @bci org/springdoc/core/extractor/MethodParameterPojoExtractor <clinit> ()V 191 <appendix> argL0 ; # org/springdoc/core/extractor/MethodParameterPojoExtractor$$Lambda+0x0000022d01c2d4a8
+instanceKlass  @bci org/springdoc/core/extractor/MethodParameterPojoExtractor <clinit> ()V 177 <appendix> argL0 ; # org/springdoc/core/extractor/MethodParameterPojoExtractor$$Lambda+0x0000022d01c2d260
+instanceKlass  @bci org/springdoc/core/extractor/MethodParameterPojoExtractor <clinit> ()V 163 <appendix> argL0 ; # org/springdoc/core/extractor/MethodParameterPojoExtractor$$Lambda+0x0000022d01c2d018
+instanceKlass org/springdoc/core/extractor/MethodParameterPojoExtractor
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService build (Lorg/springframework/web/method/HandlerMethod;Lorg/springframework/web/bind/annotation/RequestMethod;Lio/swagger/v3/oas/models/Operation;Lorg/springdoc/core/models/MethodAttributes;Lio/swagger/v3/oas/models/OpenAPI;)Lio/swagger/v3/oas/models/Operation; 92 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c2c870
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService build (Lorg/springframework/web/method/HandlerMethod;Lorg/springframework/web/bind/annotation/RequestMethod;Lio/swagger/v3/oas/models/Operation;Lorg/springdoc/core/models/MethodAttributes;Lio/swagger/v3/oas/models/OpenAPI;)Lio/swagger/v3/oas/models/Operation; 67 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c2c658
+instanceKlass  @bci org/springdoc/core/service/AbstractRequestService build (Lorg/springframework/web/method/HandlerMethod;Lorg/springframework/web/bind/annotation/RequestMethod;Lio/swagger/v3/oas/models/Operation;Lorg/springdoc/core/models/MethodAttributes;Lio/swagger/v3/oas/models/OpenAPI;)Lio/swagger/v3/oas/models/Operation; 57 <appendix> argL0 ; # org/springdoc/core/service/AbstractRequestService$$Lambda+0x0000022d01c2c420
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource calculatePath (Lorg/springframework/web/method/HandlerMethod;Lorg/springdoc/core/fn/RouterOperation;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;)V 468 <appendix> member <vmtarget> ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c2c1f0
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService buildTagsFromClass (Ljava/lang/Class;Ljava/util/Set;Ljava/util/Set;Ljava/util/Locale;)V 25 <appendix> argL0 ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c2bfb8
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService buildTagsFromMethod (Ljava/lang/reflect/Method;Ljava/util/Set;Ljava/util/Set;Ljava/util/Locale;)V 16 <appendix> argL0 ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c2bd80
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource fillParametersList (Lio/swagger/v3/oas/models/Operation;Ljava/util/Map;Lorg/springdoc/core/models/MethodAttributes;)V 36 <appendix> member <vmtarget> ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c2bb50
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource lambda$calculateJsonView$35 ([Ljava/lang/annotation/Annotation;)Z 4 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c2b908
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource calculateJsonView (Lio/swagger/v3/oas/annotations/Operation;Lorg/springdoc/core/models/MethodAttributes;Ljava/lang/reflect/Method;)V 71 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c2b6c8
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource calculateJsonView (Lio/swagger/v3/oas/annotations/Operation;Lorg/springdoc/core/models/MethodAttributes;Ljava/lang/reflect/Method;)V 61 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c2b480
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource calculateJsonView (Lio/swagger/v3/oas/annotations/Operation;Lorg/springdoc/core/models/MethodAttributes;Ljava/lang/reflect/Method;)V 51 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c2b248
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource calculateJsonView (Lio/swagger/v3/oas/annotations/Operation;Lorg/springdoc/core/models/MethodAttributes;Ljava/lang/reflect/Method;)V 41 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c2b000
+instanceKlass io/swagger/v3/core/util/ReflectionUtils
+instanceKlass  @bci org/springdoc/core/converters/SchemaPropertyDeprecatingConverter isDeprecated (Ljava/lang/reflect/Method;)Z 34 <appendix> member <vmtarget> ; # org/springdoc/core/converters/SchemaPropertyDeprecatingConverter$$Lambda+0x0000022d01c2abb0
+instanceKlass  @bci org/springdoc/core/converters/SchemaPropertyDeprecatingConverter isDeprecated (Ljava/lang/reflect/Method;)Z 14 <appendix> member <vmtarget> ; # org/springdoc/core/converters/SchemaPropertyDeprecatingConverter$$Lambda+0x0000022d01c2a960
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource isConditionToMatch ([Ljava/lang/String;Lorg/springdoc/api/AbstractOpenApiResource$ConditionType;)Z 30 <appendix> member <vmtarget> ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c2a710
+instanceKlass org/springdoc/api/AbstractOpenApiResource$2
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource isPathToMatch (Ljava/lang/String;)Z 93 <appendix> member <vmtarget> ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c2a0d0
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource isPathToMatch (Ljava/lang/String;)Z 36 <appendix> member <vmtarget> ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c29e80
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource isPackageToScan (Ljava/lang/Package;)Z 106 <appendix> member <vmtarget> ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c29c30
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource isPackageToScan (Ljava/lang/Package;)Z 48 <appendix> member <vmtarget> ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c299e0
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource isMethodToFilter (Lorg/springframework/web/method/HandlerMethod;)Z 16 <appendix> member <vmtarget> ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c297a0
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource isMethodToFilter (Lorg/springframework/web/method/HandlerMethod;)Z 7 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c29568
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource lambda$calculatePath$11 (Ljava/util/TreeMap;Ljava/util/Map;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;Lorg/springdoc/core/providers/SpringWebProvider;)V 260 <appendix> argL0 ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c29350
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource lambda$calculatePath$11 (Ljava/util/TreeMap;Ljava/util/Map;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;Lorg/springdoc/core/providers/SpringWebProvider;)V 250 <appendix> argL0 ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c29118
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource lambda$calculatePath$11 (Ljava/util/TreeMap;Ljava/util/Map;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;Lorg/springdoc/core/providers/SpringWebProvider;)V 222 <appendix> argL0 ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c28f00
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource lambda$calculatePath$11 (Ljava/util/TreeMap;Ljava/util/Map;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;Lorg/springdoc/core/providers/SpringWebProvider;)V 212 <appendix> argL0 ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c28cc8
+instanceKlass org/springframework/web/servlet/mvc/condition/NameValueExpression
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource lambda$calculatePath$11 (Ljava/util/TreeMap;Ljava/util/Map;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;Lorg/springdoc/core/providers/SpringWebProvider;)V 184 <appendix> argL0 ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c288b8
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource lambda$calculatePath$11 (Ljava/util/TreeMap;Ljava/util/Map;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;Lorg/springdoc/core/providers/SpringWebProvider;)V 174 <appendix> argL0 ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c28680
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource lambda$calculatePath$11 (Ljava/util/TreeMap;Ljava/util/Map;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;Lorg/springdoc/core/providers/SpringWebProvider;)V 146 <appendix> argL0 ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c28468
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource lambda$calculatePath$11 (Ljava/util/TreeMap;Ljava/util/Map;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;Lorg/springdoc/core/providers/SpringWebProvider;)V 136 <appendix> argL0 ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c28230
+instanceKlass java/text/StringCharacterIterator
+instanceKlass java/text/CharacterIterator
+instanceKlass io/swagger/v3/core/util/PathUtils
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource calculatePath (Ljava/util/Map;Ljava/util/Map;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;)V 37 <appendix> member <vmtarget> ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c28000
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource byReversedRequestMappingInfos ()Ljava/util/Comparator; 0 <appendix> argL0 ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c27b58
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource lambda$getPaths$2 (Lio/swagger/v3/oas/models/OpenAPI;Ljava/util/Locale;Ljava/util/Map;Lorg/springdoc/core/providers/SpringWebProvider;)V 23 <appendix> member <vmtarget> ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c27928
+instanceKlass  @bci org/springdoc/webmvc/api/OpenApiResource getPaths (Ljava/util/Map;Ljava/util/Locale;Lio/swagger/v3/oas/models/OpenAPI;)V 15 <appendix> member <vmtarget> ; # org/springdoc/webmvc/api/OpenApiResource$$Lambda+0x0000022d01c276f8
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService buildGenericResponse (Lio/swagger/v3/oas/models/Components;Ljava/util/Map;Ljava/util/Locale;)V 349 <appendix> member <vmtarget> ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c274c8
+instanceKlass  @bci org/springframework/core/annotation/RepeatableContainers$ExplicitRepeatableContainer deduceContainer (Ljava/lang/Class;)Ljava/lang/Class; 12 <appendix> member <vmtarget> ; # org/springframework/core/annotation/RepeatableContainers$ExplicitRepeatableContainer$$Lambda+0x0000022d01c272a8
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService getApiResponses (Ljava/lang/reflect/Method;)Ljava/util/Set; 60 <appendix> argL0 ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c27070
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService getApiResponses (Ljava/lang/reflect/Method;)Ljava/util/Set; 19 <appendix> argL0 ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c26e38
+instanceKlass  @bci org/springframework/core/annotation/MergedAnnotationCollectors toAnnotationSet ()Ljava/util/stream/Collector; 10 <appendix> argL0 ; # org/springframework/core/annotation/MergedAnnotationCollectors$$Lambda+0x0000022d01c26bf8
+instanceKlass  @bci org/springframework/core/annotation/MergedAnnotationCollectors toAnnotationSet ()Ljava/util/stream/Collector; 5 <appendix> argL0 ; # org/springframework/core/annotation/MergedAnnotationCollectors$$Lambda+0x0000022d01c269d0
+instanceKlass  @bci org/springframework/core/annotation/MergedAnnotationCollectors toAnnotationSet ()Ljava/util/stream/Collector; 0 <appendix> argL0 ; # org/springframework/core/annotation/MergedAnnotationCollectors$$Lambda+0x0000022d01c267b8
+instanceKlass  @bci org/springframework/core/annotation/AnnotatedElementUtils highAggregateIndexesFirst ()Ljava/util/Comparator; 0 <appendix> argL0 ; # org/springframework/core/annotation/AnnotatedElementUtils$$Lambda+0x0000022d01c265a0
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService buildGenericResponse (Lio/swagger/v3/oas/models/Components;Ljava/util/Map;Ljava/util/Locale;)V 112 <appendix> member <vmtarget> ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c26370
+instanceKlass  @bci org/springdoc/core/service/GenericResponseService buildGenericResponse (Lio/swagger/v3/oas/models/Components;Ljava/util/Map;Ljava/util/Locale;)V 95 <appendix> member <vmtarget> ; # org/springdoc/core/service/GenericResponseService$$Lambda+0x0000022d01c26120
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService getControllerAdviceMap ()Ljava/util/Map; 52 <appendix> argL0 ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c25f08
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService getControllerAdviceMap ()Ljava/util/Map; 47 <appendix> argL0 ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c25cc8
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService getControllerAdviceMap ()Ljava/util/Map; 42 <appendix> argL0 ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c25a90
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService getControllerAdviceMap ()Ljava/util/Map; 37 <appendix> argL0 ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c25858
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService getControllerAdviceMap ()Ljava/util/Map; 27 <appendix> argL0 ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c25610
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService getControllerAdviceMap ()Ljava/util/Map; 17 <appendix> argL0 ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c253d8
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource isHiddenRestControllers (Ljava/lang/Class;)Z 9 <appendix> member <vmtarget> ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c25188
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource getOpenApi (Ljava/util/Locale;)Lio/swagger/v3/oas/models/OpenAPI; 94 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c24f48
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource getOpenApi (Ljava/util/Locale;)Lio/swagger/v3/oas/models/OpenAPI; 89 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c24d10
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource getOpenApi (Ljava/util/Locale;)Lio/swagger/v3/oas/models/OpenAPI; 84 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c24ad8
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource getOpenApi (Ljava/util/Locale;)Lio/swagger/v3/oas/models/OpenAPI; 74 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c24890
+instanceKlass  @bci org/springdoc/api/AbstractOpenApiResource getOpenApi (Ljava/util/Locale;)Lio/swagger/v3/oas/models/OpenAPI; 64 <appendix> argL0 ; # org/springdoc/api/AbstractOpenApiResource$$Lambda+0x0000022d01c24648
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService build (Ljava/util/Locale;)Lio/swagger/v3/oas/models/OpenAPI; 277 <appendix> member <vmtarget> ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c24418
+instanceKlass io/swagger/v3/oas/annotations/security/SecuritySchemes
+instanceKlass java/util/concurrent/ForkJoinPool$DefaultForkJoinWorkerThreadFactory$1
+instanceKlass java/util/concurrent/ForkJoinTask$Aux
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService initializeHiddenRestController ()V 47 <appendix> argL0 ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c23fe8
+instanceKlass  @bci org/springdoc/core/service/OpenAPIService initializeHiddenRestController ()V 37 <appendix> argL0 ; # org/springdoc/core/service/OpenAPIService$$Lambda+0x0000022d01c23da0
+instanceKlass  @bci io/swagger/v3/core/util/SecuritySchemeDeserializer deserialize (Lcom/fasterxml/jackson/core/JsonParser;Lcom/fasterxml/jackson/databind/DeserializationContext;)Lio/swagger/v3/oas/models/security/SecurityScheme; 65 <appendix> member <vmtarget> ; # io/swagger/v3/core/util/SecuritySchemeDeserializer$$Lambda+0x0000022d01c23b50
+instanceKlass com/fasterxml/jackson/databind/deser/std/BaseNodeDeserializer$ContainerStack
+instanceKlass com/fasterxml/jackson/databind/deser/impl/JavaUtilCollectionsDeserializers
+instanceKlass com/fasterxml/jackson/databind/deser/std/NumberDeserializers
+instanceKlass com/fasterxml/jackson/databind/util/LinkedNode
+instanceKlass com/fasterxml/jackson/databind/deser/BasicDeserializerFactory$ContainerDefaultMappings
+instanceKlass com/fasterxml/jackson/databind/deser/impl/BeanPropertyMap
+instanceKlass com/fasterxml/jackson/annotation/JsonAlias
+instanceKlass com/fasterxml/jackson/databind/introspect/POJOPropertyBuilder$4
+instanceKlass com/fasterxml/jackson/databind/deser/impl/NullsConstantProvider
+instanceKlass com/fasterxml/jackson/databind/deser/impl/ReadableObjectId$Referring
+instanceKlass com/fasterxml/jackson/databind/deser/SettableAnyProperty
+instanceKlass com/fasterxml/jackson/databind/deser/ContextualKeyDeserializer
+instanceKlass com/fasterxml/jackson/databind/deser/BeanDeserializerBuilder
+instanceKlass com/fasterxml/jackson/databind/deser/impl/CreatorCandidate$Param
+instanceKlass com/fasterxml/jackson/databind/deser/impl/CreatorCandidate
+instanceKlass com/fasterxml/jackson/annotation/JsonCreator
+instanceKlass com/fasterxml/jackson/databind/deser/BasicDeserializerFactory$CreatorCollectionState
+instanceKlass com/fasterxml/jackson/databind/deser/impl/CreatorCollector
+instanceKlass com/fasterxml/jackson/core/JsonLocation
+instanceKlass com/fasterxml/jackson/databind/deser/impl/JDKValueInstantiators
+instanceKlass com/fasterxml/jackson/databind/annotation/JsonValueInstantiator
+instanceKlass com/fasterxml/jackson/databind/jsontype/impl/SubTypeValidator
+instanceKlass com/fasterxml/jackson/databind/deser/std/JdkDeserializers
+instanceKlass com/fasterxml/jackson/databind/introspect/EnumNamingStrategyFactory
+instanceKlass com/fasterxml/jackson/databind/annotation/EnumNaming
+instanceKlass com/fasterxml/jackson/databind/util/EnumValues
+instanceKlass com/fasterxml/jackson/databind/introspect/MethodGenericTypeResolver
+instanceKlass com/fasterxml/jackson/databind/annotation/JacksonStdImpl
+instanceKlass com/fasterxml/jackson/databind/ser/AnyGetterWriter
+instanceKlass com/fasterxml/jackson/databind/annotation/JsonAppend
+instanceKlass com/fasterxml/jackson/databind/introspect/JacksonAnnotationIntrospector$1
+instanceKlass com/fasterxml/jackson/databind/annotation/NoClass
+instanceKlass com/fasterxml/jackson/databind/introspect/POJOPropertyBuilder$1
+instanceKlass com/fasterxml/jackson/databind/ser/PropertyBuilder$1
+instanceKlass com/fasterxml/jackson/databind/BeanProperty$Std
+instanceKlass com/fasterxml/jackson/databind/introspect/POJOPropertyBuilder$2
+instanceKlass com/fasterxml/jackson/annotation/JsonTypeId
+instanceKlass com/fasterxml/jackson/databind/introspect/POJOPropertyBuilder$3
+instanceKlass com/fasterxml/jackson/databind/ser/PropertyBuilder
+instanceKlass com/fasterxml/jackson/annotation/JsonIgnoreType
+instanceKlass com/fasterxml/jackson/databind/ser/BeanSerializerBuilder
+instanceKlass com/fasterxml/jackson/databind/util/BeanUtil
+instanceKlass com/fasterxml/jackson/databind/ext/Java7Handlers
+instanceKlass org/w3c/dom/Document
+instanceKlass org/w3c/dom/Node
+instanceKlass com/fasterxml/jackson/databind/ext/OptionalHandlerFactory
+instanceKlass com/fasterxml/jackson/databind/PropertyMetadata
+instanceKlass com/fasterxml/jackson/annotation/JsonPropertyDescription
+instanceKlass com/fasterxml/jackson/annotation/JsonPropertyOrder
+instanceKlass com/fasterxml/jackson/databind/annotation/JsonNaming
+instanceKlass com/fasterxml/jackson/annotation/JacksonInject
+instanceKlass com/fasterxml/jackson/databind/introspect/POJOPropertyBuilder$6
+instanceKlass com/fasterxml/jackson/databind/introspect/POJOPropertyBuilder$5
+instanceKlass com/fasterxml/jackson/annotation/JsonSetter
+instanceKlass com/fasterxml/jackson/databind/introspect/AnnotatedMethodMap
+instanceKlass com/fasterxml/jackson/databind/util/Converter$None
+instanceKlass com/fasterxml/jackson/annotation/JacksonAnnotationsInside
+instanceKlass com/fasterxml/jackson/databind/introspect/AnnotatedMethodCollector$MethodBuilder
+instanceKlass com/fasterxml/jackson/databind/introspect/MemberKey
+instanceKlass com/fasterxml/jackson/databind/introspect/POJOPropertyBuilder$Linked
+instanceKlass com/fasterxml/jackson/databind/AnnotationIntrospector$ReferenceProperty
+instanceKlass com/fasterxml/jackson/databind/introspect/POJOPropertyBuilder$WithMember
+instanceKlass com/fasterxml/jackson/annotation/JsonAutoDetect$1
+instanceKlass com/fasterxml/jackson/annotation/JsonProperty
+instanceKlass com/fasterxml/jackson/annotation/JsonGetter
+instanceKlass com/fasterxml/jackson/annotation/JsonAnySetter
+instanceKlass com/fasterxml/jackson/annotation/JsonAnyGetter
+instanceKlass com/fasterxml/jackson/annotation/JsonValue
+instanceKlass com/fasterxml/jackson/annotation/JsonKey
+instanceKlass com/fasterxml/jackson/databind/introspect/AnnotatedFieldCollector$FieldBuilder
+instanceKlass com/fasterxml/jackson/databind/introspect/TypeResolutionContext$Basic
+instanceKlass com/fasterxml/jackson/databind/introspect/AnnotationMap
+instanceKlass com/fasterxml/jackson/databind/introspect/CollectorBase
+instanceKlass com/fasterxml/jackson/annotation/JsonIdentityInfo
+instanceKlass com/fasterxml/jackson/annotation/JsonAutoDetect
+instanceKlass com/fasterxml/jackson/databind/introspect/POJOPropertiesCollector
+instanceKlass org/apache/catalina/util/RequestUtil
+instanceKlass  @bci org/springframework/data/repository/support/DomainClassConverter matches (Lorg/springframework/core/convert/TypeDescriptor;Lorg/springframework/core/convert/TypeDescriptor;)Z 7 <appendix> member <vmtarget> ; # org/springframework/data/repository/support/DomainClassConverter$$Lambda+0x0000022d01c03280
+instanceKlass org/springframework/data/repository/support/DomainClassConverter$ToIdConverter
+instanceKlass org/springframework/data/repository/support/RepositoryInvoker
+instanceKlass org/springframework/data/repository/support/RepositoryInvocationInformation
+instanceKlass org/springframework/data/repository/support/DefaultRepositoryInvokerFactory
+instanceKlass org/springframework/data/repository/support/RepositoryInvokerFactory
+instanceKlass org/springframework/data/repository/support/DomainClassConverter$ToEntityConverter
+instanceKlass  @bci org/springframework/data/repository/core/support/RepositoryFactoryBeanSupport getRepositoryInformation ()Lorg/springframework/data/repository/core/RepositoryInformation; 4 <appendix> argL0 ; # org/springframework/data/repository/core/support/RepositoryFactoryBeanSupport$$Lambda+0x0000022d01c02360
+instanceKlass  @bci org/springframework/data/repository/support/Repositories <init> (Lorg/springframework/beans/factory/ListableBeanFactory;)V 12 <appendix> member <vmtarget> ; # org/springframework/data/repository/support/Repositories$$Lambda+0x0000022d01c02120
+instanceKlass org/springframework/web/bind/support/BindParamNameResolver
+instanceKlass org/springframework/validation/DefaultBindingErrorProcessor
+instanceKlass org/springframework/web/bind/ServletRequestDataBinder$ServletRequestValueResolver
+instanceKlass org/springframework/validation/DataBinder$ValueResolver
+instanceKlass org/springframework/validation/AbstractErrors
+instanceKlass org/springframework/validation/BindingErrorProcessor
+instanceKlass  @bci org/springframework/web/method/annotation/SessionAttributesHandler storeAttributes (Lorg/springframework/web/context/request/WebRequest;Ljava/util/Map;)V 3 <appendix> member <vmtarget> ; # org/springframework/web/method/annotation/SessionAttributesHandler$$Lambda+0x0000022d01bbf0f8
+instanceKlass java/util/stream/DoubleStream
+instanceKlass java/util/stream/LongStream
+instanceKlass org/springframework/util/TypeUtils
+instanceKlass org/springframework/util/StreamUtils
+instanceKlass  @bci org/springframework/http/converter/json/AbstractJackson2HttpMessageConverter writeInternal (Ljava/lang/Object;Ljava/lang/reflect/Type;Lorg/springframework/http/HttpOutputMessage;)V 71 <appendix> member <vmtarget> ; # org/springframework/http/converter/json/AbstractJackson2HttpMessageConverter$$Lambda+0x0000022d01bbe360
+instanceKlass org/springframework/http/converter/json/MappingJacksonValue
+instanceKlass  @bci org/springframework/web/servlet/mvc/method/annotation/AbstractMessageConverterMethodProcessor writeWithMessageConverters (Ljava/lang/Object;Lorg/springframework/core/MethodParameter;Lorg/springframework/http/server/ServletServerHttpRequest;Lorg/springframework/http/server/ServletServerHttpResponse;)V 755 <appendix> member <vmtarget> ; # org/springframework/web/servlet/mvc/method/annotation/AbstractMessageConverterMethodProcessor$$Lambda+0x0000022d01bbdee8
+instanceKlass org/springframework/http/server/ServerHttpAsyncRequestControl
+instanceKlass org/springframework/http/server/ServletServerHttpRequest
+instanceKlass org/springframework/web/context/request/async/WebAsyncTask
+instanceKlass org/springframework/web/servlet/mvc/method/annotation/StreamingResponseBody
+instanceKlass org/springframework/web/method/support/AsyncHandlerMethodReturnValueHandler
+instanceKlass org/springframework/web/bind/annotation/SessionAttribute
+instanceKlass org/springframework/web/bind/annotation/CookieValue
+instanceKlass org/springframework/web/bind/annotation/RequestHeader
+instanceKlass org/springframework/web/bind/annotation/MatrixVariable
+instanceKlass jakarta/servlet/http/Part
+instanceKlass org/springframework/web/multipart/support/MultipartResolutionDelegate
+instanceKlass org/springframework/web/bind/annotation/RequestPart
+instanceKlass  @bci org/springframework/ui/ModelMap mergeAttributes (Ljava/util/Map;)Lorg/springframework/ui/ModelMap; 6 <appendix> member <vmtarget> ; # org/springframework/ui/ModelMap$$Lambda+0x0000022d01bbc3d0
+instanceKlass org/springframework/web/servlet/support/RequestContextUtils
+instanceKlass org/springframework/web/bind/support/SimpleSessionStatus
+instanceKlass  @bci org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerAdapter getModelFactory (Lorg/springframework/web/method/HandlerMethod;Lorg/springframework/web/bind/support/WebDataBinderFactory;)Lorg/springframework/web/method/annotation/ModelFactory; 76 <appendix> member <vmtarget> ; # org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerAdapter$$Lambda+0x0000022d01bbadf0
+instanceKlass org/springframework/web/bind/annotation/SessionAttributes
+instanceKlass  @bci org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerAdapter getSessionAttributesHandler (Lorg/springframework/web/method/HandlerMethod;)Lorg/springframework/web/method/annotation/SessionAttributesHandler; 9 <appendix> member <vmtarget> ; # org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerAdapter$$Lambda+0x0000022d01bba9b8
+instanceKlass org/springframework/validation/DataBinder$NameResolver
+instanceKlass  @bci org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerAdapter getDataBinderFactory (Lorg/springframework/web/method/HandlerMethod;)Lorg/springframework/web/bind/support/WebDataBinderFactory; 60 <appendix> member <vmtarget> ; # org/springframework/web/servlet/mvc/method/annotation/RequestMappingHandlerAdapter$$Lambda+0x0000022d01bb96a0
+instanceKlass  @bci org/springframework/web/context/request/async/WebAsyncManager setAsyncWebRequest (Lorg/springframework/web/context/request/async/AsyncWebRequest;)V 16 <appendix> member <vmtarget> ; # org/springframework/web/context/request/async/WebAsyncManager$$Lambda+0x0000022d01bb9480
+instanceKlass  @bci org/springframework/web/servlet/mvc/method/RequestMappingInfoHandlerMapping extractMatchDetails (Lorg/springframework/web/servlet/mvc/condition/PathPatternsRequestCondition;Ljava/lang/String;Ljakarta/servlet/http/HttpServletRequest;)V 102 <appendix> member <vmtarget> ; # org/springframework/web/servlet/mvc/method/RequestMappingInfoHandlerMapping$$Lambda+0x0000022d01bb7ac0
+instanceKlass  @bci org/springframework/web/servlet/mvc/method/RequestMappingInfoHandlerMapping extractMatchDetails (Lorg/springframework/web/servlet/mvc/condition/PathPatternsRequestCondition;Ljava/lang/String;Ljakarta/servlet/http/HttpServletRequest;)V 53 <appendix> member <vmtarget> ; # org/springframework/web/servlet/mvc/method/RequestMappingInfoHandlerMapping$$Lambda+0x0000022d01bb78a0
+instanceKlass org/springframework/web/servlet/handler/AbstractHandlerMethodMapping$Match
+instanceKlass com/fasterxml/jackson/databind/ser/impl/PropertySerializerMap$SerializerAndMapResult
+instanceKlass com/fasterxml/jackson/databind/ser/std/MapSerializer$1
+instanceKlass com/fasterxml/jackson/databind/ser/std/StdKeySerializers
+instanceKlass com/fasterxml/jackson/databind/ser/BasicSerializerFactory$1
+instanceKlass com/fasterxml/jackson/annotation/JsonInclude
+instanceKlass com/fasterxml/jackson/databind/util/IgnorePropertiesUtil
+instanceKlass com/fasterxml/jackson/databind/ser/impl/PropertySerializerMap
+instanceKlass com/fasterxml/jackson/annotation/JsonIncludeProperties$Value
+instanceKlass com/fasterxml/jackson/annotation/JsonIncludeProperties
+instanceKlass com/fasterxml/jackson/annotation/JsonIgnoreProperties$Value
+instanceKlass com/fasterxml/jackson/annotation/JsonIgnoreProperties
+instanceKlass com/fasterxml/jackson/annotation/JsonFilter
+instanceKlass com/fasterxml/jackson/databind/util/ArrayIterator
+instanceKlass com/fasterxml/jackson/databind/annotation/JsonTypeResolver
+instanceKlass com/fasterxml/jackson/databind/util/internal/PrivateMaxEntriesMap$AddTask
+instanceKlass com/fasterxml/jackson/databind/util/internal/PrivateMaxEntriesMap$WeightedValue
+instanceKlass com/fasterxml/jackson/databind/type/TypeBindings$AsKey
+instanceKlass com/fasterxml/jackson/databind/type/TypeBindings$TypeParamStash
+instanceKlass com/fasterxml/jackson/databind/type/ClassStack
+instanceKlass com/fasterxml/jackson/databind/util/internal/PrivateMaxEntriesMap$EntryIterator
+instanceKlass  @bci com/fasterxml/jackson/databind/ser/impl/ReadOnlyClassToSerializerMap <init> (Lcom/fasterxml/jackson/databind/util/LookupCache;)V 38 <appendix> member <vmtarget> ; # com/fasterxml/jackson/databind/ser/impl/ReadOnlyClassToSerializerMap$$Lambda+0x0000022d01bb1620
+instanceKlass com/fasterxml/jackson/databind/util/TypeKey
+instanceKlass com/fasterxml/jackson/databind/ser/impl/ReadOnlyClassToSerializerMap$Bucket
+instanceKlass com/fasterxml/jackson/databind/ser/impl/ReadOnlyClassToSerializerMap

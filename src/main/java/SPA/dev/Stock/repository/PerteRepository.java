@@ -14,6 +14,5 @@ public interface PerteRepository extends JpaRepository<Perte, Long> {
     @Query("SELECT SUM(p.quantitePerdu) FROM Perte p WHERE p.approvisionnement.produit.idProduit = :idProduit AND p.createdBy = :createdBy GROUP BY p.approvisionnement.produit.idProduit")
     Float findTotalQuantitePerduByProduitAndCreatedBy(@Param("idProduit") Long idProduit, @Param("createdBy") int createdBy);
     @Query("SELECT SUM(p.quantitePerdu) FROM Perte p WHERE p.approvisionnement.produit.idProduit = :idProduit AND (p.createdBy = :createdBy OR p.approvisionnement.entrepot.id = :idEntrepot) GROUP BY p.approvisionnement.produit.idProduit")
-    Float findTotalQuantitePerduByProduitAndCreatedByOrEntrepot(@Param("idProduit") Long idProduit, @Param("createdBy") int createdBy, @Param("idEntrepot") int idEntrepot);
-
+    Integer findTotalQuantitePerduByProduitAndCreatedByOrEntrepot(@Param("idProduit") int idProduit, @Param("createdBy") int createdBy, @Param("idEntrepot") int idEntrepot);
 }

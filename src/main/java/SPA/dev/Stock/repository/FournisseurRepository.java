@@ -11,4 +11,5 @@ public interface FournisseurRepository extends JpaRepository<Fournisseur,Integer
     Optional<Fournisseur> findFournisseurByIdFournissseurAndCreatedBy(int idFournisseur,int createdBy);
     List<Fournisseur> findFournisseursByCreatedBy(int createdBy);
 
+    Optional<Fournisseur> findByTel(String telephone);
 }

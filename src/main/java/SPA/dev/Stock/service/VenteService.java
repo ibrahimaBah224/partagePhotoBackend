@@ -2,6 +2,7 @@ package SPA.dev.Stock.service;
 
 import SPA.dev.Stock.dto.ProduitVenteDto;
 import SPA.dev.Stock.dto.VenteDto;
+import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.exception.AppException;
 import SPA.dev.Stock.mapper.Mapper;
 import SPA.dev.Stock.modele.*;
@@ -26,6 +27,8 @@ public class VenteService {
     private  final ProduitRepository produitRepository;
     private final ApprovisionnementService approvisionnementService;
     private final UserRepository userRepository;
+    private final ApprovisionnementRepository approvisionnementRepository;
+    private final PerteRepository perteRepository;
 
     public List<VenteDto> getAll() {
         Integer userId = userService.getCurrentUserId();
@@ -67,11 +70,53 @@ public class VenteService {
         if(venteProduit!=null){
             throw new RuntimeException("produit existant");
         }else {
-            Vente vente = venteMapper.toVenteEntity(venteDto, produit, venteInit);
-            vente.setCreatedBy(userService.getCurrentUserId());
-            vente.setUser(user);
-            Vente newVente = venteRepository.save(vente);
-            return venteMapper.toVenteDto(newVente);
+            Integer quantiteApprovisionnee = 0;
+            if(user.getRole().equals(RoleEnumeration.SUPER_ADMIN) || user.getRole().equals(RoleEnumeration.ADMIN)){
+                quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
+                        produit.getIdProduit(),
+                        userService.getCurrentUserId()
+                );
+            }else{
+                quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
+                        produit.getIdProduit(),
+                        user.getCreatedBy()
+                );
+            }
+            quantiteApprovisionnee = (quantiteApprovisionnee != null) ? quantiteApprovisionnee : 0;
+            Integer quantiteVendue = 0;
+            if(user.getRole().equals(RoleEnumeration.SUPER_ADMIN) || user.getRole().equals(RoleEnumeration.ADMIN)) {
+
+                quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
+                        produit.getIdProduit(),
+                        userService.getCurrentUserId(),
+                        userRepository.findById(userService.getCurrentUserId())
+                                .orElseThrow(() -> new RuntimeException("user not found"))
+                );
+            }else{
+                quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
+                        produit.getIdProduit(),
+                        userService.getCurrentUserId(),
+                        userRepository.findById(user.getCreatedBy())
+                                .orElseThrow(() -> new RuntimeException("user not found"))
+                );
+            }
+            quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;
+            Integer quantitePerdue = perteRepository.findTotalQuantitePerduByProduitAndCreatedByOrEntrepot(
+                    produit.getIdProduit(),
+                    userService.getCurrentUserId(),
+                    user.getMagasin().getId()
+            );
+            quantitePerdue = (quantitePerdue != null) ? quantitePerdue : 0;
+            int quantiteTotal = quantiteApprovisionnee - (quantiteVendue+quantitePerdue);
+            if(quantiteTotal < venteDto.getQuantite()){
+                throw new RuntimeException("quantité insuffisante");
+            }else {
+                Vente vente = venteMapper.toVenteEntity(venteDto, produit, venteInit);
+                vente.setCreatedBy(userService.getCurrentUserId());
+                vente.setUser(user);
+                Vente newVente = venteRepository.save(vente);
+                return venteMapper.toVenteDto(newVente);
+            }
         }
     }
 

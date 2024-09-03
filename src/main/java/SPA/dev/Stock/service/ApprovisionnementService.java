@@ -17,6 +17,7 @@ import SPA.dev.Stock.modele.Produit;
 
 import SPA.dev.Stock.repository.ApprovisionnementRepository;
 import SPA.dev.Stock.repository.MagasinRepository;
+import SPA.dev.Stock.repository.ProduitRepository;
 import SPA.dev.Stock.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,8 @@ public class ApprovisionnementService {
     private final ProduitMapper produitMapper;
     private final UserRepository userRepository;
     private final MagasinRepository magasinRepository;
+    private final ProduitRepository produitRepository;
+    private final  TransfertMapper transfertMapper;
 
     @Transactional
     public ApprovisionnementDto ajouter(ApprovisionnementDto approvisionnementDto) {
@@ -76,33 +79,37 @@ public class ApprovisionnementService {
 
     private ApprovisionnementDto traiterApprovisionnementAvecTransfert(ApprovisionnementDto approvisionnementDto) {
         List<TransfertDto> transferts = transfertService.getTransfertByMagasin();
-        return transferts.stream()
-                .filter(trans -> trans.getProduit().equals(approvisionnementDto.getProduit()))
+
+
+        // Filtre par produit
+        TransfertDto transfertParProduit = transferts.stream()
+                .filter(trans ->produitRepository.findByDesignation(trans.getProduit()).getIdProduit() ==
+                                 Integer.parseInt(approvisionnementDto.getProduit())
+                )
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Aucun transfert trouvé pour le produit spécifié."));
+
+        // Filtre par quantité
+
+        TransfertDto transfertParQuantite = transferts.stream()
                 .filter(trans -> trans.getQuantite() >= approvisionnementDto.getQuantite())
                 .findFirst()
-                .map(trans -> {
-                    int q = trans.getQuantite() - approvisionnementDto.getQuantite();
-                    trans.setQuantite(q);
-                    if (trans.getQuantite() == 0) {
-                        trans.setStatus(StatusTransfertEnum.terminer);
-                    }
-                    transfertService.modifier(trans.getIdTransfert(), trans);
-                    approvisionnementDto.setFournisseur("1");
-                    Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto);
-                    return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
-                })
-                .orElseThrow(() -> new RuntimeException("Aucun transfert correspondant trouvé ou quantité insuffisante pour l'approvisionnement."));
+                .orElseThrow(() -> new RuntimeException("Quantité insuffisante pour l'approvisionnement."));
+
+        // Processus de transfert et d'approvisionnement
+        int q = transfertParQuantite.getQuantite() - approvisionnementDto.getQuantite();
+        transfertParQuantite.setQuantite(q);
+
+        if (transfertParQuantite.getQuantite() == 0) {
+            transfertParQuantite.setStatus(StatusTransfertEnum.terminer);
+        }
+
+        transfertService.modifier(transfertParQuantite.getIdTransfert(), transfertParQuantite);
+        Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto);
+        return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
     }
 
 
-    private TransfertDto creerTransfertDto(ApprovisionnementDto approvisionnementDto, Magasin magasin) {
-        TransfertDto transfertDto = new TransfertDto();
-        transfertDto.setMagasin(String.valueOf(magasin.getId()));
-        transfertDto.setProduit(String.valueOf(approvisionnementDto.getProduit()));
-        transfertDto.setQuantite(approvisionnementDto.getQuantite());
-        transfertDto.setStatus(StatusTransfertEnum.terminer);
-        return transfertDto;
-    }
 
 
     public List<ApprovisionnementDto> liste() {

@@ -3,12 +3,11 @@ package SPA.dev.Stock.mapper;
 import SPA.dev.Stock.dto.ApprovisionnementDto;
 import SPA.dev.Stock.dto.ProduitDto;
 import SPA.dev.Stock.dto.VenteDto;
+import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.modele.Approvisionnement;
 import SPA.dev.Stock.modele.Produit;
-import SPA.dev.Stock.repository.ApprovisionnementRepository;
-import SPA.dev.Stock.repository.SousCategorieRepository;
-import SPA.dev.Stock.repository.UserRepository;
-import SPA.dev.Stock.repository.VenteRepository;
+import SPA.dev.Stock.modele.User;
+import SPA.dev.Stock.repository.*;
 import SPA.dev.Stock.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +25,8 @@ public class ProduitMapper {
     private final VenteRepository venteRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final PerteRepository perteRepository;
+    private final MagasinRepository magasinRepository;
     private int quantite = 0;
 
     public ProduitDto toDto(Produit produit) {
@@ -55,6 +56,8 @@ public class ProduitMapper {
     }
 
     public List<ProduitDto> toDtoList(List<Produit> produits) {
+        User user =  userRepository.findById(userService.getCurrentUserId())
+                .orElseThrow(()->new RuntimeException("user not found"));
         return produits.stream()
                 .map(produit -> {
                     ProduitDto produitDto = toDto(produit);
@@ -66,22 +69,45 @@ public class ProduitMapper {
                     } else {
                         produitDto.setPrixUnitaire(0);
                     }
+                    Integer quantiteApprovisionnee = 0;
+                    if(user.getRole().equals(RoleEnumeration.SUPER_ADMIN) || user.getRole().equals(RoleEnumeration.ADMIN)){
+                         quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
+                                produit.getIdProduit(),
+                                userService.getCurrentUserId()
+                        );
+                    }else{
+                        quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
+                                produit.getIdProduit(),
+                                user.getCreatedBy()
+                        );
+                    }
 
-                    Integer quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
-                            produit.getIdProduit(),
-                            userService.getCurrentUserId()
-                    );
                     quantiteApprovisionnee = (quantiteApprovisionnee != null) ? quantiteApprovisionnee : 0;
+                    Integer quantiteVendue = 0;
+                    if(user.getRole().equals(RoleEnumeration.SUPER_ADMIN) || user.getRole().equals(RoleEnumeration.ADMIN)) {
 
-                    Integer quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
+                         quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
+                                produit.getIdProduit(),
+                                userService.getCurrentUserId(),
+                                userRepository.findById(userService.getCurrentUserId())
+                                        .orElseThrow(() -> new RuntimeException("user not found"))
+                        );
+                    }else{
+                         quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
+                                produit.getIdProduit(),
+                                userService.getCurrentUserId(),
+                                userRepository.findById(user.getCreatedBy())
+                                        .orElseThrow(() -> new RuntimeException("user not found"))
+                        );
+                    }
+                    quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;
+                    Integer quantitePerdue = perteRepository.findTotalQuantitePerduByProduitAndCreatedByOrEntrepot(
                             produit.getIdProduit(),
                             userService.getCurrentUserId(),
-                            userRepository.findById(userService.getCurrentUserId())
-                                    .orElseThrow(()->new RuntimeException("user not found"))
+                            user.getMagasin().getId()
                     );
-                    quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;
-
-                    produitDto.setQuantite(quantiteApprovisionnee - quantiteVendue);
+                    quantitePerdue = (quantitePerdue != null) ? quantitePerdue : 0;
+                    produitDto.setQuantite(quantiteApprovisionnee - (quantiteVendue+quantitePerdue));
                     return produitDto;
                 })
                 .collect(Collectors.toList());
