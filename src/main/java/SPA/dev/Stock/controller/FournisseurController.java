@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class FournisseurController {
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<FournisseurDto> modifier(@PathVariable int id, @RequestBody FournisseurDto fournisseurDto) {
+    public ResponseEntity<FournisseurDto> modifier(@PathVariable int id, @RequestBody FournisseurDto fournisseurDto) throws InvocationTargetException, IllegalAccessException {
         return ResponseEntity.ok(fournisseurService.modifier(id, fournisseurDto));
     }
 

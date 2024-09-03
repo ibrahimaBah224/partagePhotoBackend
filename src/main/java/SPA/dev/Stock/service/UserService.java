@@ -3,9 +3,11 @@ package SPA.dev.Stock.service;
 import SPA.dev.Stock.dto.MagasinDto;
 import SPA.dev.Stock.dto.PasswordDto;
 import SPA.dev.Stock.dto.RegisterUserDto;
+import SPA.dev.Stock.dto.UserDtoEnvoie;
 import SPA.dev.Stock.enumeration.EnumTypeMagasin;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.exception.UserNotFoundException;
+import SPA.dev.Stock.fonction.Fonction;
 import SPA.dev.Stock.mapper.UserMapper;
 import SPA.dev.Stock.mapper.UserMapper1;
 import SPA.dev.Stock.modele.Magasin;
@@ -56,31 +58,45 @@ public class UserService {
                 .getId();
     }
 
-    public RegisterUserDto findById(int currentUserId) {
+    public UserDtoEnvoie findById(int currentUserId) {
         User user = userRepository.findById(currentUserId)
                 .orElseThrow(()->new RuntimeException("user not found"));
         return userMapper.toDto(user);
     }
-    public List<RegisterUserDto> allUsers() {
+    public List<UserDtoEnvoie> allUsers() {
         int currentUserId = getCurrentUserId();
         List<User> users = userRepository.findAllByCreatedBy(currentUserId);
         return userMapper.toUserDtoList(users);
     }
 
-    public RegisterUserDto updateUser(int id, RegisterUserDto registerUserDto) {
+    public UserDtoEnvoie updateUser(int id, RegisterUserDto registerUserDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("user not found"));
+        Magasin magasin = magasinRepository.findById(registerUserDto.getIdMagasin())
+                .orElseThrow(()->new RuntimeException("Magasin not found"));
         int currentUserId = getCurrentUserId();
+        User currentUser = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new AccessDeniedException("Current user not found."));
+
         if (user.getCreatedBy() != currentUserId && user.getId()!= currentUserId ) {
             throw new AccessDeniedException("You do not have permission to update this user.");
         }
-        user.setFullName(registerUserDto.getFullName());
-        user.setEmail(registerUserDto.getEmail());
-        user.setTelephone(registerUserDto.getTelephone());
+        if(registerUserDto.getRole().equals(RoleEnumeration.SUPER_ADMIN)){
+            throw  new RuntimeException("You do not have permission");
+        }
+        if(currentUser.getRole().equals(RoleEnumeration.ADMIN) && magasin.getTypeMagasin().equals(EnumTypeMagasin.MAGASIN)){
+            throw  new RuntimeException("You do not have permission");
+        }
+        if(!magasin.getTypeMagasin().equals(EnumTypeMagasin.MAGASIN)){
+            user.setRole(RoleEnumeration.valueOf(String.valueOf(user.getMagasin().getTypeMagasin())));
+        }else{
+            user.setRole(RoleEnumeration.ADMIN);
+        }
+        user = Fonction.updateEntityWithNonNullFields(user, registerUserDto,"id");
         return userMapper.toDto(userRepository.save(user));
     }
 
-    public RegisterUserDto updateUserPassword(int id, PasswordDto passwordDto) {
+    public UserDtoEnvoie updateUserPassword(int id, PasswordDto passwordDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("user not found"));
         int currentUserId = getCurrentUserId();
@@ -91,7 +107,7 @@ public class UserService {
         return userMapper.toDto(userRepository.save(user));
     }
 
-    public RegisterUserDto registerUser(RegisterUserDto registerUserDto) {
+    public UserDtoEnvoie registerUser(RegisterUserDto registerUserDto) {
         int currentUserId = getCurrentUserId(); // Fetch the ID of the currently authenticated user
         User currentUser = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new AccessDeniedException("Current user not found."));
@@ -124,7 +140,11 @@ public class UserService {
         if (magasin.getUser() != null) {
             throw new RuntimeException("This magasin is already assigned to another user.");
         }
-
+        if(!currentUserRole.equals(RoleEnumeration.SUPER_ADMIN) || !currentUserRole.equals(RoleEnumeration.SUPER_ADMIN)) {
+            if (registerUserDto.getRole().equals(magasin.getTypeMagasin())) {
+                throw new RuntimeException("veuillez faire correspondre le user au role");
+            }
+        }
         User user = userMapper.toEntity(registerUserDto, magasin);
         user.setRole(newUserRole);
         user.setPassword(bCryptPasswordEncoder.encode(registerUserDto.getPassword()));

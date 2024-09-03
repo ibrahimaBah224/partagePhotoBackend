@@ -15,11 +15,12 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class UserMapper1 {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    public RegisterUserDto toDto(User user) {
-        return RegisterUserDto.builder()
+    public UserDtoEnvoie toDto(User user) {
+        return UserDtoEnvoie.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
+                .nomMagasin(user.getMagasin().getNom())
                 .idMagasin(user.getMagasin().getId())
                 .telephone(user.getTelephone())
                 .Role(String.valueOf(user.getRole()))
@@ -37,7 +38,7 @@ public class UserMapper1 {
                 .build();
     }
 
-    public List<RegisterUserDto> toUserDtoList(List<User> users) {
+    public List<UserDtoEnvoie> toUserDtoList(List<User> users) {
         return users.stream().map(this::toDto).collect(toList());
     }
 

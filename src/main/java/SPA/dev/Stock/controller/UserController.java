@@ -2,6 +2,7 @@ package SPA.dev.Stock.controller;
 
 import SPA.dev.Stock.dto.PasswordDto;
 import SPA.dev.Stock.dto.RegisterUserDto;
+import SPA.dev.Stock.dto.UserDtoEnvoie;
 import SPA.dev.Stock.enumeration.EnumTypeMagasin;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.mapper.UserMapper1;
@@ -35,22 +36,22 @@ public class UserController {
     private final FournisseurRepository fournisseurRepository;
 
     @GetMapping("/list")
-    public List<RegisterUserDto> getAllUsers() {
+    public List<UserDtoEnvoie> getAllUsers() {
         return  userService.allUsers();
     }
 
     @PostMapping("/add")
-    public RegisterUserDto registerUser(@RequestBody RegisterUserDto registerUserDto) {
+    public UserDtoEnvoie registerUser(@RequestBody RegisterUserDto registerUserDto) {
         return  userService.registerUser(registerUserDto);
     }
 
     @PutMapping("update/{id}")
-    public RegisterUserDto updateUser(@PathVariable int id, @RequestBody RegisterUserDto registerUserDto) {
+    public UserDtoEnvoie updateUser(@PathVariable int id, @RequestBody RegisterUserDto registerUserDto) {
         return userService.updateUser(id, registerUserDto);
     }
 
     @PutMapping("updatePassword/{id}")
-    public RegisterUserDto updateUserPassword(@PathVariable int id, @RequestBody PasswordDto passwordDto) {
+    public UserDtoEnvoie updateUserPassword(@PathVariable int id, @RequestBody PasswordDto passwordDto) {
         return  userService.updateUserPassword(id, passwordDto);
     }
 
@@ -58,6 +59,10 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/getOne/{id}")
+    public ResponseEntity<UserDtoEnvoie> getOne(@PathVariable int id){
+        return ResponseEntity.ok(userService.findById(id));
     }
 /*
    @PostConstruct

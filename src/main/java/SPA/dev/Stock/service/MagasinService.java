@@ -5,6 +5,7 @@ import SPA.dev.Stock.dto.MagasinDto;
 import SPA.dev.Stock.enumeration.EnumTypeMagasin;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.exception.MagasinNotFoundException;
+import SPA.dev.Stock.fonction.Fonction;
 import SPA.dev.Stock.mapper.MagasinMapper;
 import SPA.dev.Stock.modele.Magasin;
 import SPA.dev.Stock.modele.User;
@@ -24,6 +25,7 @@ public class MagasinService {
     private final MagasinRepository magasinRepository;
     private final UserService userService;
     private final MagasinMapper magasinMapper;
+    private final FournisseurService fournisseurService;
 
 
     public boolean isValidEnumTypeMagasin(String value) {
@@ -63,14 +65,8 @@ public class MagasinService {
         int currentUserId = userService.getCurrentUserId();
         Magasin magasin = magasinRepository.findByIdAndCreatedByAndTypeMagasin(id, currentUserId,enumTypeMagasin)
                 .orElseThrow(() -> new MagasinNotFoundException(STR."\{enumTypeMagasin} not found or access denied"));
-        if(magasinDTO.getNom()!=null)
-            magasin.setNom(magasinDTO.getNom());
-        if (magasinDTO.getReference()!=null)
-            magasin.setReference(magasinDTO.getReference());
-        if(magasinDTO.getAdresse()!=null)
-            magasin.setAdresse(magasinDTO.getAdresse());
-        Magasin updatedMagasin = magasinRepository.save(magasin);
-        return magasinMapper.magasinToMagasinDTO(updatedMagasin);
+        magasin = Fonction.updateEntityWithNonNullFields(magasin, magasinDTO,"id"); // Met à jour l'entité avec les champs non nuls du DTO
+        return magasinMapper.magasinToMagasinDTO(magasinRepository.save(magasin));
     }
 
     public void deleteMagasin(int id,EnumTypeMagasin typeMagasin) {

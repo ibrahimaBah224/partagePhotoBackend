@@ -2,6 +2,7 @@ package SPA.dev.Stock.service;
 
 import SPA.dev.Stock.dto.ClientDto;
 import SPA.dev.Stock.exception.AppException;
+import SPA.dev.Stock.fonction.Fonction;
 import SPA.dev.Stock.mapper.ClientMapper;
 import SPA.dev.Stock.modele.Client;
 import SPA.dev.Stock.repository.ClientRepository;
@@ -45,10 +46,7 @@ public class ClientService {
     public ClientDto updateClient(Long id, ClientDto clientDto){
         Client client = clientRepository.findById(id)
                 .orElseThrow(()-> new AppException("Client not found", HttpStatus.NOT_FOUND));
-        client.setNom(clientDto.getNom());
-        client.setPrenom(clientDto.getPrenom());
-        client.setAdresse(clientDto.getAdresse());
-        client.setTelephone(clientDto.getTelephone());
+        client = Fonction.updateEntityWithNonNullFields(client, clientDto,"idClient"); // Met à jour l'entité avec les champs non nuls du DTO
         return clientMapper.toClientDto(clientRepository.save(client));
     }
 }
