@@ -76,19 +76,20 @@ public class UserService {
                 .orElseThrow(()->new RuntimeException("user not found"));
         User user = userRepository.findByIdAndCreatedBy(id,getCurrentUserId())
                 .orElseThrow(()->new RuntimeException("user not found"));
-        Magasin magasin = magasinRepository.findByIdAndCreatedBy(registerUserDto.getIdMagasin(),getCurrentUserId())
-                .orElseThrow(()->new RuntimeException("magasin not found"));
-        if(magasin.getUser() != null){
-            throw new RuntimeException(STR."\{magasin.getNom()}est déjà affecté à un useur");
-        }
-        if(currentUser.getRole().equals(RoleEnumeration.ADMIN) && magasin.getTypeMagasin().equals(EnumTypeMagasin.MAGASIN)){
-            throw new RuntimeException("vous n'etes pas autorisé");
-        }
-        if(magasin.getTypeMagasin().equals(EnumTypeMagasin.MAGASIN)){
-            registerUserDto.setRole(String.valueOf(RoleEnumeration.ADMIN));
-        }
-        else{
-            registerUserDto.setRole(String.valueOf(magasin.getTypeMagasin()));
+        if(registerUserDto.getIdMagasin() != user.getMagasin().getId()){
+            Magasin magasin = magasinRepository.findByIdAndCreatedBy(registerUserDto.getIdMagasin(), getCurrentUserId())
+                    .orElseThrow(() -> new RuntimeException("magasin not found"));
+            if (magasin.getUser() != null) {
+                throw new RuntimeException(STR."\{magasin.getNom()}est déjà affecté à un useur");
+            }
+            if (currentUser.getRole().equals(RoleEnumeration.ADMIN) && magasin.getTypeMagasin().equals(EnumTypeMagasin.MAGASIN)) {
+                throw new RuntimeException("vous n'etes pas autorisé");
+            }
+            if (magasin.getTypeMagasin().equals(EnumTypeMagasin.MAGASIN)) {
+                registerUserDto.setRole(String.valueOf(RoleEnumeration.ADMIN));
+            } else {
+                registerUserDto.setRole(String.valueOf(magasin.getTypeMagasin()));
+            }
         }
         user = Fonction.updateEntityWithNonNullFields(user,registerUserDto,"id");
         return userMapper1.toDto(userRepository.save(user));
