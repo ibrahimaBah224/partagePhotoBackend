@@ -7,6 +7,7 @@ import SPA.dev.Stock.dto.TransfertDto;
 import SPA.dev.Stock.enumeration.RoleEnumeration;
 import SPA.dev.Stock.enumeration.StatusTransfertEnum;
 import SPA.dev.Stock.mapper.MagasinMapper;
+import SPA.dev.Stock.mapper.ProduitMapper;
 import SPA.dev.Stock.mapper.TransfertMapper;
 import SPA.dev.Stock.modele.*;
 import SPA.dev.Stock.repository.*;
@@ -31,6 +32,7 @@ public class TransfertService {
     private final VenteRepository venteRepository;
     private final ApprovisionnementRepository approvisionnementRepository ;
     private final PerteRepository perteRepository;
+    private final ProduitMapper produitMapper;
 
     public TransfertDto ajouter(TransfertDto transfertDto) {
         Transfert transfert = transfertMapper.toEntity(transfertDto);
@@ -96,17 +98,18 @@ public class TransfertService {
                 magasinService.getMagasinsForCurrentUser()
         );
 
-        List<ProduitDto> produits = new ArrayList<>();
-        List<TransfertDto> listTransfert = getTransfertByMagasin();
+        List<Produit> produits = new ArrayList<>();
+        List<TransfertDto> listTransfert = transfertMapper.toDtoList(transfertRepository.findTransfertsByMagasin(magasin));
+
 
         listTransfert.forEach(transfert -> {
             Produit p = produitRepository.findByDesignation(transfert.getProduit());
-            ProduitDto produit = produitService.getProduit(p.getIdProduit())
+            Produit produit = produitRepository.findById(p.getIdProduit())
                     .orElseThrow(() -> new RuntimeException("Produit introuvable"));
             produits.add(produit);
         });
 
-        return produits;
+        return produitMapper.toDtoList(produits);
     }
 
     public int stockProduit(Produit produit){

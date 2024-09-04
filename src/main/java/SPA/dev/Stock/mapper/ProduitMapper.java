@@ -62,7 +62,7 @@ public class ProduitMapper {
                 .map(produit -> {
                     ProduitDto produitDto = toDto(produit);
 
-                    List<Approvisionnement> approvisionnements = approvisionnementRepository.findApprovisionnementByProduit(produit);
+                    List<Approvisionnement> approvisionnements = approvisionnementRepository.findApprovisionnementByProduitAndCreatedBy(produit,userService.getCurrentUserId());
                     if (!approvisionnements.isEmpty()) {
                         Approvisionnement lastAppro = approvisionnements.get(approvisionnements.size() - 1);
                         produitDto.setPrixUnitaire(lastAppro.getPrixUniteVente());
