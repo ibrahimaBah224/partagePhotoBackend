@@ -5,6 +5,7 @@ import SPA.dev.Stock.enumeration.EnumVente;
 import SPA.dev.Stock.modele.Produit;
 import SPA.dev.Stock.modele.User;
 import SPA.dev.Stock.modele.Vente;
+import SPA.dev.Stock.modele.VenteInit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -62,4 +63,6 @@ public interface VenteRepository extends JpaRepository<Vente, Long> {
 
     Vente findByProduit(Produit produit
     );
+
+    Vente findByProduitAndCreatedByAndVenteInit(Produit produit, int currentUserId, VenteInit venteInit);
 }

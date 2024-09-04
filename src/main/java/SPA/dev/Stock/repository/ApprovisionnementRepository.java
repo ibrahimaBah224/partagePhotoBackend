@@ -18,4 +18,6 @@ public interface ApprovisionnementRepository extends JpaRepository<Approvisionne
     List<Approvisionnement> findApprovisionnementByProduit(@Param("produit") Produit produit);
     @Query("SELECT SUM(a.quantite) FROM Approvisionnement a WHERE a.produit.idProduit = :idProduit AND (a.createdBy = :createdBy OR a.entrepot.id = :idEntrepot)")
     Integer findTotalQuantityByProduitIdAndCreatedByOrEntrepotId(@Param("idProduit") int idProduit, @Param("createdBy") int createdBy, @Param("idEntrepot") int idEntrepot);
+
+    List<Approvisionnement> findAllByCreatedBy(int currentUserId);
 }

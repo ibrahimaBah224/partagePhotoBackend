@@ -54,8 +54,11 @@ public class ProduitService {
         if (user.getRole()==RoleEnumeration.SUPER_ADMIN) {
             produit.setStatut(1);
         }
-        else{
+        else if(user.getRole()==RoleEnumeration.ADMIN){
             produit.setStatut(0);
+        }
+        else {
+            throw new RuntimeException("vous n'avez le role necessaire pour ajouter un produit");
         }
 
         produitRepository.save(produit);

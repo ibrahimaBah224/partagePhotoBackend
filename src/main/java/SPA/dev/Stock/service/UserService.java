@@ -74,8 +74,10 @@ public class UserService {
         User currentUser = userRepository.findById(getCurrentUserId())
                 .orElseThrow(()->new RuntimeException("user not found"));
         User user = userRepository.findByIdAndCreatedBy(id,getCurrentUserId())
-                .orElseThrow(()->new RuntimeException("user not found"));
-        if(registerUserDto.getIdMagasin() != user.getMagasin().getId() ){
+                .orElseThrow(()->new RuntimeException("user at modified not found"));
+        User user1 = userRepository.findByTelephone(registerUserDto.getTelephone())
+                .orElseThrow(()->new RuntimeException("numero de phone déja existant"));
+        if( registerUserDto.getIdMagasin() != user.getMagasin().getId()){
             Magasin magasin = magasinRepository.findByIdAndCreatedBy(registerUserDto.getIdMagasin(), getCurrentUserId())
                     .orElseThrow(() -> new RuntimeException("magasin not found"));
             if (magasin.getUser() != null) {
@@ -90,6 +92,8 @@ public class UserService {
                 registerUserDto.setRole(String.valueOf(magasin.getTypeMagasin()));
             }
         }
+        registerUserDto.setCreatedBy(getCurrentUserId());
+        user.setUpdatedBy(getCurrentUserId());
         user = Fonction.updateEntityWithNonNullFields(user,registerUserDto,"id");
         return userMapper1.toDto(userRepository.save(user));
     }

@@ -133,5 +133,10 @@ public class VenteInitService {
         VenteInit updatedVenteInit = venteInitRepository.save(venteInit);
         return venteInitMapper.toDto(updatedVenteInit);
     }
-
+    public  VenteInitDto updateStatutVenteInit(long id, int status){
+        int currentUserId = userService.getCurrentUserId();
+        VenteInit existingVente =  venteInitRepository.findByIdAndCreatedBy(id, currentUserId);
+        existingVente.setStatus(status);
+        return  venteInitMapper.toDto(venteInitRepository.save(existingVente));
+    }
 }

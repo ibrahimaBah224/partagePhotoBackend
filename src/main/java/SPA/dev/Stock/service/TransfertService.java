@@ -30,6 +30,7 @@ public class TransfertService {
     private final ProduitRepository produitRepository;
     private final VenteRepository venteRepository;
     private final ApprovisionnementRepository approvisionnementRepository ;
+    private final PerteRepository perteRepository;
 
     public TransfertDto ajouter(TransfertDto transfertDto) {
         Transfert transfert = transfertMapper.toEntity(transfertDto);
@@ -109,20 +110,54 @@ public class TransfertService {
     }
 
     public int stockProduit(Produit produit){
-        Integer quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
-                produit.getIdProduit(),
-                userService.getCurrentUserId()
-        );
-        quantiteApprovisionnee = (quantiteApprovisionnee != null) ? quantiteApprovisionnee : 0;
+        User user = userRepository.findById(userService.getCurrentUserId())
+                .orElseThrow(()->new RuntimeException("not found user"));
+        Integer quantiteApprovisionnee = 0;
+        Integer quantiteVendue = 0;
+        Integer quantitePerdue = 0;
+        if(user.getRole().equals(RoleEnumeration.ADMIN) || user.getRole().equals(RoleEnumeration.SUPER_ADMIN)){
+             quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
+                    produit.getIdProduit(),
+                    userService.getCurrentUserId()
+            );
+            quantiteApprovisionnee = (quantiteApprovisionnee != null) ? quantiteApprovisionnee : 0;
 
-        Integer quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
-                produit.getIdProduit(),
-                userService.getCurrentUserId(),
-                userRepository.findById(userService.getCurrentUserId())
-                        .orElseThrow(()->new RuntimeException("user not found"))
-        );
-        quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;
+             quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
+                    produit.getIdProduit(),
+                    userService.getCurrentUserId(),
+                    userRepository.findById(userService.getCurrentUserId())
+                            .orElseThrow(()->new RuntimeException("user not found"))
+            );
+            quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;
+             quantitePerdue = perteRepository.findTotalQuantitePerduByProduitAndCreatedByOrEntrepot(
+                    produit.getIdProduit(),
+                    userService.getCurrentUserId(),
+                    user.getMagasin().getId()
+            );
+            quantitePerdue = (quantitePerdue != null) ? quantitePerdue : 0;
 
-       return quantiteApprovisionnee - quantiteVendue;
+        }else{
+            quantiteApprovisionnee = approvisionnementRepository.findTotalQuantityByProduitIdAndCreatedBy(
+                    produit.getIdProduit(),
+                    user.getCreatedBy()
+            );
+            quantiteApprovisionnee = (quantiteApprovisionnee != null) ? quantiteApprovisionnee : 0;
+
+            quantiteVendue = venteRepository.findTotalQuantitySoldByProduitIdStatusAndCreatedBy(
+                    produit.getIdProduit(),
+                    user.getCreatedBy(),
+                    userRepository.findById(userService.getCurrentUserId())
+                            .orElseThrow(()->new RuntimeException("user not found"))
+            );
+            quantiteVendue = (quantiteVendue != null) ? quantiteVendue : 0;
+             quantitePerdue = perteRepository.findTotalQuantitePerduByProduitAndCreatedByOrEntrepot(
+                    produit.getIdProduit(),
+                    user.getCreatedBy(),
+                    user.getMagasin().getId()
+            );
+            quantitePerdue = (quantitePerdue != null) ? quantitePerdue : 0;
+        }
+
+       return quantiteApprovisionnee - (quantiteVendue + quantitePerdue);
     }
 }

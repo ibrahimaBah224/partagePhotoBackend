@@ -44,4 +44,8 @@ public class VenteInitController {
     public ResponseEntity<VenteInitDto> updateVenteInit(@PathVariable Long id, @Valid @RequestBody VenteInitDto venteInitDto){
         return ResponseEntity.ok(venteInitService.updateVenteInit(id, venteInitDto));
     }
+    @PutMapping("/updateStatus/{id}")
+    public ResponseEntity<VenteInitDto> updateStatus(@PathVariable long id,@RequestBody int status){
+        return  ResponseEntity.ok(venteInitService.updateStatutVenteInit(id,status));
+    }
 }

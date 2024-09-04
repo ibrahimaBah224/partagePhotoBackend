@@ -117,7 +117,7 @@ public class ApprovisionnementService {
 
 
     public List<ApprovisionnementDto> liste() {
-        List<Approvisionnement> approvisionnements = approvisionnementRepository.findAll();
+        List<Approvisionnement> approvisionnements = approvisionnementRepository.findAllByCreatedBy(userService.getCurrentUserId());
         return approvisionnementMapper.toDtoList(approvisionnements);
     }
 
@@ -126,7 +126,6 @@ public class ApprovisionnementService {
         int userId = userService.getCurrentUserId();
         User user = userRepository.findById(userId).orElseThrow(()->new RuntimeException("utilisateur introuvable"));
         List<Approvisionnement> list = approvisionnementRepository.findApprovisionnementByCreatedBy(userId);
-
         if (user.getRole() != RoleEnumeration.SUPER_ADMIN) {
             User admin = userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN)
                     .stream()
