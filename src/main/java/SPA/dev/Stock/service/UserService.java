@@ -34,7 +34,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MagasinRepository magasinRepository;
-    private final MagasinService magasinService;
     private final UserMapper1 userMapper1;
 
 
@@ -76,7 +75,7 @@ public class UserService {
                 .orElseThrow(()->new RuntimeException("user not found"));
         User user = userRepository.findByIdAndCreatedBy(id,getCurrentUserId())
                 .orElseThrow(()->new RuntimeException("user not found"));
-        if(registerUserDto.getIdMagasin() != user.getMagasin().getId()){
+        if(registerUserDto.getIdMagasin() != user.getMagasin().getId() ){
             Magasin magasin = magasinRepository.findByIdAndCreatedBy(registerUserDto.getIdMagasin(), getCurrentUserId())
                     .orElseThrow(() -> new RuntimeException("magasin not found"));
             if (magasin.getUser() != null) {

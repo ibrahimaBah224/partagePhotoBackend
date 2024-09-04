@@ -26,6 +26,7 @@ public class TransfertMapper {
                 .produit(transfert.getProduit().getDesignation())
                 .magasin(transfert.getMagasin().getNom())
                 .quantite(transfert.getQuantite())
+                .quantiteRestante(transfert.getQuantiteRestante())
                 .status(transfert.getStatus())
                 .build();
     }
@@ -39,6 +40,7 @@ public class TransfertMapper {
                         .getMagasin()))
                         .orElseThrow(()->new RuntimeException("idMagasin introuvable")))
                 .quantite(transfertDto.getQuantite())
+                .quantiteRestante(transfertDto.getQuantiteRestante())
                 .status(transfertDto.getStatus())
                 .build();
     }

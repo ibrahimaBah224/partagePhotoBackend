@@ -14,5 +14,6 @@ public class TransfertDto  extends AbstractEntitieDto{
     private String produit;
     private String magasin;
     private int quantite;
+    private int quantiteRestante;
     private StatusTransfertEnum status;
 }

@@ -49,6 +49,7 @@ public class TransfertService {
             } else {
                 int stock = stockProduit(produit);
                 if (transfert.getQuantite()<=stock) {
+                    transfert.setQuantiteRestante(transfert.getQuantite());
                     transfertRepository.save(transfert);
                     return transfertMapper.toDto(transfert);
                 }

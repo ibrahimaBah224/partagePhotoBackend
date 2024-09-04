@@ -98,16 +98,11 @@ public class ApprovisionnementService {
         TransfertDto t = transfertMapper.toDto(transfertCorrespondant);
         t.setProduit(String.valueOf(transfertCorrespondant.getProduit().getIdProduit()));
         t.setMagasin(String.valueOf(transfertCorrespondant.getMagasin().getId()));
-        int q = t.getQuantite() - approvisionnementDto.getQuantite();
-        t.setQuantite(q);
-        if (t.getQuantite() == 0) {
+        int q = t.getQuantiteRestante() - approvisionnementDto.getQuantite();
+        t.setQuantiteRestante(q);
+        if (t.getQuantiteRestante() == 0) {
             t.setStatus(StatusTransfertEnum.terminer);
         }
-        System.out.println(STR."""
-==========================
-==========================
-==========================
-\{t.getProduit()},\{t.getMagasin()},\{t.getQuantite()}""");
         // Modifier le transfert
         transfertService.modifier(transfertCorrespondant.getIdTransfert(), t);
 

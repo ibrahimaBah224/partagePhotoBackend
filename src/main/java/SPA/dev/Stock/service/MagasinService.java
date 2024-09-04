@@ -25,7 +25,6 @@ public class MagasinService {
     private final MagasinRepository magasinRepository;
     private final UserService userService;
     private final MagasinMapper magasinMapper;
-    private final FournisseurService fournisseurService;
 
 
     public boolean isValidEnumTypeMagasin(String value) {
