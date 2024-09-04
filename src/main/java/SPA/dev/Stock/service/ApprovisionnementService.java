@@ -17,7 +17,6 @@ import SPA.dev.Stock.modele.Produit;
 
 import SPA.dev.Stock.repository.ApprovisionnementRepository;
 import SPA.dev.Stock.repository.MagasinRepository;
-import SPA.dev.Stock.repository.ProduitRepository;
 import SPA.dev.Stock.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -38,13 +37,12 @@ public class ApprovisionnementService {
     private final ApprovisionnementRepository approvisionnementRepository;
     private final UserService userService;
     private final TransfertService transfertService;
+    private final TransfertMapper transfertMapper;
     private final FournisseurMapper fournisseurMapper;
     private final ProduitService produitService;
     private final ProduitMapper produitMapper;
     private final UserRepository userRepository;
     private final MagasinRepository magasinRepository;
-    private final ProduitRepository produitRepository;
-    private final  TransfertMapper transfertMapper;
 
     @Transactional
     public ApprovisionnementDto ajouter(ApprovisionnementDto approvisionnementDto) {
@@ -78,36 +76,47 @@ public class ApprovisionnementService {
     }
 
     private ApprovisionnementDto traiterApprovisionnementAvecTransfert(ApprovisionnementDto approvisionnementDto) {
-        List<TransfertDto> transferts = transfertService.getTransfertByMagasin();
-
-
-        // Filtre par produit
-        TransfertDto transfertParProduit = transferts.stream()
-                .filter(trans ->produitRepository.findByDesignation(trans.getProduit()).getIdProduit() ==
-                                 Integer.parseInt(approvisionnementDto.getProduit())
-                )
+        List<TransfertDto> listTransferts =transfertService.getTransfertByMagasin();
+        List<Transfert> transferts = transfertMapper.toEntityList(listTransferts);
+        // Filtrer les transferts par produit
+        Transfert transfertCorrespondant = transferts.stream()
+                .filter(trans -> {
+                    if (!(trans.getProduit().getIdProduit() == Integer.valueOf(approvisionnementDto.getProduit()))) {
+                        return false;
+                    }
+                    return true;
+                })
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Aucun transfert trouvé pour le produit spécifié."));
+                .orElseThrow(() -> new RuntimeException("Aucun transfert avec le produit spécifié trouvé."));
 
-        // Filtre par quantité
-
-        TransfertDto transfertParQuantite = transferts.stream()
-                .filter(trans -> trans.getQuantite() >= approvisionnementDto.getQuantite())
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Quantité insuffisante pour l'approvisionnement."));
-
-        // Processus de transfert et d'approvisionnement
-        int q = transfertParQuantite.getQuantite() - approvisionnementDto.getQuantite();
-        transfertParQuantite.setQuantite(q);
-
-        if (transfertParQuantite.getQuantite() == 0) {
-            transfertParQuantite.setStatus(StatusTransfertEnum.terminer);
+        // Vérifier la quantité disponible
+        if (transfertCorrespondant.getQuantite() < approvisionnementDto.getQuantite()) {
+            throw new RuntimeException("Quantité insuffisante pour l'approvisionnement.");
         }
 
-        transfertService.modifier(transfertParQuantite.getIdTransfert(), transfertParQuantite);
+        // Mettre à jour la quantité et le statut du transfert
+        TransfertDto t = transfertMapper.toDto(transfertCorrespondant);
+        t.setProduit(String.valueOf(transfertCorrespondant.getProduit().getIdProduit()));
+        t.setMagasin(String.valueOf(transfertCorrespondant.getMagasin().getId()));
+        int q = t.getQuantite() - approvisionnementDto.getQuantite();
+        t.setQuantite(q);
+        if (t.getQuantite() == 0) {
+            t.setStatus(StatusTransfertEnum.terminer);
+        }
+        System.out.println(STR."""
+==========================
+==========================
+==========================
+\{t.getProduit()},\{t.getMagasin()},\{t.getQuantite()}""");
+        // Modifier le transfert
+        transfertService.modifier(transfertCorrespondant.getIdTransfert(), t);
+
+        // Préparer et sauvegarder l'approvisionnement
         Approvisionnement approvisionnement = approvisionnementMapper.toEntity(approvisionnementDto);
         return approvisionnementMapper.toDto(approvisionnementRepository.save(approvisionnement));
     }
+
+
 
 
 

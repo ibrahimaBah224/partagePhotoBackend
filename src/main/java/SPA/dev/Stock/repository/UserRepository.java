@@ -16,4 +16,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     List<User> getUsersByRole(RoleEnumeration roleEnumeration);
 
     List<User> findAllByCreatedBy(int currentUserId);
+
+    Optional<User> findByIdAndCreatedBy(int id, int currentUserId);
 }

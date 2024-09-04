@@ -50,7 +50,15 @@ public class TransfertMapper {
 
     public List<Transfert> toEntityList(List<TransfertDto> transfertdto){
         return transfertdto.stream()
-                .map(this::toEntity)
+                .map(transfertDto -> {
+
+                   transfertDto.setMagasin(String.valueOf(magasinRepository.findByNom(transfertDto.getMagasin()).
+                           orElseThrow(()->new RuntimeException("not found")).getId()));
+                   transfertDto.setProduit(String.valueOf(produitRepository.findByDesignation(transfertDto.getProduit()).getIdProduit()));
+                    Transfert transfert = toEntity(transfertDto);
+
+                    return transfert;
+                })
                 .collect(Collectors.toList());
     }
 }

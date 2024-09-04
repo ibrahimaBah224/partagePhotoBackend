@@ -34,6 +34,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final MagasinRepository magasinRepository;
+    private final MagasinService magasinService;
+    private final UserMapper1 userMapper1;
 
 
     public boolean isValidRoleEnumeration(String value) {
@@ -70,30 +72,26 @@ public class UserService {
     }
 
     public UserDtoEnvoie updateUser(int id, RegisterUserDto registerUserDto) {
-        User user = userRepository.findById(id)
+        User currentUser = userRepository.findById(getCurrentUserId())
                 .orElseThrow(()->new RuntimeException("user not found"));
-        Magasin magasin = magasinRepository.findById(registerUserDto.getIdMagasin())
-                .orElseThrow(()->new RuntimeException("Magasin not found"));
-        int currentUserId = getCurrentUserId();
-        User currentUser = userRepository.findById(currentUserId)
-                .orElseThrow(() -> new AccessDeniedException("Current user not found."));
-
-        if (user.getCreatedBy() != currentUserId && user.getId()!= currentUserId ) {
-            throw new AccessDeniedException("You do not have permission to update this user.");
-        }
-        if(registerUserDto.getRole().equals(RoleEnumeration.SUPER_ADMIN)){
-            throw  new RuntimeException("You do not have permission");
+        User user = userRepository.findByIdAndCreatedBy(id,getCurrentUserId())
+                .orElseThrow(()->new RuntimeException("user not found"));
+        Magasin magasin = magasinRepository.findByIdAndCreatedBy(registerUserDto.getIdMagasin(),getCurrentUserId())
+                .orElseThrow(()->new RuntimeException("magasin not found"));
+        if(magasin.getUser() != null){
+            throw new RuntimeException(STR."\{magasin.getNom()}est déjà affecté à un useur");
         }
         if(currentUser.getRole().equals(RoleEnumeration.ADMIN) && magasin.getTypeMagasin().equals(EnumTypeMagasin.MAGASIN)){
-            throw  new RuntimeException("You do not have permission");
+            throw new RuntimeException("vous n'etes pas autorisé");
         }
-        if(!magasin.getTypeMagasin().equals(EnumTypeMagasin.MAGASIN)){
-            user.setRole(RoleEnumeration.valueOf(String.valueOf(user.getMagasin().getTypeMagasin())));
-        }else{
-            user.setRole(RoleEnumeration.ADMIN);
+        if(magasin.getTypeMagasin().equals(EnumTypeMagasin.MAGASIN)){
+            registerUserDto.setRole(String.valueOf(RoleEnumeration.ADMIN));
         }
-        user = Fonction.updateEntityWithNonNullFields(user, registerUserDto,"id");
-        return userMapper.toDto(userRepository.save(user));
+        else{
+            registerUserDto.setRole(String.valueOf(magasin.getTypeMagasin()));
+        }
+        user = Fonction.updateEntityWithNonNullFields(user,registerUserDto,"id");
+        return userMapper1.toDto(userRepository.save(user));
     }
 
     public UserDtoEnvoie updateUserPassword(int id, PasswordDto passwordDto) {

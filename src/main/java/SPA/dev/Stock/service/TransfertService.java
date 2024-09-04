@@ -84,16 +84,10 @@ public class TransfertService {
     }
 
     public TransfertDto modifier(int id, TransfertDto transfertDto) {
-
         getTransfert(id);
-        User admin=userRepository.getUsersByRole(RoleEnumeration.SUPER_ADMIN)
-                .stream()
-                .findFirst()
-                .orElseThrow(()->new RuntimeException("admin introuvable"));
-
-            Transfert transfert = transfertMapper.toEntity(transfertDto);
-            transfert.setIdTransfert(id);
-            return transfertMapper.toDto(transfertRepository.save(transfert));
+        Transfert transfert = transfertMapper.toEntity(transfertDto);
+        transfert.setIdTransfert(id);
+        return transfertMapper.toDto(transfertRepository.save(transfert));
     }
     public List<ProduitDto> listProduit() {
         Magasin magasin = magasinMapper.magasinDTOToMagasin(

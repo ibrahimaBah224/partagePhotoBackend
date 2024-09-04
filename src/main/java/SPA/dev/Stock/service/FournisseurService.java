@@ -43,12 +43,15 @@ FournisseurService {
                 .orElseThrow(()->new RuntimeException("user not found"));
         User admin = userRepository.findById(user.getCreatedBy())
                 .orElseThrow(()->new RuntimeException("not found"));
+
+        Fournisseur fournisseur = fournisseurRepository.findByTel(admin.getTelephone())
+                .orElseThrow(()->new RuntimeException("fournisseur not found"));
         List<Fournisseur> fournisseurs = fournisseurRepository.findFournisseursByCreatedBy(userId);
         if (user.getRole()== RoleEnumeration.ADMIN){
-
-            Fournisseur fournisseur = fournisseurRepository.findByTel(admin.getTelephone())
-                    .orElseThrow(()->new RuntimeException("fournisseur not found"));
             fournisseurs.add(fournisseur);
+        }
+        else {
+            fournisseurs.remove(fournisseur);
         }
         return fournisseurMapper.toDtoList(fournisseurs);
     }

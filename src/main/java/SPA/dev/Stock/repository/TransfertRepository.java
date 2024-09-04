@@ -20,9 +20,10 @@ public interface TransfertRepository extends JpaRepository<Transfert,Integer> {
 
     List<Transfert> findTransfertsByMagasinAndStatus(Magasin magasin, StatusTransfertEnum status);
     List<TransfertDto> findTransfertsByMagasin(Magasin magasin);
-
     Optional<Transfert> findTransfertByIdTransfertAndCreatedBy(int idTransfert, int createdBy);
 
+    @Query("SELECT SUM(t.quantite) FROM Transfert t WHERE t.produit.idProduit = :idProduit AND t.magasin.id = :idMagasin AND t.status = :status")
+    Integer findTotalQuantityByProduitAndMagasin(@Param("idProduit") int idProduit, @Param("idMagasin") int idMagasin, @Param("status") StatusTransfertEnum status);
 
     @Query("SELECT SUM(t.quantite) FROM Transfert t WHERE t.produit.idProduit = :idProduit AND t.createdBy = :createdBy")
     Integer findTotalQuantiteByProduitAndCreatedBy(
