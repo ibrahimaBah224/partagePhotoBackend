@@ -30,7 +30,7 @@ public class VenteInitService {
 
     private final Mapper venteInitMapper; // Injection de Mapper
     private final UserService userService;
-    private final VenteRepository venteRepository;
+
 
     public List<VenteInitDto> getAll() {
         int currentUserId = userService.getCurrentUserId();
