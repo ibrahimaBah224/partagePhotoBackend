@@ -136,5 +136,48 @@ public class Mapper {
                 .build();
     }
 
+    public AchatInitDto toAchatInitDto(AchatInit achatInit) {
+        return AchatInitDto.builder()
+                .id(achatInit.getId())
+                .reference(achatInit.getReference())
+                .status(achatInit.getStatus())
+                .createdAt(achatInit.getCreatedAt())
+                .updatedAt(achatInit.getUpdatedAt())
+                .createdBy(achatInit.getCreatedBy())
+                .updatedBy(achatInit.getUpdatedBy())
+                .build();
+    }
+    public AchatInit toAchatInitEntity(AchatInitDto achatInitDto) {
+        return AchatInit.builder()
+                .id(achatInitDto.getId())
+                .reference(achatInitDto.getReference())
+                .status(achatInitDto.getStatus())
+                .build();
+    }
+    public AchatPanierDto toAchatPanierDto(AchatPanier achatPanier) {
+        return AchatPanierDto.builder()
+                .id(achatPanier.getId())
+                .idProduit(achatPanier.getProduit().getIdProduit()) // Mapping the `Produit` entity's ID
+                .idAchatInit(achatPanier.getAchatInit().getId())   // Mapping the `AchatInit` entity's ID
+                .quantite(achatPanier.getQuantite())
+                .prixUnitaire(achatPanier.getPrixUnitaire())
+                .status(achatPanier.getStatus())
+                .createdAt(achatPanier.getCreatedAt())
+                .updatedAt(achatPanier.getUpdatedAt())
+                .createdBy(achatPanier.getCreatedBy())
+                .updatedBy(achatPanier.getUpdatedBy())
+                .build();
+    }
+    public AchatPanier toAchatPanierEntity(AchatPanierDto achatPanierDto, Produit produit, AchatInit achatInit) {
+        return AchatPanier.builder()
+                .id(achatPanierDto.getId())
+                .produit(produit) // Mapping the full `Produit` entity
+                .achatInit(achatInit) // Mapping the full `AchatInit` entity
+                .quantite(achatPanierDto.getQuantite())
+                .prixUnitaire(achatPanierDto.getPrixUnitaire())
+                .status(achatPanierDto.getStatus())
+                .build();
+    }
+
 
 }
