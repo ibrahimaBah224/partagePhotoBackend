@@ -24,8 +24,6 @@ public class AchatPanierService {
     private final UserService userService;
     private  final ProduitRepository produitRepository;
     private final UserRepository userRepository;
-    private final ApprovisionnementRepository approvisionnementRepository;
-    private final PerteRepository perteRepository;
     private final TransfertService transfertService;
     private final AchatInitRepository achatInitRepository;
 

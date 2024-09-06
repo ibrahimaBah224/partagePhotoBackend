@@ -71,7 +71,7 @@ public class AchatInitService {
             int currentUserId = userService.getCurrentUserId();
 
             AchatInit achatInit = achatInitMapper.toAchatInitEntity(venteInitDto);
-            achatInit.setReference("VTE-" + generateRandomString(5));
+            achatInit.setReference("ACH-" + generateRandomString(5));
             achatInit.setCreatedBy(currentUserId);
             achatInit.setStatus(1);
             AchatInit newAchat = achatInitRepository.save(achatInit);

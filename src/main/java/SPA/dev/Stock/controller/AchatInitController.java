@@ -27,7 +27,7 @@ public class AchatInitController {
         return ResponseEntity.ok(achatInitService.getAchatInit(id));
     }
 
-    @GetMapping("/getLastInitVente")
+    @GetMapping("/getLastInitAchat")
     public ResponseEntity<AchatInitDto> getAchatInit(){
         return ResponseEntity.ok(achatInitService.getLastInitAchat());
     }
